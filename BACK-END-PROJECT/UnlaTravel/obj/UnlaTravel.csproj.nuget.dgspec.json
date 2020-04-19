@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Luciano\\source\\repos\\UnlaTravel\\UnlaTravel.csproj": {}
+    "C:\\Users\\Luciano\\Documents\\GitHub\\UNLATravel\\BACK-END-PROJECT\\UnlaTravel\\UnlaTravel.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Luciano\\source\\repos\\UnlaTravel\\UnlaTravel.csproj": {
+    "C:\\Users\\Luciano\\Documents\\GitHub\\UNLATravel\\BACK-END-PROJECT\\UnlaTravel\\UnlaTravel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Luciano\\source\\repos\\UnlaTravel\\UnlaTravel.csproj",
+        "projectUniqueName": "C:\\Users\\Luciano\\Documents\\GitHub\\UNLATravel\\BACK-END-PROJECT\\UnlaTravel\\UnlaTravel.csproj",
         "projectName": "UnlaTravel",
-        "projectPath": "C:\\Users\\Luciano\\source\\repos\\UnlaTravel\\UnlaTravel.csproj",
+        "projectPath": "C:\\Users\\Luciano\\Documents\\GitHub\\UNLATravel\\BACK-END-PROJECT\\UnlaTravel\\UnlaTravel.csproj",
         "packagesPath": "C:\\Users\\Luciano\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Luciano\\source\\repos\\UnlaTravel\\obj\\",
+        "outputPath": "C:\\Users\\Luciano\\Documents\\GitHub\\UNLATravel\\BACK-END-PROJECT\\UnlaTravel\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

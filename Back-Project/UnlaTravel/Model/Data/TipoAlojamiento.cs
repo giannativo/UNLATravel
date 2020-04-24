@@ -1,13 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace UnlaTravel.Model.Data
 {
 	public class TipoAlojamiento
 	{
 		[Key]
-		public int Id { set; get; }
-		public string Descripcion { set; get; }
-		public TipoAlojamiento()
-		{
-		}
-	}
+		public int Id { get; set; }
+        public string Descripcion { get; set; }
+    }
 }

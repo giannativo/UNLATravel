@@ -21,26 +21,26 @@ namespace UnlaTravel.Controllers
 
         // GET: api
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IEnumerable<Usuario> Get()
         {
-            return context.User.ToList();
+            return context.Usuario.ToList();
         }
 
         // GET api/id
         [HttpGet("{id}")]
         public User Get(int id)
         {
-            var user = context.User.FirstOrDefault(u => u.Dni == id);
+            var user = context.Usuario.FirstOrDefault(u => u.Dni == id);
             return user;
         }
 
         // POST api
         [HttpPost]
-        public ActionResult Post([FromBody]User user)
+        public ActionResult Post([FromBody]Usuario user)
         {
             try
             {
-                context.User.Add(user);
+                context.Usuario.Add(user);
                 context.SaveChanges();
                 return Ok();
             }
@@ -52,7 +52,7 @@ namespace UnlaTravel.Controllers
 
         // PUT api
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody]User user)
+        public ActionResult Put(int id, [FromBody]Usuario user)
         {
             if(user.Dni == id)
             {
@@ -70,10 +70,10 @@ namespace UnlaTravel.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var user = context.User.FirstOrDefault(u => u.Dni == id);
+            var user = context.Usuario.FirstOrDefault(u => u.Dni == id);
             if(user != null)
             {
-                context.User.Remove(user);
+                context.Usuario.Remove(user);
                 context.SaveChanges();
                 return Ok();
             }

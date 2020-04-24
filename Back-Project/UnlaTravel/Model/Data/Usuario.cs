@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UnlaTravel.Model.Data
 {
-    public class User
+    public class Usuario
     {
         [Key]
         public int Dni { get; set; } 
@@ -16,5 +16,6 @@ namespace UnlaTravel.Model.Data
         public string Domicilio { get; set; }
         public string Mail { get; set; }
         public string Telefono { get; set; }
+        public boolean Rol{get;set;}
     }
 }

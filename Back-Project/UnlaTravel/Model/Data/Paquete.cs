@@ -3,6 +3,7 @@ namespace UnlaTravel.Model.Data
 {
 	public class Paquete
 	{
+		[Key]
 		public int Id { set; get; }
 		public Destino Destino { get; set; }
 		public DateTime fechaIda { set; get; }

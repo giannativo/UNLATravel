@@ -2,7 +2,7 @@
 
 namespace UnlaTravel.Model.Data{
 	public class Alojamiento{
-		
+		[Key]
 		public int Id { set; get; }
 		public int CantidadDeEstrellas { set; get; }
 		public string TipoDeHabitacion { set; get; }

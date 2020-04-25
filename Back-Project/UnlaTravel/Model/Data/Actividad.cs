@@ -1,18 +1,16 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace UnlaTravel.Model.Data
 {
 	public class Actividad
 	{	
 		[Key]
-		public int Id { set; get; }
-		public DateTime Fecha { set; get; }
-		public string lugar { set; get; }
-		public string valoracion { set; get; }
-		public Boolean AccesoADiscapacitados { set; get; }
-		public Destino Destiono { set; get; }
-
-		public Actividad()
-		{
-		}
-	}
+		public int Id { get; set; }
+        public DateTime Fecha { get; set; }
+        public string Lugar { get; set; }
+        public string Valoracion { get; set; }
+        public Boolean AccesoDiscapacitados { get; set; }
+        public Destino Destino { get; set; }
+    }
 }

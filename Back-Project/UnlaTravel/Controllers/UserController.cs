@@ -28,7 +28,7 @@ namespace UnlaTravel.Controllers
 
         // GET api/id
         [HttpGet("{id}")]
-        public User Get(int id)
+        public Usuario Get(int id)
         {
             var user = context.Usuario.FirstOrDefault(u => u.Dni == id);
             return user;

@@ -1,21 +1,20 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace UnlaTravel.Model.Data
 {
 	public class Vuelo
 	{
 		[Key]
-		public int Id { set; get; }
-		public DateTime Fecha_ida { set; get; }
-		public DateTime Fecha_vuelta { set; get; }
-		public Destino Destino { set; get; }
-		public Boolean Ida_y_vuelta { set; get; }
-		public int ValoracionDeAereolinea { set; get; }
-		public int Clase { set; get; }
-		public Boolean ConEscala { set; get; }
-		public Boolean AccesoADiscapacitados { set; get; }
-
-		public Vuelo()
-		{
-		}
-	}
+		public int Id { get; set; }
+        public DateTime FechaIda { get; set; }
+        public DateTime FechaVuelta { get; set; }
+        public Destino Origen { get; set; }
+        public Destino Destino { get; set; }
+        public Boolean IdaVuelta { get; set; }
+        public int ValoracionAereolinea { get; set; }
+        public int Clase { get; set; }
+        public Boolean ConEscala { get; set; }
+        public Boolean AccesoDiscapacitados { get; set; }
+    }
 }

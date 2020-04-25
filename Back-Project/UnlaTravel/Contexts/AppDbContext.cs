@@ -13,6 +13,6 @@ namespace UnlaTravel.Contexts
         {
         }
 
-        public DbSet<User> User { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
     }
 }

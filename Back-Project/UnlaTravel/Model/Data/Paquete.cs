@@ -1,22 +1,21 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace UnlaTravel.Model.Data
 {
 	public class Paquete
 	{
 		[Key]
-		public int Id { set; get; }
-		public Destino Destino { get; set; }
-		public DateTime fechaIda { set; get; }
-		public DateTime fechaVuelta { set; get; }
-		public Alojamiento Hotel { set; get; }
-		public Vuelo Vuelo { set; get; }
-		public Actividad Actividad { set; get; }
-		public int CantidadDePersonas { set; get; }
-		public int Habitaciones { set; get;}
-		public Boolean AccesoADiscapacitados { set; get; }
-
-		public Paquete()
-		{
-		}
+		public int Id { get; set; }
+        public string TipoPaquete { get; set; }
+        public Destino Destino { get; set; }
+        public DateTime FechaIda { get; set; }
+        public DateTime FechaVuelta { get; set; }
+        public Alojamiento Hotel { get; set; }
+        public Vuelo Vuelo { get; set; }
+        public Actividad Actividad { get; set; }
+        public int CantidadPersonas { get; set; }
+        public int Habitaciones { get; set; }
+        public Boolean AccesoDiscapacitados { get; set; }
 	}
 }

@@ -1,19 +1,17 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace UnlaTravel.Model.Data{
-	public class Alojamiento{
+	public class Alojamiento
+    {
 		[Key]
-		public int Id { set; get; }
-		public int CantidadDeEstrellas { set; get; }
-		public string TipoDeHabitacion { set; get; }
-		public string TipoDeServicio { set; get; }
-		public Boolean AccesoADiscapacitados { set; get; }
-		public Destino Destino { set; get; }
-		public TipoRegimen TipoRejimen { set; get; }
-		public TipoAlojamiento TipoAlojamiento { set; get; }
-
-
-		public Alojamiento(){
-		}
+		public int Id { get; set; }
+        public int CantidadEstrellas { get; set; }
+        public string TipoHabitacion { get; set; }
+        public string TipoServicio { get; set; }
+        public Boolean AccesoDiscapacitados { get; set; }
+        public Destino Destino { get; set; }
+        public TipoRegimen TipoRegimen { get; set; }
+        public TipoAlojamiento TipoAlojamiento { get; set; }
 	}
 }

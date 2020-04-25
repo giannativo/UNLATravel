@@ -1,14 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace UnlaTravel.Model.Data
 {
 	public class Destino
 	{
 		[Key]
-		public int Id { set; get; }
-		public string Pais { set; get; }
-		public string Lugar { set; get; }
-		public Destino()
-		{
-		}
-	}
+		public int Id { get; set; }
+        public string Pais { get; set; }
+        public string Lugar { get; set; }
+    }
 }

@@ -7,7 +7,10 @@ namespace UnlaTravel.Model.Data
 	{	
 		[Key]
 		public int Id { get; set; }
-        public DateTime Fecha { get; set; }
+        public DateTime FechaDesde { get; set; }
+        public DateTime FechaHasta { get; set; }
+        public string Descripcion { get; set; }
+        public string FranjaHoraria { get; set; }
         public string Lugar { get; set; }
         public string Valoracion { get; set; }
         public Boolean AccesoDiscapacitados { get; set; }

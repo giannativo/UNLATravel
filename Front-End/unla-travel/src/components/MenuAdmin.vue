@@ -4,16 +4,13 @@
         <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">  
     </div>
     <div class="text-center">
-        <h4 class="mb-3"></h4>
-        <div class="needs-validation" novalidate>
-            <div class="row">
-                <div class="col-md-6 mb-3">                
-                    <button type="button" class="btn btn-lg btn-block btn-primary">ABM Vuelos</button>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">ABM Alojamientos</button>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">ABM Actividades</button>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">ABM Paquetes</button>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">ABM Administradores</button>
-                </div>
+        <div class="row">
+            <div class="options text-center">                
+                <button type="button" class="btn btn-lg btn-block btn-primary">ABM Vuelos</button>
+                <button type="button" class="btn btn-lg btn-block btn-primary">ABM Alojamientos</button>
+                <button type="button" class="btn btn-lg btn-block btn-primary">ABM Actividades</button>
+                <button type="button" class="btn btn-lg btn-block btn-primary">ABM Paquetes</button>
+                <button type="button" class="btn btn-lg btn-block btn-primary">ABM Administradores</button>
             </div>
         </div>
     </div>
@@ -34,6 +31,9 @@ export default {
 <style scoped>
 .container {
     max-width: 960px;
+}
+.options {
+    margin: auto;
 }
 .border-top { 
     border-top: 1px solid #e5e5e5; 

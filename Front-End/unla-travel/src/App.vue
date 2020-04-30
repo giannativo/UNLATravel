@@ -2,17 +2,17 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
         {{ info }}
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <MenuAdmin msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MenuAdmin from './components/MenuAdmin.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MenuAdmin
   },
   props: {
     info: null

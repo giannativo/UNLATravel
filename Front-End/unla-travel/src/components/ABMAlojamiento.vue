@@ -1,29 +1,51 @@
 <template>
-<div class="text-center">
-    <h4 class="mb-3">ABM Alojamiento</h4>
-    <div class="row">
-        <div class="options text-center">
-            <button type="button" class="btn btn-lg btn-block btn-primary">Altas</button>
-            <button type="button" class="btn btn-lg btn-block btn-primary">Bajas</button>
-            <button type="button" class="btn btn-lg btn-block btn-primary">Modificaciones</button>
-            <button type="button" class="btn btn-lg btn-block btn-primary">Visualizar</button>
-            <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver</button>
-        </div>             
+<div>
+    <div v-if="showMenu" class="text-center">
+        <h4 class="mb-3">ABM Alojamiento</h4>
+        <div class="row">
+            <div class="options text-center">
+                <button @click="cargaAlta" type="button" class="btn btn-lg btn-block btn-primary">Altas</button>
+                <button type="button" class="btn btn-lg btn-block btn-primary">Bajas</button>
+                <button type="button" class="btn btn-lg btn-block btn-primary">Modificaciones</button>
+                <button type="button" class="btn btn-lg btn-block btn-primary">Visualizar</button>
+                <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver</button>
+            </div>             
+        </div>
     </div>
+    <AltaAlojamiento v-if="showAlta"/>
 </div>
 </template>
 
 <script>
+import AltaAlojamiento from './AltaAlojamiento.vue'
+
 export default {
   name: 'ABMAlojamiento',
+  components: {
+    AltaAlojamiento
+  },
   props: {
-    msg: String,
-    info: null
+    showMenu: {
+        type: Boolean,
+        default: true
+    },
+    showAlta: {
+        type: Boolean,
+        default: false
+    },
   },
   methods: {
     volver(){
         this.$parent.cargaMenu();
-    }
+    },
+    cargaMenu: function () {
+        this.showMenu = true,
+        this.showAlta = false
+    },
+    cargaAlta: function () {
+        this.showMenu = false,
+        this.showAlta = true
+    },
   }
 }
 </script>

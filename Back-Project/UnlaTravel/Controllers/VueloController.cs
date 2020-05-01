@@ -10,37 +10,34 @@ using UnlaTravel.Model.Data;
 namespace UnlaTravel.Controllers
 {
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class VueloController : Controller
     {
         private readonly AppDbContext context;
 
-        public UserController(AppDbContext context)
+        public VueloController(AppDbContext context)
         {
             this.context = context;
         }
 
-        // GET: api
         [HttpGet]
-        public IEnumerable<Usuario> Get()
+        public IEnumerable<Vuelo> Get()
         {
-            return context.Usuario.ToList();
+            return context.Vuelo.ToList();
         }
 
-        // GET api/id
         [HttpGet("{id}")]
-        public Usuario Get(int id)
+        public Vuelo Get(int id)
         {
-            var user = context.Usuario.FirstOrDefault(u => u.Dni == id);
-            return user;
+            var vuelo = context.Vuelo.FirstOrDefault(u => u.Id == id);
+            return vuelo;
         }
 
-        // POST api
         [HttpPost]
-        public ActionResult Post([FromBody]Usuario user)
+        public ActionResult Post([FromBody]Vuelo vuelo)
         {
             try
             {
-                context.Usuario.Add(user);
+                context.Vuelo.Add(vuelo);
                 context.SaveChanges();
                 return Ok();
             }
@@ -50,13 +47,12 @@ namespace UnlaTravel.Controllers
             }
         }
 
-        // PUT api
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody]Usuario user)
+        public ActionResult Put(int id, [FromBody]Vuelo vuelo)
         {
-            if(user.Dni == id)
+            if (vuelo.Id == id)
             {
-                context.Entry(user).State = EntityState.Modified;
+                context.Entry(vuelo).State = EntityState.Modified;
                 context.SaveChanges();
                 return Ok();
             }
@@ -66,14 +62,13 @@ namespace UnlaTravel.Controllers
             }
         }
 
-        // DELETE api
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var user = context.Usuario.FirstOrDefault(u => u.Dni == id);
-            if(user != null)
+            var vuelo = context.Vuelo.FirstOrDefault(u => u.Id == id);
+            if (vuelo != null)
             {
-                context.Usuario.Remove(user);
+                context.Vuelo.Remove(vuelo);
                 context.SaveChanges();
                 return Ok();
             }

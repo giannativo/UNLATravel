@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <div>
-    <img alt="Vue logo" src="./assets/logo.png">
         {{ info }}
     </div>
     <MenuAdmin msg="Welcome to Your Vue.js App"/>

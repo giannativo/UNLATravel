@@ -3,10 +3,10 @@
     <div class="py-5 text-center">
         <img class="d-block mx-auto mb-4" src="../assets/unlaLogo.jpg" alt="" width="72" height="72">  
     </div>
-    <div class="text-center">
+    <div class="text-center" v-if="showMenuABM">
         <div class="row">
             <div class="options text-center">                
-                <button type="button" class="btn btn-lg btn-block btn-primary">ABM Vuelos</button>
+                <button @click="cargaVuelo" type="button" class="btn btn-lg btn-block btn-primary">ABM Vuelos</button>
                 <button type="button" class="btn btn-lg btn-block btn-primary">ABM Alojamientos</button>
                 <button type="button" class="btn btn-lg btn-block btn-primary">ABM Actividades</button>
                 <button type="button" class="btn btn-lg btn-block btn-primary">ABM Paquetes</button>
@@ -14,15 +14,33 @@
             </div>
         </div>
     </div>
+    <ABMVuelo v-if="showABMVuelo"/>
 </div>
 </template>
 
 <script>
+import ABMVuelo from './ABMVuelo.vue'
+
 export default {
   name: 'MenuAdmin',
+  components: {
+      ABMVuelo
+  },
   props: {
-    msg: String,
-    info: null
+    showMenuABM: {
+        type: Boolean,
+        default: true
+    },
+    showABMVuelo: {
+        type: Boolean,
+        default: false
+    }
+  },
+  methods: {
+      cargaVuelo: function () {
+          this.showMenuABM = false,
+          this.showABMVuelo = true
+      }
   }
 }
 </script>

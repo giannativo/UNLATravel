@@ -1,7 +1,7 @@
 <template>
 <div class="container bg-light">
     <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">  
+        <img class="d-block mx-auto mb-4" src="../assets/unlaLogo.jpg" alt="" width="72" height="72">  
     </div>
     <div class="text-center">
         <div class="row">

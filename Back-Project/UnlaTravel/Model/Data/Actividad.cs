@@ -14,6 +14,6 @@ namespace UnlaTravel.Model.Data
         public string Lugar { get; set; }
         public string Valoracion { get; set; }
         public Boolean AccesoDiscapacitados { get; set; }
-        public Destino Destino { get; set; }
+        public int Destino { get; set; }
     }
 }

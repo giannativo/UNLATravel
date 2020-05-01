@@ -10,8 +10,8 @@ namespace UnlaTravel.Model.Data{
         public string TipoHabitacion { get; set; }
         public string TipoServicio { get; set; }
         public Boolean AccesoDiscapacitados { get; set; }
-        public Destino Destino { get; set; }
-        public TipoRegimen TipoRegimen { get; set; }
-        public TipoAlojamiento TipoAlojamiento { get; set; }
+        public int Destino { get; set; }
+        public int TipoRegimen { get; set; }
+        public int TipoAlojamiento { get; set; }
 	}
 }

@@ -13,7 +13,7 @@ namespace UnlaTravel.Model.Data
         public int Destino { get; set; }
         public Boolean IdaVuelta { get; set; }
         public int ValoracionAereolinea { get; set; }
-        public int Clase { get; set; }
+        public string Clase { get; set; }
         public Boolean ConEscala { get; set; }
         public Boolean AccesoDiscapacitados { get; set; }
     }

@@ -40,6 +40,10 @@ export default {
       cargaVuelo: function () {
           this.showMenuABM = false,
           this.showABMVuelo = true
+      },
+      cargaMenu: function () {
+          this.showMenuABM = true,
+          this.showABMVuelo = false
       }
   }
 }

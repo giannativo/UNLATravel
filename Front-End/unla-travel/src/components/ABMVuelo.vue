@@ -6,6 +6,7 @@
             <button type="button" class="btn btn-lg btn-block btn-primary">Altas</button>
             <button type="button" class="btn btn-lg btn-block btn-primary">Bajas</button>
             <button type="button" class="btn btn-lg btn-block btn-primary">Modificaciones</button>
+            <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver</button>
         </div>             
     </div>
 </div>
@@ -16,6 +17,11 @@ export default {
   name: 'ABMVuelo',
   props: {
     msg: String
+  },
+  methods: {
+    volver(){
+        this.$parent.cargaMenu();
+    }
   }
 }
 </script>

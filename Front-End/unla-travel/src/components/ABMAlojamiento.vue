@@ -1,5 +1,15 @@
 <template>
-<div class="container bg-light">
+<div class="text-center">
+    <h4 class="mb-3">ABM Alojamiento</h4>
+    <div class="row">
+        <div class="options text-center">
+            <button type="button" class="btn btn-lg btn-block btn-primary">Altas</button>
+            <button type="button" class="btn btn-lg btn-block btn-primary">Bajas</button>
+            <button type="button" class="btn btn-lg btn-block btn-primary">Modificaciones</button>
+            <button type="button" class="btn btn-lg btn-block btn-primary">Visualizar</button>
+            <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver</button>
+        </div>             
+    </div>
 </div>
 </template>
 
@@ -9,6 +19,11 @@ export default {
   props: {
     msg: String,
     info: null
+  },
+  methods: {
+    volver(){
+        this.$parent.cargaMenu();
+    }
   }
 }
 </script>

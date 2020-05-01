@@ -7,7 +7,7 @@
         <div class="row">
             <div class="options text-center">                
                 <button @click="cargaVuelo" type="button" class="btn btn-lg btn-block btn-primary">ABM Vuelos</button>
-                <button type="button" class="btn btn-lg btn-block btn-primary">ABM Alojamientos</button>
+                <button @click="cargaAlojamiento" type="button" class="btn btn-lg btn-block btn-primary">ABM Alojamientos</button>
                 <button type="button" class="btn btn-lg btn-block btn-primary">ABM Actividades</button>
                 <button type="button" class="btn btn-lg btn-block btn-primary">ABM Paquetes</button>
                 <button type="button" class="btn btn-lg btn-block btn-primary">ABM Administradores</button>
@@ -15,16 +15,19 @@
         </div>
     </div>
     <ABMVuelo v-if="showABMVuelo"/>
+    <ABMAlojamiento v-if="showABMAlojamiento"/>
 </div>
 </template>
 
 <script>
 import ABMVuelo from './ABMVuelo.vue'
+import ABMAlojamiento from './ABMAlojamiento.vue'
 
 export default {
   name: 'MenuAdmin',
   components: {
-      ABMVuelo
+      ABMVuelo,
+      ABMAlojamiento
   },
   props: {
     showMenuABM: {
@@ -34,16 +37,27 @@ export default {
     showABMVuelo: {
         type: Boolean,
         default: false
+    },
+    showABMAlojamiento: {
+        type: Boolean,
+        default: false
     }
   },
   methods: {
       cargaVuelo: function () {
           this.showMenuABM = false,
-          this.showABMVuelo = true
+          this.showABMVuelo = true,
+          this.showABMAlojamiento = false
+      },
+      cargaAlojamiento: function () {
+          this.showMenuABM = false,
+          this.showABMVuelo = false,
+          this.showABMAlojamiento = true
       },
       cargaMenu: function () {
           this.showMenuABM = true,
-          this.showABMVuelo = false
+          this.showABMVuelo = false,
+          this.showABMAlojamiento = false
       }
   }
 }

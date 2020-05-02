@@ -1,4 +1,5 @@
 <template>
+<div>
 <div v-if="showMenu" class="text-center">
     <h4 class="mb-3">ABM Vuelos</h4>
     <div class="row">
@@ -10,9 +11,12 @@
             <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver</button>
         </div>             
     </div>
-    <AltaVuelo v-if="showAlta"/>
+    
 </div>
 
+
+<AltaVuelo v-if="showAlta"/>
+</div>
 </template>
 
 <script>

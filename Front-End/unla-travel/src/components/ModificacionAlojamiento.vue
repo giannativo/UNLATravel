@@ -27,7 +27,7 @@
           <td>Hotel</td>
           <td>Pension Completa</td>
           <td>Si</td>
-          <td>Icono de Lapiz que redirige a la vista de modificar</td>
+          <td><i class="fas fa-edit"></i></td>
         </tr>
       </tbody>
     </table>

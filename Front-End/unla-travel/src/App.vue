@@ -9,6 +9,8 @@
 
 <script>
 import MenuAdmin from './components/MenuAdmin.vue'
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
 
 export default {
   name: 'App',

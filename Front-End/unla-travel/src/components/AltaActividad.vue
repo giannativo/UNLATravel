@@ -6,6 +6,9 @@
         <form class="needs-validation" novalidate>
           <div class="row options">
             <div>
+
+              <label for="titulo">Titulo</label>
+              <input type="text" class="form-control" id="titulo" placeholder value required />
               <label for="fecha-desde">Fecha Desde</label>
               <input
                 type="text"

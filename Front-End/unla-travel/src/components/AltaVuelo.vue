@@ -1,7 +1,9 @@
 <template>
 <div class="text-center">
-          <h4 class="mb-3">Ingrese datos de Vuelo</h4>
-          <form class="needs-validation" novalidate>
+    <h4 class="mb-3">ABM Vuelos</h4>
+    <div class="row">
+        <div class="options text-center">
+         <form class="needs-validation" novalidate>
             <div class="row options">
               <div>            
                <label for="fecha-desde">Fecha Desde</label>
@@ -42,20 +44,26 @@
                 <input type="checkbox" class="custom-control-input" id="acceso-discapacitados">
                 <label class="custom-control-label" for="acceso-discapacitados">Acceso a Discapacitados</label>
                 </div>
-
-
-
-                
                 <br>
-
                 <button type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
                  
                 
               </div>            
             </div>
-          </form>
-          <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>               
-        </div>
+          </form>   
+        </div>             
+    </div>
+    <br>
+    <div class="row">
+        <div class="options text-center">
+            <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary options text-center">Volver Al Menú</button> 
+        </div>             
+    </div>
+    
+    </div>
+     
+                 
+
 </template>
 
 <script>

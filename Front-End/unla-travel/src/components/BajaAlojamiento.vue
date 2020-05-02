@@ -2,6 +2,22 @@
   <div>
     <div v-if="showList">  
     <h4 class="mb-3">Lista de Alojamientos</h4>
+    <form class="needs-validation" novalidate>
+        <div class="row options">
+          <div>
+            <label for="id-vuelo">Ingrese ID Alojamiento</label>
+            <input
+              type="text"
+              class="form-control"
+              id="id-alojamiento"
+              placeholder="ID Alojamiento"
+              value
+              required
+            />
+          </div>
+        </div>
+      </form>
+      <br>
     <table class="table options">
       <thead class="thead-dark">
         <tr>

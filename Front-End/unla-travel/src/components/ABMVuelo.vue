@@ -6,7 +6,7 @@
         <div class="options text-center">
             <button @click="cargaAlta" type="button" class="btn btn-lg btn-block btn-primary">Altas</button>
             <button @click="cargaBaja" type="button" class="btn btn-lg btn-block btn-primary">Bajas</button>
-            <button type="button" class="btn btn-lg btn-block btn-primary">Modificaciones</button>
+            <button @click="cargaModificacion" type="button" class="btn btn-lg btn-block btn-primary">Modificaciones</button>
             <button type="button" class="btn btn-lg btn-block btn-primary">Visualizar</button>
             <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver</button>
         </div>             
@@ -17,17 +17,20 @@
 
 <AltaVuelo v-if="showAlta"/>
 <BajaVuelo v-if="showBaja"/>
+<ModificacionVuelo v-if="showModificacion"/>
 </div>
 </template>
 
 <script>
 import AltaVuelo from './AltaVuelo.vue'
 import BajaVuelo from './BajaVuelo.vue'
+import ModificacionVuelo from './ModificacionVuelo.vue'
 export default {
   name: 'ABMVuelo',
   components: {
     AltaVuelo,
-    BajaVuelo
+    BajaVuelo,
+    ModificacionVuelo
   },
   props: {
      showMenu: {
@@ -42,6 +45,10 @@ export default {
         type: Boolean,
         default: false
     },
+    showModificacion: {
+        type: Boolean,
+        default: false
+    },
   },
   methods: {
     volver(){
@@ -50,17 +57,26 @@ export default {
     cargaMenu: function () {
         this.showMenu = true,
         this.showAlta = false,
-        this.showBaja = false
+        this.showBaja = false,
+        this.showModificacion = false
     },
     cargaAlta: function () {
         this.showMenu = false,
         this.showAlta = false,
-        this.showAlta = true
+        this.showAlta = true,
+        this.showModificacion = false
     },
     cargaBaja: function () {
         this.showMenu = false,
         this.showBaja = true,
-        this.showAlta = false
+        this.showAlta = false,
+        this.showModificacion = false
+    },
+    cargaModificacion: function () {
+        this.showMenu = false,
+        this.showBaja = false,
+        this.showAlta = false,
+        this.showModificacion = true
     },
   }
 }

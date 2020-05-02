@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <h4 class="mb-3">Lista de Vuelo</h4>
+    <h4 class="mb-3">Lista Vuelos</h4>
     <table class="table options">
       <thead class="thead-dark">
         <tr>
@@ -14,7 +14,7 @@
           <th scope="col">Ida y Vuelta</th>
           <th scope="col">Con Escala</th>
           <th scope="col">Acceso a Discapacitados</th>
-          <th scope="col">Eliminar</th>
+          <th scope="col">Editar</th>
         </tr>
       </thead>
       <tbody>
@@ -29,7 +29,7 @@
           <td>True</td>
           <td>True</td>
           <td>True</td>
-          <td><i class="fas fa-trash"></i></td>
+          <td><i class="fas fa-edit"></i></td>
         </tr>
       </tbody>
     </table>
@@ -40,7 +40,7 @@
 
 <script>
 export default {
-  name: "BajaVuelo",
+  name: "ModificacionAlojamiento",
   props: {
     msg: String,
     info: null

@@ -1,5 +1,6 @@
 <template>
-  <div class="text-center">
+  <div >
+  <div class="text-center" v-if="showList">
     <h4 class="mb-3">Lista de Vuelo</h4>
      <form class="needs-validation" novalidate>
             <div class="row options">
@@ -38,12 +39,19 @@
           <td>True</td>
           <td>True</td>
           <td>True</td>
-          <td><i class="fas fa-trash"></i></td>
+          <td><button @click="cargaDelete"><i class="fas fa-trash"></i></button></td>
         </tr>
       </tbody>
     </table>
     <br/>
+    
     <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
+    </div>
+    <div v-if="deleteElement">
+        <p>Desea eliminar este elemento?</p>
+        <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
+        <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">No</button>
+    </div>
   </div>
 </template>
 
@@ -51,12 +59,26 @@
 export default {
   name: "BajaVuelo",
   props: {
-    msg: String,
-    info: null
+    showList: {
+        type: Boolean,
+        default: true
+    },
+    deleteElement: {
+        type: Boolean,
+        default: false
+    },
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
+    },
+    cargaDelete: function () {
+        this.showList = false,
+        this.deleteElement = true
+    },
+    cargaLista: function () {
+        this.showList = true,
+        this.deleteElement = false
     }
   }
 };

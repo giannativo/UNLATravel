@@ -27,7 +27,7 @@
           <td>Hotel</td>
           <td>Pension Completa</td>
           <td>Si</td>
-          <td>Icono de X que redirige a un popup que confirme la eliminacion</td>
+          <td><i class="fas fa-trash"></i></td>
         </tr>
       </tbody>
     </table>

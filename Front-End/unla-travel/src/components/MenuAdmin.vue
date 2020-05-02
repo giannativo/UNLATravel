@@ -9,6 +9,7 @@
                 <button @click="cargaVuelo" type="button" class="btn btn-lg btn-block btn-primary">ABM Vuelos</button>
                 <button @click="cargaAlojamiento" type="button" class="btn btn-lg btn-block btn-primary">ABM Alojamientos</button>
                 <button @click="cargaActividad" type="button" class="btn btn-lg btn-block btn-primary">ABM Actividades</button>
+                <button @click="cargaDestino" type="button" class="btn btn-lg btn-block btn-primary">ABM Destinos</button>
                 <button type="button" class="btn btn-lg btn-block btn-primary">ABM Paquetes</button>
                 <button type="button" class="btn btn-lg btn-block btn-primary">ABM Administradores</button>
             </div>
@@ -17,6 +18,7 @@
     <ABMVuelo v-if="showABMVuelo"/>
     <ABMAlojamiento v-if="showABMAlojamiento"/>
     <ABMActividad v-if="showABMActividad"/>
+    <ABMDestino v-if="showABMDestino"/>
 </div>
 </template>
 
@@ -24,13 +26,15 @@
 import ABMVuelo from './ABMVuelo.vue'
 import ABMAlojamiento from './ABMAlojamiento.vue'
 import ABMActividad from './ABMActividad.vue'
+import ABMDestino from './ABMDestino.vue'
 
 export default {
   name: 'MenuAdmin',
   components: {
       ABMVuelo,
       ABMAlojamiento,
-      ABMActividad
+      ABMActividad,
+      ABMDestino
   },
   props: {
     showMenuABM: {
@@ -55,25 +59,36 @@ export default {
           this.showMenuABM = false,
           this.showABMVuelo = true,
           this.showABMAlojamiento = false,
-          this.showABMActividad = false
+          this.showABMActividad = false,
+          this.showABMDestino = false
       },
       cargaAlojamiento: function () {
           this.showMenuABM = false,
           this.showABMVuelo = false,
           this.showABMAlojamiento = true,
-          this.showABMActividad = false
+          this.showABMActividad = false,
+          this.showABMDestino = false         
       },
       cargaMenu: function () {
           this.showMenuABM = true,
           this.showABMVuelo = false,
           this.showABMAlojamiento = false,
-          this.showABMActividad = false
+          this.showABMActividad = false,
+          this.showABMDestino = false
       },
       cargaActividad: function () {
           this.showMenuABM = false,
           this.showABMVuelo = false,
           this.showABMAlojamiento = false,
-          this.showABMActividad = true
+          this.showABMActividad = true,
+          this.showABMDestino = false
+      },
+      cargaDestino: function () {
+          this.showMenuABM = false,
+          this.showABMVuelo = false,
+          this.showABMAlojamiento = false,
+          this.showABMActividad = false,
+          this.showABMDestino = true
       }
   }
 }

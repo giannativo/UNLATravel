@@ -5,7 +5,7 @@
     <div class="row">
         <div class="options text-center">
             <button @click="cargaAlta" type="button" class="btn btn-lg btn-block btn-primary">Altas</button>
-            <button type="button" class="btn btn-lg btn-block btn-primary">Bajas</button>
+            <button @click="cargaBaja" type="button" class="btn btn-lg btn-block btn-primary">Bajas</button>
             <button type="button" class="btn btn-lg btn-block btn-primary">Modificaciones</button>
             <button type="button" class="btn btn-lg btn-block btn-primary">Visualizar</button>
             <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver</button>
@@ -16,15 +16,18 @@
 
 
 <AltaVuelo v-if="showAlta"/>
+<BajaVuelo v-if="showBaja"/>
 </div>
 </template>
 
 <script>
 import AltaVuelo from './AltaVuelo.vue'
+import BajaVuelo from './BajaVuelo.vue'
 export default {
   name: 'ABMVuelo',
   components: {
-    AltaVuelo
+    AltaVuelo,
+    BajaVuelo
   },
   props: {
      showMenu: {
@@ -35,6 +38,10 @@ export default {
         type: Boolean,
         default: false
     },
+     showBaja: {
+        type: Boolean,
+        default: false
+    },
   },
   methods: {
     volver(){
@@ -42,11 +49,18 @@ export default {
     },
     cargaMenu: function () {
         this.showMenu = true,
-        this.showAlta = false
+        this.showAlta = false,
+        this.showBaja = false
     },
     cargaAlta: function () {
         this.showMenu = false,
+        this.showAlta = false,
         this.showAlta = true
+    },
+    cargaBaja: function () {
+        this.showMenu = false,
+        this.showBaja = true,
+        this.showAlta = false
     },
   }
 }

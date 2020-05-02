@@ -1,6 +1,15 @@
 <template>
   <div class="text-center">
     <h4 class="mb-3">Lista de Vuelo</h4>
+     <form class="needs-validation" novalidate>
+            <div class="row options">
+              <div>            
+                <label for="id-vuelo">Ingrese ID Vuelo</label>
+                <input type="text" class="form-control" id="id-vuelo" placeholder="ID Vuelo" value="" required>
+                
+              </div>            
+            </div>
+          </form>
     <table class="table options">
       <thead class="thead-dark">
         <tr>

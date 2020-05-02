@@ -1,6 +1,6 @@
 <template>
 <div class="text-center">
-    <h4 class="mb-3">ABM Alojamiento</h4>
+    <h4 class="mb-3">Alta Alojamiento</h4>
     <div class="row">
         <div class="options text-center">
          <form class="needs-validation" novalidate>

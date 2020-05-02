@@ -47,7 +47,6 @@
 export default {
   name: "BajaAlojamiento",
   props: {
-    msg: String,
     showList: {
         type: Boolean,
         default: true

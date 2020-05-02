@@ -6,23 +6,26 @@
             <div class="options text-center">
                 <button @click="cargaAlta" type="button" class="btn btn-lg btn-block btn-primary">Altas</button>
                 <button type="button" class="btn btn-lg btn-block btn-primary">Bajas</button>
-                <button type="button" class="btn btn-lg btn-block btn-primary">Modificaciones</button>
+                <button @click="cargaModificacion" type="button" class="btn btn-lg btn-block btn-primary">Modificaciones</button>
                 <button type="button" class="btn btn-lg btn-block btn-primary">Visualizar</button>
                 <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver</button>
             </div>             
         </div>
     </div>
     <AltaAlojamiento v-if="showAlta"/>
+    <ModificacionAlojamiento v-if="showModificacion"/>
 </div>
 </template>
 
 <script>
 import AltaAlojamiento from './AltaAlojamiento.vue'
+import ModificacionAlojamiento from './ModificacionAlojamiento.vue'
 
 export default {
   name: 'ABMAlojamiento',
   components: {
-    AltaAlojamiento
+    AltaAlojamiento,
+    ModificacionAlojamiento
   },
   props: {
     showMenu: {
@@ -33,6 +36,10 @@ export default {
         type: Boolean,
         default: false
     },
+    showModificacion: {
+        type: Boolean,
+        default: false
+    },
   },
   methods: {
     volver(){
@@ -40,11 +47,18 @@ export default {
     },
     cargaMenu: function () {
         this.showMenu = true,
-        this.showAlta = false
+        this.showAlta = false,
+        this.showModificacion = false
     },
     cargaAlta: function () {
         this.showMenu = false,
-        this.showAlta = true
+        this.showAlta = true,
+        this.showModificacion = false
+    },
+    cargaModificacion: function () {
+        this.showMenu = false,
+        this.showAlta = false,
+        this.showModificacion = true
     },
   }
 }

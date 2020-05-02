@@ -1,5 +1,5 @@
 <template>
-<div class="text-center">
+<div v-if="showMenu" class="text-center">
     <h4 class="mb-3">ABM Vuelos</h4>
     <div class="row">
         <div class="options text-center">

@@ -10,7 +10,7 @@
                 <button @click="cargaAlojamiento" type="button" class="btn btn-lg btn-block btn-primary">ABM Alojamientos</button>
                 <button @click="cargaActividad" type="button" class="btn btn-lg btn-block btn-primary">ABM Actividades</button>
                 <button @click="cargaDestino" type="button" class="btn btn-lg btn-block btn-primary">ABM Destinos</button>
-                <button type="button" class="btn btn-lg btn-block btn-primary">ABM Paquetes</button>
+                <button @click="cargaPaquete" type="button" class="btn btn-lg btn-block btn-primary">ABM Paquetes</button>
                 <button type="button" class="btn btn-lg btn-block btn-primary">ABM Administradores</button>
             </div>
         </div>
@@ -19,6 +19,7 @@
     <ABMAlojamiento v-if="showABMAlojamiento"/>
     <ABMActividad v-if="showABMActividad"/>
     <ABMDestino v-if="showABMDestino"/>
+    <ABMPaquete v-if="showABMPaquete"/>
 </div>
 </template>
 
@@ -27,6 +28,7 @@ import ABMVuelo from './ABMVuelo.vue'
 import ABMAlojamiento from './ABMAlojamiento.vue'
 import ABMActividad from './ABMActividad.vue'
 import ABMDestino from './ABMDestino.vue'
+import ABMPaquete from './ABMPaquete.vue'
 
 export default {
   name: 'MenuAdmin',
@@ -34,7 +36,8 @@ export default {
       ABMVuelo,
       ABMAlojamiento,
       ABMActividad,
-      ABMDestino
+      ABMDestino,
+      ABMPaquete
   },
   props: {
     showMenuABM: {
@@ -52,6 +55,10 @@ export default {
      showABMActividad: {
         type: Boolean,
         default: false
+    },
+     showABMPaquete: {
+        type: Boolean,
+        default: false
     }
   },
   methods: {
@@ -60,35 +67,48 @@ export default {
           this.showABMVuelo = true,
           this.showABMAlojamiento = false,
           this.showABMActividad = false,
-          this.showABMDestino = false
+          this.showABMDestino = false,
+          this.showABMPaquete = false
       },
       cargaAlojamiento: function () {
           this.showMenuABM = false,
           this.showABMVuelo = false,
           this.showABMAlojamiento = true,
           this.showABMActividad = false,
-          this.showABMDestino = false         
+          this.showABMDestino = false,
+          this.showABMPaquete = false         
       },
       cargaMenu: function () {
           this.showMenuABM = true,
           this.showABMVuelo = false,
           this.showABMAlojamiento = false,
           this.showABMActividad = false,
-          this.showABMDestino = false
+          this.showABMDestino = false,
+          this.showABMPaquete = false
       },
       cargaActividad: function () {
           this.showMenuABM = false,
           this.showABMVuelo = false,
           this.showABMAlojamiento = false,
           this.showABMActividad = true,
-          this.showABMDestino = false
+          this.showABMDestino = false,
+          this.showABMPaquete = false
       },
       cargaDestino: function () {
           this.showMenuABM = false,
           this.showABMVuelo = false,
           this.showABMAlojamiento = false,
           this.showABMActividad = false,
-          this.showABMDestino = true
+          this.showABMDestino = true,
+          this.showABMPaquete = false
+      },
+      cargaPaquete: function () {
+          this.showMenuABM = false,
+          this.showABMVuelo = false,
+          this.showABMAlojamiento = false,
+          this.showABMActividad = false,
+          this.showABMDestino = false,
+          this.showABMPaquete = true
       }
   }
 }

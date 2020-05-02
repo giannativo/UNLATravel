@@ -49,36 +49,15 @@
       <br />
       <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
     </div>
-    <div v-if="deleteElement">
-      <p>Desea eliminar este elemento?</p>
-      <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
-      <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">No</button>
-    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "BajaAlojamiento",
-  props: {
-    showList: {
-      type: Boolean,
-      default: true
-    },
-    deleteElement: {
-      type: Boolean,
-      default: false
-    }
-  },
+  name: "VisualizarAlojamiento",
   methods: {
     volver() {
       this.$parent.cargaMenu();
-    },
-    cargaDelete: function() {
-      (this.showList = false), (this.deleteElement = true);
-    },
-    cargaLista: function() {
-      (this.showList = true), (this.deleteElement = false);
     }
   }
 };

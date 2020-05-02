@@ -1,7 +1,6 @@
 <template>
   <div class="text-center">
     <h4 class="mb-3">Lista Vuelos</h4>
-    
     <form class="needs-validation" novalidate>
             <div class="row options">
               <div>            
@@ -25,7 +24,6 @@
           <th scope="col">Ida y Vuelta</th>
           <th scope="col">Con Escala</th>
           <th scope="col">Acceso a Discapacitados</th>
-          
         </tr>
       </thead>
       <tbody>
@@ -51,7 +49,7 @@
 
 <script>
 export default {
-  name: "ModificacionAlojamiento",
+  name: "VisualizarVuelo",
   props: {
     msg: String,
     info: null

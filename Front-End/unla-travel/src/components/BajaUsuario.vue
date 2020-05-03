@@ -5,7 +5,7 @@
       <form class="needs-validation" novalidate>
         <div class="row options">
           <div>
-            <label for="id-vuelo">Ingrese ID Vuelo</label>
+            <label for="id-vuelo">Ingrese ID Usuario</label>
             <input
               type="text"
               class="form-control"

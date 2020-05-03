@@ -18,5 +18,6 @@ namespace UnlaTravel.Model.Data
         public string Mail { get; set; }
         public string Telefono { get; set; }
         public Boolean Rol {get; set;}
+        public string Contraseña { get; set; }
     }
 }

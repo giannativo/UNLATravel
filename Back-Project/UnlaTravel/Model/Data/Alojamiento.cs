@@ -13,5 +13,7 @@ namespace UnlaTravel.Model.Data{
         public int Destino { get; set; }
         public int TipoRegimen { get; set; }
         public int TipoAlojamiento { get; set; }
-	}
+        public string NombreAlojamiento { get; set; }
+        public string Link { get; set; }
+    }
 }

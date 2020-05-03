@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <h4 class="mb-3">ABM Vuelos</h4>
+    <h4 class="mb-3">Ingrese Datos de Usuario</h4>
     <div class="row">
       <div class="options text-center">
         <form class="needs-validation" novalidate>

@@ -11,7 +11,7 @@
                 <button @click="cargaActividad" type="button" class="btn btn-lg btn-block btn-primary">ABM Actividades</button>
                 <button @click="cargaDestino" type="button" class="btn btn-lg btn-block btn-primary">ABM Destinos</button>
                 <button @click="cargaPaquete" type="button" class="btn btn-lg btn-block btn-primary">ABM Paquetes</button>
-                <button type="button" class="btn btn-lg btn-block btn-primary">ABM Administradores</button>
+                <button @click="cargaUsuario" type="button" class="btn btn-lg btn-block btn-primary">ABM Administradores</button>
             </div>
         </div>
     </div>
@@ -20,6 +20,7 @@
     <ABMActividad v-if="showABMActividad"/>
     <ABMDestino v-if="showABMDestino"/>
     <ABMPaquete v-if="showABMPaquete"/>
+    <ABMUsuario v-if="showABMUsuario"/>
 </div>
 </template>
 
@@ -29,6 +30,7 @@ import ABMAlojamiento from './ABMAlojamiento.vue'
 import ABMActividad from './ABMActividad.vue'
 import ABMDestino from './ABMDestino.vue'
 import ABMPaquete from './ABMPaquete.vue'
+import ABMUsuario from './ABMUsuario.vue'
 
 export default {
   name: 'MenuAdmin',
@@ -37,7 +39,8 @@ export default {
       ABMAlojamiento,
       ABMActividad,
       ABMDestino,
-      ABMPaquete
+      ABMPaquete,
+      ABMUsuario
   },
   props: {
     showMenuABM: {
@@ -59,6 +62,10 @@ export default {
      showABMPaquete: {
         type: Boolean,
         default: false
+    },
+     showABMUsuario: {
+        type: Boolean,
+        default: false
     }
   },
   methods: {
@@ -68,7 +75,8 @@ export default {
           this.showABMAlojamiento = false,
           this.showABMActividad = false,
           this.showABMDestino = false,
-          this.showABMPaquete = false
+          this.showABMPaquete = false,
+          this.showABMUsuario = false
       },
       cargaAlojamiento: function () {
           this.showMenuABM = false,
@@ -76,7 +84,8 @@ export default {
           this.showABMAlojamiento = true,
           this.showABMActividad = false,
           this.showABMDestino = false,
-          this.showABMPaquete = false         
+          this.showABMPaquete = false,
+          this.showABMUsuario = false        
       },
       cargaMenu: function () {
           this.showMenuABM = true,
@@ -84,7 +93,8 @@ export default {
           this.showABMAlojamiento = false,
           this.showABMActividad = false,
           this.showABMDestino = false,
-          this.showABMPaquete = false
+          this.showABMPaquete = false,
+          this.showABMUsuario = false
       },
       cargaActividad: function () {
           this.showMenuABM = false,
@@ -92,7 +102,8 @@ export default {
           this.showABMAlojamiento = false,
           this.showABMActividad = true,
           this.showABMDestino = false,
-          this.showABMPaquete = false
+          this.showABMPaquete = false,
+          this.showABMUsuario = false
       },
       cargaDestino: function () {
           this.showMenuABM = false,
@@ -100,7 +111,8 @@ export default {
           this.showABMAlojamiento = false,
           this.showABMActividad = false,
           this.showABMDestino = true,
-          this.showABMPaquete = false
+          this.showABMPaquete = false,
+          this.showABMUsuario = false
       },
       cargaPaquete: function () {
           this.showMenuABM = false,
@@ -108,7 +120,17 @@ export default {
           this.showABMAlojamiento = false,
           this.showABMActividad = false,
           this.showABMDestino = false,
-          this.showABMPaquete = true
+          this.showABMPaquete = true,
+          this.showABMUsuario = false
+      },
+       cargaUsuario: function () {
+          this.showMenuABM = false,
+          this.showABMVuelo = false,
+          this.showABMAlojamiento = false,
+          this.showABMActividad = false,
+          this.showABMDestino = false,
+          this.showABMPaquete = false,
+          this.showABMUsuario = true
       }
   }
 }

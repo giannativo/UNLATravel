@@ -7,28 +7,31 @@
           <div class="row options">
             <div>
               <label for="dni">DNI</label>
-              <input type="text" class="form-control" id="dni" placeholder value required />
+              <input type="text" class="form-control" id="dni" v-model="dni" required />
 
-              <label for="destino">Nombre</label>
-              <input type="text" class="form-control" id="Nombre" placeholder value required />
+              <label for="nombre">Nombre</label>
+              <input type="text" class="form-control" id="nombre" v-model="nombre" required />
 
-              <label for="destino">Apellido</label>
-              <input type="text" class="form-control" id="Apellido" placeholder value required />
+              <label for="apellido">Apellido</label>
+              <input type="text" class="form-control" id="apellido" v-model="apellido" required />
 
-              <label for="destino">Nacionalidad</label>
-              <input type="text" class="form-control" id="Apellido" placeholder value required />
+              <label for="nacionalidad">Nacionalidad</label>
+              <input type="text" class="form-control" id="nacionalidad" v-model="nacionalidad" required />
 
-              <label for="destino">Domicilio</label>
-              <input type="text" class="form-control" id="Apellido" placeholder value required />
+              <label for="domicilio">Domicilio</label>
+              <input type="text" class="form-control" id="domicilio" v-model="domicilio" required />
 
-              <label for="destino">Mail</label>
-              <input type="text" class="form-control" id="Apellido" placeholder value required />
+              <label for="mail">Mail</label>
+              <input type="text" class="form-control" id="mail" v-model="mail" required />
 
-              <label for="destino">Telefono</label>
-              <input type="text" class="form-control" id="Apellido" placeholder value required />
+              <label for="password">Contraseña</label>
+              <input type="password" class="form-control" id="password" v-model="password" required />
+
+              <label for="telefono">Telefono</label>
+              <input type="text" class="form-control" id="telefono" v-model="telefono" required />
 
               <br />
-              <button type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
+              <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
             </div>
           </div>
         </form>
@@ -51,12 +54,36 @@
 export default {
   name: "AltaUsuario",
   props: {
-    msg: String,
-    info: null
+    dni: null,
+    nombre: null,
+    apellido: null,
+    nacionalidad: null,
+    domicilio: null,
+    mail: null,
+    password: null,
+    telefono: null
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
+    },
+    validar() {
+      return true;
+    },
+    submit() {
+      if(this.validar()){
+        this.$axios
+        .post('https://localhost:57935/api/usuario', {
+          dni: this.dni,
+          nombre: this.nombre,
+          apellido: this.apellido,
+          nacionalidad: this.nacionalidad,
+          domicilio: this.domicilio,
+          mail: this.mail,
+          contraseña: this.password,
+          telefono: this.telefono
+        }).then(this.volver())
+      }
     }
   }
 };

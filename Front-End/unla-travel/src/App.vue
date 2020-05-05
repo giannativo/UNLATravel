@@ -1,9 +1,6 @@
 <template>
   <div id="app">
-    <div>
-        {{ info }}
-    </div>
-    <MenuAdmin msg="Welcome to Your Vue.js App"/>
+    <MenuAdmin/>
   </div>
 </template>
 
@@ -16,16 +13,7 @@ export default {
   name: 'App',
   components: {
     MenuAdmin
-  },
-  props: {
-    info: null
-  },
-  mounted () {
-    this.$axios
-      .get('https://localhost:57935/api/user')
-      .then(response => (this.info = response))
   }
-
 }
 </script>
 

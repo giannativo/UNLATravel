@@ -29,23 +29,21 @@
             <th scope="col">Domicilio</th>
             <th scope="col">Mail</th>
             <th scope="col">Telefono</th>
-
             <th scope="col">Eliminar</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>11111111</td>
-            <td>Mauro</td>
-            <td>Pereyra</td>
-            <td>Argentino</td>
-            <td>Cordero</td>
-            <td>mauro@hotmail.com</td>
-            <td>1111-1111</td>
-
+          <tr v-for="user in users" :key="user.id">
+            <th scope="row">{{ user.id }}</th>
+            <td>{{ user.dni }}</td>
+            <td>{{ user.nombre }}</td>
+            <td>{{ user.apellido }}</td>
+            <td>{{ user.nacionalidad }}</td>
+            <td>{{ user.domicilio }}</td>
+            <td>{{ user.mail }}</td>
+            <td>{{ user.telefono }}</td>
             <td>
-              <button @click="cargaDelete">
+              <button @click="cargaDelete(user.id)">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
@@ -58,7 +56,7 @@
     </div>
     <div v-if="deleteElement">
       <p>Desea eliminar este elemento?</p>
-      <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
+      <button @click="deleteUsuario" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
       <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">No</button>
     </div>
   </div>
@@ -75,19 +73,34 @@ export default {
     deleteElement: {
       type: Boolean,
       default: false
-    }
+    },
+    users: null,
+    user_to_delete_id: Number
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
     },
-    cargaDelete: function() {
+    cargaDelete: function(user_id) {
       (this.showList = false), (this.deleteElement = true);
+      this.user_to_delete_id = user_id;
     },
     cargaLista: function() {
+      this.$axios
+        .get('https://localhost:57935/api/usuario')
+        .then(response => (this.users = response.data));
       (this.showList = true), (this.deleteElement = false);
+    },
+    deleteUsuario() {
+      this.$axios.delete('https://localhost:57935/api/usuario/'+this.user_to_delete_id)
+      .then(() => this.cargaLista())
     }
-  }
+  },
+  mounted() {
+    this.$axios
+        .get('https://localhost:57935/api/usuario')
+        .then(response => (this.users = response.data))
+  },
 };
 </script>
 

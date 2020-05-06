@@ -29,23 +29,21 @@
             <th scope="col">Domicilio</th>
             <th scope="col">Mail</th>
             <th scope="col">Telefono</th>
-
             <th scope="col">Editar</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>11111111</td>
-            <td>Mauro</td>
-            <td>Pereyra</td>
-            <td>Argentino</td>
-            <td>Cordero</td>
-            <td>mauro@hotmail.com</td>
-            <td>1111-1111</td>
-
+          <tr v-for="user in users" :key="user.id">
+            <th scope="row">{{ user.id }}</th>
+            <td>{{ user.dni }}</td>
+            <td>{{ user.nombre }}</td>
+            <td>{{ user.apellido }}</td>
+            <td>{{ user.nacionalidad }}</td>
+            <td>{{ user.domicilio }}</td>
+            <td>{{ user.mail }}</td>
+            <td>{{ user.telefono }}</td>
             <td>
-              <button @click="cargaEdit">
+              <button @click="cargaEdit(user)">
                 <i class="fas fa-edit"></i>
               </button>
             </td>
@@ -64,29 +62,32 @@
           <form class="needs-validation" novalidate>
             <div class="row options">
               <div>
-                <label for="dni">DNI</label>
-                <input type="text" class="form-control" id="dni" placeholder value required />
+              <label for="dni">DNI</label>
+              <input type="text" class="form-control" id="dni" v-model="dni" required />
 
-                <label for="destino">Nombre</label>
-                <input type="text" class="form-control" id="Nombre" placeholder value required />
+              <label for="nombre">Nombre</label>
+              <input type="text" class="form-control" id="nombre" v-model="nombre" required />
 
-                <label for="destino">Apellido</label>
-                <input type="text" class="form-control" id="Apellido" placeholder value required />
+              <label for="apellido">Apellido</label>
+              <input type="text" class="form-control" id="apellido" v-model="apellido" required />
 
-                <label for="destino">Nacionalidad</label>
-                <input type="text" class="form-control" id="Apellido" placeholder value required />
+              <label for="nacionalidad">Nacionalidad</label>
+              <input type="text" class="form-control" id="nacionalidad" v-model="nacionalidad" required />
 
-                <label for="destino">Domicilio</label>
-                <input type="text" class="form-control" id="Apellido" placeholder value required />
+              <label for="domicilio">Domicilio</label>
+              <input type="text" class="form-control" id="domicilio" v-model="domicilio" required />
 
-                <label for="destino">Mail</label>
-                <input type="text" class="form-control" id="Apellido" placeholder value required />
+              <label for="mail">Mail</label>
+              <input type="text" class="form-control" id="mail" v-model="mail" required />
 
-                <label for="destino">Telefono</label>
-                <input type="text" class="form-control" id="Apellido" placeholder value required />
+              <label for="password">Contraseña</label>
+              <input type="password" class="form-control" id="password" v-model="password" required />
 
-                <br />
-                <button type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
+              <label for="telefono">Telefono</label>
+              <input type="text" class="form-control" id="telefono" v-model="telefono" required />
+
+              <br />
+              <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
               </div>
             </div>
           </form>
@@ -108,7 +109,7 @@
 
 <script>
 export default {
-  name: "BajaUsuario",
+  name: "ModificacionUsuario",
   props: {
     showList: {
       type: Boolean,
@@ -117,18 +118,64 @@ export default {
     editElement: {
       type: Boolean,
       default: false
-    }
+    },
+    users: null,
+    dni: null,
+    nombre: null,
+    apellido: null,
+    nacionalidad: null,
+    domicilio: null,
+    mail: null,
+    password: null,
+    telefono: null,
+    user_to_modify_id: Number
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
     },
-    cargaEdit: function() {
+    cargaEdit: function(user) {
+      this.dni = user.dni,
+      this.nombre = user.nombre,
+      this.apellido = user.apellido,
+      this.nacionalidad = user.nacionalidad,
+      this.domicilio = user.domicilio,
+      this.mail = user.mail,
+      this.password = user.contraseña,
+      this.telefono = user.telefono,
+      this.user_to_modify_id = user.id,
       (this.showList = false), (this.editElement = true);
     },
     cargaLista: function() {
+      this.$axios
+      .get('https://localhost:57935/api/usuario')
+      .then(response => (this.users = response.data));
       (this.showList = true), (this.editElement = false);
+    },
+    validar() {
+      return true;
+    },
+    submit() {
+      if(this.validar()){
+        this.$axios
+        .put('https://localhost:57935/api/usuario/'+this.user_to_modify_id, {
+          id: this.user_to_modify_id,
+          dni: this.dni,
+          nombre: this.nombre,
+          apellido: this.apellido,
+          nacionalidad: this.nacionalidad,
+          domicilio: this.domicilio,
+          mail: this.mail,
+          contraseña: this.password,
+          telefono: this.telefono
+        }).then( () => this.cargaLista())
+      }
     }
+  },
+  mounted () {
+    this.$axios
+      .get('https://localhost:57935/api/usuario')
+      .then(response => (this.users = response.data))
   }
 };
 </script>

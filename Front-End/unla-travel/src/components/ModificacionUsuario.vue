@@ -10,7 +10,9 @@
               type="text"
               class="form-control"
               id="id-vuelo"
-              placeholder="ID Vuelo"
+              placeholder="ID Usuario"
+              @input="init"
+              v-model="usuario"
               value
               required
             />
@@ -128,6 +130,7 @@ export default {
     mail: null,
     password: null,
     telefono: null,
+    usuario: null,
     user_to_modify_id: Number
   },
   methods: {
@@ -170,12 +173,22 @@ export default {
           telefono: this.telefono
         }).then( () => this.cargaLista())
       }
+    },
+    init() {
+      if (!this.usuario) {
+        this.$axios
+          .get("https://localhost:57935/api/usuario")
+          .then(response => (this.users = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/usuario/" + this.usuario)
+          .then(response => (this.users = [response.data]));
+      }
     }
+
   },
   mounted () {
-    this.$axios
-      .get('https://localhost:57935/api/usuario')
-      .then(response => (this.users = response.data))
+    this.init();
   }
 };
 </script>

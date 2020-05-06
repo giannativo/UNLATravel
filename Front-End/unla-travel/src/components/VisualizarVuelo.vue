@@ -2,15 +2,23 @@
   <div class="text-center">
     <h4 class="mb-3">Lista Vuelos</h4>
     <form class="needs-validation" novalidate>
-            <div class="row options">
-              <div>            
-                <label for="id-vuelo">Ingrese ID Vuelo</label>
-                <input type="text" class="form-control" id="id-vuelo" placeholder="ID Vuelo" value="" required>
-                
-              </div>            
-            </div>
-          </form>   
-    <br>
+      <div class="row options">
+        <div>
+          <label for="id-vuelo">Ingrese ID Vuelo</label>
+          <input
+            type="text"
+            class="form-control"
+            id="id-vuelo"
+            placeholder="ID Vuelo"
+            value
+            required
+            @input="init"
+            v-model="vuelo"
+          />
+        </div>
+      </div>
+    </form>
+    <br />
     <table class="table options">
       <thead class="thead-dark">
         <tr>
@@ -27,22 +35,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>2020/05/22 24:00</td>
-          <td>2020/07/22 24:00</td>
-          <td>Buenos Aires, Argentina</td>
-          <td>Miami</td>
-          <td>VIP</td>
-          <td>5</td>
-          <td>True</td>
-          <td>True</td>
-          <td>True</td>
-          
+        <tr v-for="vuelo in vuelos" :key="vuelo.id">
+          <th scope="row">{{vuelo.id}}</th>
+          <td>{{vuelo.fechaIda}}</td>
+          <td>{{vuelo.fechaVuelta}}</td>
+          <td>{{vuelo.origen}}</td>
+          <td>{{vuelo.destino}}</td>
+          <td>{{vuelo.clase}}</td>
+          <td>{{vuelo.valoracionAereolinea}}</td>
+          <td>{{vuelo.idaVuelta}}</td>
+          <td>{{vuelo.conEscala}}</td>
+          <td>{{vuelo.accesoDiscapacitados}}</td>
         </tr>
       </tbody>
     </table>
-    <br/>
+    <br />
     <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
   </div>
 </template>
@@ -51,13 +58,27 @@
 export default {
   name: "VisualizarVuelo",
   props: {
-    msg: String,
-    info: null
+    vuelos: [],
+    vuelo: null
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
+    },
+    init() {
+      if (!this.vuelo) {
+        this.$axios
+          .get("https://localhost:57935/api/vuelo")
+          .then(response => (this.vuelos = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/vuelo/" + this.vuelo)
+          .then(response => (this.vuelos = [response.data]));
+      }
     }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

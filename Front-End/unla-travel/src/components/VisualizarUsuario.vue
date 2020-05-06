@@ -57,14 +57,7 @@
 export default {
   name: "VisualizarUsuario",
   props: {
-    showList: {
-      type: Boolean,
-      default: true
-    },
-    deleteElement: {
-      type: Boolean,
-      default: false
-    },
+    
     users: [],
     usuario: null
   },

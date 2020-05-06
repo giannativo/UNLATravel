@@ -9,7 +9,9 @@
             <input
               type="text"
               class="form-control"
-              id="id-vuelo"
+              id="id-usuario"
+              @input="init"
+              v-model="usuario"
               placeholder="ID Vuelo"
               value
               required
@@ -63,7 +65,8 @@ export default {
       type: Boolean,
       default: false
     },
-    users: null
+    users: [],
+    usuario: null
   },
   methods: {
     volver() {
@@ -74,12 +77,21 @@ export default {
     },
     cargaLista: function() {
       (this.showList = true), (this.deleteElement = false);
+    },
+    init() {
+      if (!this.usuario) {
+        this.$axios
+          .get("https://localhost:57935/api/usuario")
+          .then(response => (this.users = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/usuario/" + this.usuario)
+          .then(response => (this.users = [response.data]));
+      }
     }
   },
-  mounted () {
-    this.$axios
-      .get('https://localhost:57935/api/usuario')
-      .then(response => (this.users = response.data))
+  mounted() {
+    this.init();
   }
 };
 </script>

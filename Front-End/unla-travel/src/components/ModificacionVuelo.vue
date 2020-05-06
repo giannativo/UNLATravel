@@ -13,6 +13,8 @@
               placeholder="ID Vuelo"
               value
               required
+              @input="init"
+              v-model="vuelo"
             />
           </div>
         </div>
@@ -34,20 +36,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>2020/05/22 24:00</td>
-            <td>2020/07/22 24:00</td>
-            <td>Buenos Aires, Argentina</td>
-            <td>Miami</td>
-            <td>VIP</td>
-            <td>5</td>
-            <td>True</td>
-            <td>True</td>
-            <td>True</td>
+          <tr v-for="vuelo in vuelos" :key="vuelo.id">
+            <th scope="row">{{vuelo.id}}</th>
+            <td>{{vuelo.fechaIda}}</td>
+            <td>{{vuelo.fechaVuelta}}</td>
+            <td>{{vuelo.origen}}</td>
+            <td>{{vuelo.destino}}</td>
+            <td>{{vuelo.clase}}</td>
+            <td>{{vuelo.valoracionAereolinea}}</td>
+            <td>{{vuelo.idaVuelta}}</td>
+            <td>{{vuelo.conEscala}}</td>
+            <td>{{vuelo.accesoDiscapacitados}}</td>
             <td>
-              <button @click="cargaEdit">
-                <i class="fas fa-edit"></i>
+              <button @click="cargaEdit(vuelo)">
+                <i class="fas fa-trash"></i>
               </button>
             </td>
           </tr>
@@ -70,6 +72,7 @@
                   id="fecha-desde"
                   placeholder="aaaa/mm/dd"
                   value
+                  v-model="fechaDesde"
                   required
                 />
                 <input
@@ -78,6 +81,7 @@
                   id="fecha-desde"
                   placeholder="HH:MM"
                   value
+                  v-model="horaDesde"
                   required
                 />
 
@@ -88,6 +92,7 @@
                   id="fecha-hasta"
                   placeholder="aaaa/mm/dd"
                   value
+                  v-model="fechaHasta"
                   required
                 />
                 <input
@@ -96,17 +101,42 @@
                   id="fecha-hasta"
                   placeholder="HH:MM"
                   value
+                  v-model="horaHasta"
                   required
                 />
 
                 <label for="origen">Origen</label>
-                <input type="text" class="form-control" id="origen" placeholder value required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="origen"
+                  placeholder
+                  value
+                  v-model="origen"
+                  required
+                />
 
                 <label for="destino">Destino</label>
-                <input type="text" class="form-control" id="destino" placeholder value required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="destino"
+                  placeholder
+                  value
+                  v-model="destino"
+                  required
+                />
 
                 <label for="destino">Clase</label>
-                <input type="text" class="form-control" id="destino" placeholder value required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="destino"
+                  placeholder
+                  value
+                  v-model="clase"
+                  required
+                />
 
                 <label for="valoracion">Valoración</label>
                 <input
@@ -115,31 +145,46 @@
                   id="valoracion"
                   placeholder="1-5"
                   value
+                  v-model="valoracion"
                   required
                 />
 
                 <hr class="mb-4" />
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="ida-vuelta" />
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="ida-vuelta"
+                    v-model="idaVuelta"
+                  />
                   <label class="custom-control-label" for="ida-vuelta">Ida y Vuelta</label>
                 </div>
 
                 <hr class="mb-4" />
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="escala" />
+                  <input type="checkbox" class="custom-control-input" id="escala" v-model="escala" />
                   <label class="custom-control-label" for="escala">Con Escala</label>
                 </div>
 
                 <hr class="mb-4" />
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="acceso-discapacitados" />
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="acceso-discapacitados"
+                    v-model="discapacitados"
+                  />
                   <label
                     class="custom-control-label"
                     for="acceso-discapacitados"
                   >Acceso a Discapacitados</label>
                 </div>
                 <br />
-                <button type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
+                <button
+                  @click="submit"
+                  type="button"
+                  class="btn btn-lg btn-block btn-primary"
+                >Guardar Cambios</button>
               </div>
             </div>
           </form>
@@ -170,18 +215,82 @@ export default {
     editElement: {
       type: Boolean,
       default: false
-    }
+    },
+    vuelos: [],
+    fechaDesde: null,
+
+    fechaHasta: null,
+
+    origen: null,
+    destino: null,
+    clase: null,
+    valoracion: null,
+    idaVuelta: null,
+    escala: null,
+    discapacitados: null,
+    vuelo_to_delete_id: Number
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
     },
-    cargaEdit: function() {
+    cargaEdit: function(vuelo) {
+        
+        this.fechaDesde = vuelo.fechaIda,
+        this.fechaHasta = vuelo.fechaVuelta,
+        this.origen = vuelo.origen,
+        this.destino = vuelo.destino,
+        this.clase = vuelo.clase,
+        this.valoracion = vuelo.valoracionAereolinea,
+        this.idaVuelta = vuelo.idaVuelta,
+        this.escala = vuelo.conEscala,
+        this.discapacitados = vuelo.accesoDiscapacitados,
+        
+        this.vuelo_to_delete_id = vuelo.id,
+    
       (this.showList = false), (this.editElement = true);
     },
     cargaLista: function() {
+      this.$axios
+        .get("https://localhost:57935/api/vuelo")
+        .then(response => (this.vuelos = response.data));
       (this.showList = true), (this.editElement = false);
+    },
+    init() {
+      if (!this.vuelo) {
+        this.$axios
+          .get("https://localhost:57935/api/vuelo")
+          .then(response => (this.vuelos = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/vuelo/" + this.vuelo)
+          .then(response => (this.vuelos = [response.data]));
+      }
+    },
+    validar() {
+      return true;
+    },
+    submit() {
+      if (this.validar()) {
+        this.$axios
+          .put("https://localhost:57935/api/vuelo/" + this.vuelo_to_delete_id, {
+            id: this.vuelo_to_delete_id,
+            fechaida: this.fechaDesde,
+            fechavuelta: this.fechaHasta,
+            origen: this.origen,
+            destino: this.destino,
+            idavuelta: this.idaVuelta,
+            valoracion: this.valoracion,
+            clase: this.clase,
+            conescala: this.escala,
+            accesodiscapacitados: this.discapacitados
+          })
+          .then(() => this.cargaLista());
+      }
     }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

@@ -7,45 +7,45 @@
             <div class="row options">
               <div>            
                <label for="fecha-desde">Fecha Desde</label>
-                <input type="text" class="form-control" id="fecha-desde" placeholder="aaaa/mm/dd" value="" required>
-                <input type="text" class="form-control" id="fecha-desde" placeholder="HH:MM" value="" required>
+                <input type="text" class="form-control" id="fecha-desde" placeholder="aaaa/mm/dd" value="" v-model="fechaDesde"  required>
+                <input type="text" class="form-control" id="fecha-desde" placeholder="HH:MM" value="" v-model="horaDesde"  required>
                 
                 <label for="fecha-hasta">Fecha Hasta</label>
-                <input type="text" class="form-control" id="fecha-hasta" placeholder="aaaa/mm/dd" value="" required>
-                <input type="text" class="form-control" id="fecha-hasta" placeholder="HH:MM" value="" required>
+                <input type="text" class="form-control" id="fecha-hasta" placeholder="aaaa/mm/dd" value="" v-model="fechaHasta"  required>
+                <input type="text" class="form-control" id="fecha-hasta" placeholder="HH:MM" value="" v-model="horaHasta"  required>
                 
                 <label for="origen">Origen</label>
-                <input type="text" class="form-control" id="origen" placeholder="" value="" required>
+                <input type="text" class="form-control" id="origen" placeholder="" value="" v-model="origen" required>
                 
                 <label for="destino">Destino</label>
-                <input type="text" class="form-control" id="destino" placeholder="" value="" required>
+                <input type="text" class="form-control" id="destino" placeholder="" value="" v-model="destino" required>
                 
                 <label for="destino">Clase</label>
-                <input type="text" class="form-control" id="destino" placeholder="" value="" required>
+                <input type="text" class="form-control" id="destino" placeholder="" value="" v-model="clase" required>
 
                 <label for="valoracion">Valoración</label>
-                <input type="text" class="form-control" id="valoracion" placeholder="1-5" value="" required>
+                <input type="text" class="form-control" id="valoracion" placeholder="1-5" value="" v-model="valoracion" required>
                
 
                 <hr class="mb-4">
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="ida-vuelta">
+                <input type="checkbox" class="custom-control-input" id="ida-vuelta" v-model="idaVuelta">
                 <label class="custom-control-label" for="ida-vuelta">Ida y Vuelta</label>
                 </div>
 
                 <hr class="mb-4">
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="escala">
+                <input type="checkbox" class="custom-control-input" id="escala" v-model="escala">
                 <label class="custom-control-label" for="escala">Con Escala</label>
                 </div>
 
                 <hr class="mb-4">
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="acceso-discapacitados">
+                <input type="checkbox" class="custom-control-input" id="acceso-discapacitados" v-model="discapacitados">
                 <label class="custom-control-label" for="acceso-discapacitados">Acceso a Discapacitados</label>
                 </div>
                 <br>
-                <button type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
+                <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
                  
                 
               </div>            
@@ -70,12 +70,40 @@
 export default {
   name: 'AltaVuelo',
   props: {
-    msg: String,
-    info: null
+    fechaDesde: null,
+    horaDesde: null,
+    fechaHasta: null,
+    horaHasta: null,
+    origen: null,
+    destino: null,
+    clase: null,
+    valoracion: null,
+    idaVuelta: null,
+    escala: null,
+    discapacitados: null
   },
   methods: {
     volver(){
         this.$parent.cargaMenu();
+    },
+    validar(){
+       return true;
+    },
+     submit() {
+      if(this.validar()){
+        this.$axios
+        .post('https://localhost:57935/api/vuelo', {
+          fechaida: this.fechaDesde + " " + this.horaDesde,
+          fechavuelta: this.fechaHasta + " " +  this.horaHasta,
+          origen: this.origen,
+          destino: this.destino,
+          idavuelta: this.idaVuelta,
+          valoracion: this.valoracion,
+          clase: this.clase,
+          conescala: this.escala,
+          accesodiscapacitados: this.discapacitados
+        }).then(this.volver())
+      }
     }
   }
 }

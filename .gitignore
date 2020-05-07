@@ -332,3 +332,8 @@ ASALocalRun/
 .vscode/
 
 Logs
+
+# Archivos de SQL Server
+*.mdf
+*.ldf
+*.ndf

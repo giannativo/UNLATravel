@@ -2,21 +2,19 @@
   <div>
     <div v-if="showList">  
     <h4 class="mb-3">Lista de Alojamientos</h4>
-    <form class="needs-validation" novalidate>
         <div class="row options">
           <div>
             <label for="id-vuelo">Ingrese ID Alojamiento</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="id-alojamiento"
               placeholder="ID Alojamiento"
-              value
-              required
+              @input="init"
+              v-model="alojamiento_search_id"
             />
           </div>
         </div>
-      </form>
       <br>
     <table class="table options">
       <thead class="thead-dark">
@@ -34,17 +32,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Hotel Four Seasons</td>
-          <td></td>
-          <td>Individual, Doble, Triple</td>
-          <td>Buenos Aires, Argentina</td>
-          <td>5</td>
-          <td>Hotel</td>
-          <td>Pension Completa</td>
-          <td>Si</td>
-          <td><button @click="cargaDelete"><i class="fas fa-trash"></i></button></td>
+        <tr v-for="place in places" :key="place.id">
+          <th scope="row">{{ place.id }}</th>
+          <td>{{ place.nombreAlojamiento }}</td>
+          <td>{{ place.tipoServicio }}</td>
+          <td>{{ place.tipoHabitacion }}</td>
+          <td>{{ place.destino }}</td>
+          <td>{{ place.cantidadEstrellas }}</td>
+          <td>{{ place.tipoAlojamiento }}</td>
+          <td>{{ place.tipoRegimen }}</td>
+          <td>{{ place.accesoDiscapacitados }}</td>
+          <td><button @click="cargaDelete(place)"><i class="fas fa-trash"></i></button></td>
         </tr>
       </tbody>
     </table>
@@ -53,7 +51,7 @@
     </div>
     <div v-if="deleteElement">
         <p>Desea eliminar este elemento?</p>
-        <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
+        <button @click="deleteAlojamiento" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
         <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">No</button>
     </div>
   </div>
@@ -71,19 +69,43 @@ export default {
         type: Boolean,
         default: false
     },
+    places: null,
+    alojamiento_search_id: null,
+    alojamiento_to_delete_id: Number
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
     },
-    cargaDelete: function () {
+    cargaDelete(place) {
         this.showList = false,
-        this.deleteElement = true
+        this.deleteElement = true,
+        this.alojamiento_to_delete_id = place.id
     },
-    cargaLista: function () {
-        this.showList = true,
-        this.deleteElement = false
-    }
+    deleteAlojamiento() {
+      this.$axios.delete('https://localhost:57935/api/alojamiento/'+this.alojamiento_to_delete_id)
+      .then(() => this.cargaLista())
+    },
+    cargaLista() {
+        this.$axios
+          .get("https://localhost:57935/api/alojamiento")
+          .then(response => (this.places = response.data));
+      (this.showList = true), (this.deleteElement = false);
+    },
+    init() {
+      if (!this.alojamiento_search_id) {
+        this.$axios
+          .get("https://localhost:57935/api/alojamiento")
+          .then(response => (this.places = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/alojamiento/" + this.alojamiento_search_id)
+          .then(response => (this.places = [response.data]));
+      }
+    },
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

@@ -2,23 +2,19 @@
   <div>
     <div class="text-center">
       <h4 class="mb-3">Lista de Usuarios</h4>
-      <form class="needs-validation" novalidate>
         <div class="row options">
           <div>
             <label for="id-vuelo">Ingrese ID Usuario</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="id-usuario"
               @input="init"
               v-model="usuario"
-              placeholder="ID Vuelo"
-              value
-              required
+              placeholder="ID Usuario"
             />
           </div>
         </div>
-      </form>
       <br />
       <table class="table options">
         <thead class="thead-dark">

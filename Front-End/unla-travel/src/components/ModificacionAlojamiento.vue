@@ -2,21 +2,19 @@
   <div class="text-center">
     <div v-if="showList">  
     <h4 class="mb-3">Lista de Alojamientos</h4>
-    <form class="needs-validation" novalidate>
-        <div class="row options">
+    <div class="row options">
           <div>
             <label for="id-vuelo">Ingrese ID Alojamiento</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="id-alojamiento"
               placeholder="ID Alojamiento"
-              value
-              required
+              @input="init"
+              v-model="alojamiento_search_id"
             />
           </div>
         </div>
-      </form>
       <br>
     <table class="table options">
       <thead class="thead-dark">
@@ -34,17 +32,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Hotel Four Seasons</td>
-          <td></td>
-          <td>Individual, Doble, Triple</td>
-          <td>Buenos Aires, Argentina</td>
-          <td>5</td>
-          <td>Hotel</td>
-          <td>Pension Completa</td>
-          <td>Si</td>
-          <td><button @click="cargaEdit"><i class="fas fa-edit"></i></button></td>
+        <tr v-for="place in places" :key="place.id">
+          <th scope="row">{{ place.id }}</th>
+          <td>{{ place.nombreAlojamiento }}</td>
+          <td>{{ place.tipoServicio }}</td>
+          <td>{{ place.tipoHabitacion }}</td>
+          <td>{{ place.destino }}</td>
+          <td>{{ place.cantidadEstrellas }}</td>
+          <td>{{ place.tipoAlojamiento }}</td>
+          <td>{{ place.tipoRegimen }}</td>
+          <td>{{ place.accesoDiscapacitados }}</td>
+          <td><button @click="cargaEdit(place)"><i class="fas fa-edit"></i></button></td>
         </tr>
       </tbody>
     </table>
@@ -59,41 +57,33 @@
             <div class="row options">
               <div> 
                 <label for="nombre">Nombre</label>
-                <input type="text" class="form-control" id="nombre" placeholder="" value="" required>           
+                <input type="text" class="form-control" id="nombre" v-model="nombre" placeholder="" value="" required>           
                 
                 <label for="tipo-servicio">Tipo de Servicio</label>
-                <input type="text" class="form-control" id="tipo-servicio" placeholder="" value="" required>
+                <input type="text" class="form-control" id="tipo_de_servicio" v-model="tipo_de_servicio" placeholder="" value="" required>
                                 
                 <label for="tipo-habitacion">Tipo Habitación</label>
-                <input type="text" class="form-control" id="tipo-habitacion" placeholder="" value="" required>
+                <input type="text" class="form-control" id="tipo_habitacion" v-model="tipo_habitacion" placeholder="" value="" required>
                 
                 <label for="destino">Destino</label>
-                <input type="text" class="form-control" id="destino" placeholder="" value="" required>
+                <input type="text" class="form-control" id="destino" v-model="destino" placeholder="" value="" required>
                 
                 <label for="valoracion">Cantidad Estrellas</label>
-                <input type="text" class="form-control" id="valoracion" placeholder="1-5" value="" required>
+                <input type="number" class="form-control" id="estrellas" v-model="estrellas" placeholder="1-5" value="" required>
 
                 <label for="tipo-alojamiento">Tipo Alojamiento</label>
-                <input type="text" class="form-control" id="tipo-alojamiento" placeholder="" value="" required>
+                <input type="text" class="form-control" id="tipo_alojamiento" v-model="tipo_alojamiento" placeholder="" value="" required>
 
                 <label for="tipo-regimen">Tipo Régimen</label>
-                <input type="text" class="form-control" id="tipo-regimen" placeholder="" value="" required>
-               
+                <input type="text" class="form-control" id="tipo_regimen" v-model="tipo_regimen" placeholder="" value="" required>
 
                 <hr class="mb-4">
-                <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="acceso-discapacitados">
-                <label class="custom-control-label" for="acceso-discapacitados">Acceso a Discapacitados</label>
-                </div>
-
-
-
-                
+                <div>
+                <input type="checkbox" v-model="acceso_a_discapacitados" id="acceso_a_discapacitados">
+                <label for="acceso-discapacitados">Acceso a Discapacitados</label>
+                </div>                
                 <br>
-
-                <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
-                 
-                
+                <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button> 
               </div>            
             </div>
           </form>   
@@ -121,20 +111,74 @@ export default {
         type: Boolean,
         default: false
     },
+    places: null,
+    nombre: null,
+    tipo_de_servicio: null,
+    tipo_habitacion: null,
+    destino: null,
+    estrellas: null,
+    tipo_alojamiento: null,
+    tipo_regimen: null,
+    acceso_a_discapacitados: null,
+    alojamiento_to_modify_id: null,
+    alojamiento_search_id: null
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
     },
-    cargaEdit: function () {
-        this.showList = false,
-        this.editElement = true
+    cargaEdit: function(place) {
+      this.nombre = place.nombreAlojamiento,
+      this.tipo_de_servicio = place.tipoServicio,
+      this.tipo_habitacion = place.tipoHabitacion,
+      this.destino = place.destino,
+      this.estrellas = place.cantidadEstrellas,
+      this.tipo_alojamiento = place.tipoAlojamiento,
+      this.tipo_regimen = place.tipoRegimen,
+      this.acceso_a_discapacitados = place.accesoDiscapacitados,
+      this.alojamiento_to_modify_id = place.id,
+      (this.showList = false), (this.editElement = true);
     },
-    cargaLista: function () {
-        this.showList = true,
-        this.editElement = false
-    }
+    cargaLista: function() {
+        this.$axios
+          .get("https://localhost:57935/api/alojamiento")
+          .then(response => (this.places = response.data));
+      (this.showList = true), (this.editElement = false);
+    },
+    init() {
+      if (!this.alojamiento_search_id) {
+        this.$axios
+          .get("https://localhost:57935/api/alojamiento")
+          .then(response => (this.places = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/alojamiento/" + this.alojamiento_search_id)
+          .then(response => (this.places = [response.data]));
+      }
+    },
+    validar() {
+      return true;
+    },
+    submit() {
+      if(this.validar()){
+        this.$axios
+        .put('https://localhost:57935/api/alojamiento/'+this.alojamiento_to_modify_id, {
+          id: this.alojamiento_to_modify_id,
+          nombreAlojamiento: this.nombre,
+          tipoServicio: this.tipo_de_servicio,
+          tipoHabitacion: this.tipo_habitacion,
+          destino: this.destino,
+          cantidadEstrellas: this.estrellas,
+          tipoAlojamiento: this.tipo_alojamiento,
+          tipoRegimen: this.tipo_regimen,
+          accesoDiscapacitados: this.acceso_a_discapacitados
+        }).then( () => this.cargaLista())
+      }
+    },
   },
+  mounted() {
+    this.init();
+  }
 };
 </script>
 

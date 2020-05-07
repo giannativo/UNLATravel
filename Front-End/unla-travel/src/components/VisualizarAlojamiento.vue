@@ -2,21 +2,19 @@
   <div>
     <div>
       <h4 class="mb-3">Lista de Alojamientos</h4>
-      <form class="needs-validation" novalidate>
         <div class="row options">
           <div>
             <label for="id-vuelo">Ingrese ID Alojamiento</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="id-alojamiento"
               placeholder="ID Alojamiento"
-              value
-              required
+              @input="init"
+              v-model="alojamiento_search_id"
             />
           </div>
         </div>
-      </form>
       <br />
       <table class="table options">
         <thead class="thead-dark">
@@ -33,16 +31,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Hotel Four Seasons</td>
-            <td></td>
-            <td>Individual, Doble, Triple</td>
-            <td>Buenos Aires, Argentina</td>
-            <td>5</td>
-            <td>Hotel</td>
-            <td>Pension Completa</td>
-            <td>Si</td>
+          <tr v-for="place in places" :key="place.id">
+            <th scope="row">{{ place.id }}</th>
+            <td>{{ place.nombreAlojamiento }}</td>
+            <td>{{ place.tipoServicio }}</td>
+            <td>{{ place.tipoHabitacion }}</td>
+            <td>{{ place.destino }}</td>
+            <td>{{ place.cantidadEstrellas }}</td>
+            <td>{{ place.tipoAlojamiento }}</td>
+            <td>{{ place.tipoRegimen }}</td>
+            <td>{{ place.accesoDiscapacitados }}</td>
           </tr>
         </tbody>
       </table>
@@ -55,10 +53,28 @@
 <script>
 export default {
   name: "VisualizarAlojamiento",
+  props: {
+    places: null,
+    alojamiento_search_id: null
+  },
   methods: {
     volver() {
       this.$parent.cargaMenu();
+    },
+    init() {
+      if (!this.alojamiento_search_id) {
+        this.$axios
+          .get("https://localhost:57935/api/alojamiento")
+          .then(response => (this.places = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/alojamiento/" + this.alojamiento_search_id)
+          .then(response => (this.places = [response.data]));
+      }
     }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

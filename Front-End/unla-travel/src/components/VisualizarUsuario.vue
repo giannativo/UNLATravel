@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-center" v-if="showList">
+    <div class="text-center">
       <h4 class="mb-3">Lista de Usuarios</h4>
       <form class="needs-validation" novalidate>
         <div class="row options">
@@ -57,19 +57,12 @@
 export default {
   name: "VisualizarUsuario",
   props: {
-    
     users: [],
     usuario: null
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
-    },
-    cargaDelete: function() {
-      (this.showList = false), (this.deleteElement = true);
-    },
-    cargaLista: function() {
-      (this.showList = true), (this.deleteElement = false);
     },
     init() {
       if (!this.usuario) {

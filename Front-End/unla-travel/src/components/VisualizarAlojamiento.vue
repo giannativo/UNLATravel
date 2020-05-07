@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="showList">
+    <div>
       <h4 class="mb-3">Lista de Alojamientos</h4>
       <form class="needs-validation" novalidate>
         <div class="row options">

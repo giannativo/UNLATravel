@@ -2,6 +2,24 @@
   <div>
     <div v-if="showList">
         <h4 class="mb-3">Lista de Paquetes</h4>
+        <form class="needs-validation" novalidate>
+        <div class="row options">
+          <div>
+            <label for="id-vuelo">Ingrese ID Usuario</label>
+            <input
+              type="text"
+              class="form-control"
+              id="id-vuelo"
+              placeholder="ID Usuario"
+              @input="init"
+              v-model="paquete"
+              value
+              required
+            />
+          </div>
+        </div>
+      </form>
+      <br />
     <table class="table options">
       <thead class="thead-dark">
         <tr>
@@ -16,23 +34,27 @@
           <th scope="col">Cantidad de Personas</th>
           <th scope="col">Habitaciones</th>
           <th scope="col">Acceso a Discapacitados</th>
-          <th scope="col">Editar</th>
+          <th scope="col">Eliminar</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td><button @click="cargaDelete"><i class="fas fa-trash"></i></button></td>
+        <tr v-for="paquete in paquetes" :key="paquete.id">
+          <th scope="row">{{paquete.id}}</th>
+          <td>{{paquete.tipoPaquete}}</td>
+          <td>{{paquete.destino}}</td>
+          <td>{{paquete.fechaIda}}</td>
+          <td>{{paquete.fechaVuelta}}</td>
+          <td>{{paquete.alojamiento}}</td>
+          <td>{{paquete.vuelo}}</td>
+          <td>{{paquete.actividad}}</td>
+          <td>{{paquete.cantidadPersonas}}</td>
+          <td>{{paquete.habitaciones}}</td>
+          <td>{{paquete.accesoDiscapacitados}}</td>
+          <td>
+              <button @click="cargaDelete(paquete.id)">
+                <i class="fas fa-trash"></i>
+              </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -41,7 +63,7 @@
     </div>  
     <div v-if="deleteElement">
         <p>Desea eliminar este elemento?</p>
-        <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
+        <button @click="deleteUsuario" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
         <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">No</button>
     </div>
   </div>
@@ -52,27 +74,51 @@ export default {
   name: "BajaPaquete",
   props: {
     showList: {
-        type: Boolean,
-        default: true
+      type: Boolean,
+      default: true
     },
     deleteElement: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false
     },
+    paquete: null,
+    paquetes: null,
+    paquete_to_delete_id: Number
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
     },
-    cargaDelete: function () {
-        this.showList = false,
-        this.deleteElement = true
+    cargaDelete: function(paquete_id) {
+      (this.showList = false), (this.deleteElement = true);
+      this.paquete_to_delete_id = paquete_id;
     },
-    cargaLista: function () {
-        this.showList = true,
-        this.deleteElement = false
-    }
-  }
+    cargaLista: function() {
+      this.$axios
+        .get('https://localhost:57935/api/paquete')
+        .then(response => (this.paquetes = response.data));
+      (this.showList = true), (this.deleteElement = false);
+    },
+    deleteUsuario() {
+      this.$axios.delete('https://localhost:57935/api/paquete/'+this.paquete_to_delete_id)
+      .then(() => this.cargaLista())
+    },
+    init() {
+      if (!this.paquete) {
+        this.$axios
+          .get("https://localhost:57935/api/paquete")
+          .then(response => (this.paquetes = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/paquete/" + this.paquete)
+          .then(response => (this.paquetes = [response.data]));
+      }
+    },
+  },
+  
+  mounted() {
+    this.init();
+  },
 };
 </script>
 

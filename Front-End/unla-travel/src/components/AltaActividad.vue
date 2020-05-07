@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center">
+   <div class="text-center">
     <h4 class="mb-3">ABM Actividades</h4>
     <div class="row">
       <div class="options text-center">
@@ -8,7 +8,7 @@
             <div>
 
               <label for="titulo">Titulo</label>
-              <input type="text" class="form-control" id="titulo" placeholder value required />
+              <input v-model="nombreActividad" type="text" class="form-control" id="titulo" placeholder value required />
               <label for="fecha-desde">Fecha Desde</label>
               <input
                 type="text"
@@ -17,6 +17,7 @@
                 placeholder="aaaa/mm/dd"
                 value
                 required
+                v-model="fechaDesde"
               />
               <input
                 type="text"
@@ -35,6 +36,7 @@
                 placeholder="aaaa/mm/dd"
                 value
                 required
+                v-model="fechaHasta"
               />
               <input
                 type="text"
@@ -46,13 +48,14 @@
               />
 
               <label for="destino">Destino</label>
-              <input type="text" class="form-control" id="destino" placeholder value required />
+              <input v-model="destino" type="text" class="form-control" id="destino" placeholder value required />
 
               <label for="descripcion">Descripción</label>
-              <input type="text" class="form-control" id="descripcion" placeholder value required />
+              <input v-model="descripcion" type="text" class="form-control" id="descripcion" placeholder value required />
 
               <label for="franja-horaria">Franja Horaria</label>
               <input
+                v-model="franjaHoraria"
                 type="text"
                 class="form-control"
                 id="franja-horaria"
@@ -62,10 +65,10 @@
               />
 
               <label for="lugar">Lugar</label>
-              <input type="text" class="form-control" id="lugar" placeholder value required />
+              <input v-model="lugar" type="text" class="form-control" id="lugar" placeholder value required />
 
               <label for="valoracion">Valoración</label>
-              <input
+              <input v-model="valoracion"
                 type="text"
                 class="form-control"
                 id="valoracion"
@@ -76,14 +79,14 @@
 
               <hr class="mb-4" />
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="acceso-discapacitados" />
+                <input v-model="accesoDiscapacitados" type="checkbox" class="custom-control-input" id="acceso-discapacitados" />
                 <label
                   class="custom-control-label"
                   for="acceso-discapacitados"
                 >Acceso a Discapacitados</label>
               </div>
               <br />
-              <button type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
+              <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
             </div>
           </div>
         </form>
@@ -106,12 +109,38 @@
 export default {
   name: "AltaActividad",
   props: {
-    msg: String,
-    info: null
+    accesoDiscapacitados: null,
+    descripcion: null,
+    destino: null,
+    fechaDesde: null,
+    fechaHasta: null,
+    franjaHoraria: null,
+    lugar: null,
+    nombreActividad: null,
+    valoracion: null
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
+    },
+    validar() {
+      return true;
+    },
+    submit() {
+      if(this.validar()){
+        this.$axios
+        .post('https://localhost:57935/api/actividad', {
+          accesoDiscapacitados: this.accesoDiscapacitados,
+          descripcion: this.descripcion,
+          destino: this.destino,
+          fechaDesde: this.fechaDesde,
+          fechaHasta: this.fechaHasta,
+          franjaHoraria: this.franjaHoraria,
+          lugar: this.lugar,
+          nombreActividad: this.nombreActividad,
+          valoracion: this.valoracion
+        }).then(this.volver())
+      }
     }
   }
 };

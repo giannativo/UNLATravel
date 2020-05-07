@@ -1,7 +1,7 @@
 <template>
-    <div class="text-center">
-    <div v-if="showList">
-      <h4 class="mb-3">Lista Actividades</h4>
+  <div>
+    <div class="text-center" v-if="showList">
+      <h4 class="mb-3">Lista de Actividades</h4>
       <form class="needs-validation" novalidate>
         <div class="row options">
           <div>
@@ -9,67 +9,66 @@
             <input
               type="text"
               class="form-control"
-              id="id-actividad"
+              id="id-vuelo"
               placeholder="ID Actividad"
+              @input="init"
+              v-model="actividad"
               value
               required
             />
           </div>
         </div>
-      <br>
       </form>
+      <br />
       <table class="table options">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Titulo</th>
-            <th scope="col">Fecha Desde</th>
-            <th scope="col">Fecha Hasta</th>
-            <th scope="col">Destino</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Franja Horaria</th>
-            <th scope="col">Lugar</th>
-            <th scope="col">Valoracion</th>
-            <th scope="col">Acceso a Discapacitados</th>
-            <th scope="col">Acceso a Discapacitados</th>
-            <th scope="col">Editar</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Nacionalidad</th>
+            <th scope="col">Domicilio</th>
+            <th scope="col">Mail</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Eliminar</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Caminata por la Cumbrecita</td>
-            <td>2020/05/22 24:00</td>
-            <td>2020/07/22 24:00</td>
-            <td>Buenos Aires, Argentina</td>
-            <td>Miami</td>
-            <td>Descripcion</td>
-            <td>8-20</td>
-            <td>Lugar</td>
-            <td>5</td>
-            <td>True</td>
+          <tr tr v-for="actividad in actividades" :key="actividad.id">
+        <th scope="row">{{actividad.id}}</th>
+          <td>{{actividad.nombreActividad}}</td>
+          <td>{{actividad.fechaDesde}}</td>
+          <td>{{actividad.fechaHasta}}</td>
+          <td>{{actividad.destino}}</td>
+          <td>{{actividad.descripcion}}</td>
+          <td>{{actividad.franjaHoraria}}</td>
+          <td>{{actividad.lugar}}</td>
+          <td>{{actividad.valoracion}}</td>
+          <td>{{actividad.accesoDiscapacitados}}</td>
             <td>
-              <button @click="cargaDelete">
-                <i class="fas fa-edit"></i>
+              <button @click="cargaDelete(actividad.id)">
+                <i class="fas fa-trash"></i>
               </button>
             </td>
           </tr>
         </tbody>
       </table>
       <br />
+
       <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
     </div>
     <div v-if="deleteElement">
       <p>Desea eliminar este elemento?</p>
-        <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
-        <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">No</button>
+      <button @click="deleteUsuario" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
+      <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">No</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'BajaActividad',
+  name: "BajaUsuario",
   props: {
     showList: {
       type: Boolean,
@@ -78,45 +77,69 @@ export default {
     deleteElement: {
       type: Boolean,
       default: false
-    }
+    },
+    actividades: null,
+    actividad: null,
+    actividad_to_delete_id: Number
   },
   methods: {
-    volver(){
-        this.$parent.cargaMenu();
+    volver() {
+      this.$parent.cargaMenu();
     },
-    cargaDelete: function () {
-        this.showList = false,
-        this.deleteElement = true
+    cargaDelete: function(actividad_id) {
+      (this.showList = false), (this.deleteElement = true);
+      this.actividad_to_delete_id = actividad_id;
     },
-    cargaLista: function () {
-        this.showList = true,
-        this.deleteElement = false
-    }
-  }
-}
+    cargaLista: function() {
+      this.$axios
+        .get('https://localhost:57935/api/actividad')
+        .then(response => (this.actividades = response.data));
+      (this.showList = true), (this.deleteElement = false);
+    },
+    deleteUsuario() {
+      this.$axios.delete('https://localhost:57935/api/actividad/'+this.actividad_to_delete_id)
+      .then(() => this.cargaLista())
+    },
+    init() {
+      if (!this.actividad) {
+        this.$axios
+          .get("https://localhost:57935/api/actividad")
+          .then(response => (this.actividades = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/actividad/" + this.actividad)
+          .then(response => (this.actividades = [response.data]));
+      }
+    },
+  },
+  
+  mounted() {
+    this.init();
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .container {
-    max-width: 960px;
+  max-width: 960px;
 }
 .options {
-    margin: auto;
+  margin: auto;
 }
-.border-top { 
-    border-top: 1px solid #e5e5e5; 
+.border-top {
+  border-top: 1px solid #e5e5e5;
 }
-.border-bottom { 
-    border-bottom: 1px solid #e5e5e5; 
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
 }
-.border-top-gray { 
-    border-top-color: #adb5bd; 
+.border-top-gray {
+  border-top-color: #adb5bd;
 }
-.box-shadow { 
-    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); 
+.box-shadow {
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
 }
-.lh-condensed { 
-    line-height: 1.25; 
+.lh-condensed {
+  line-height: 1.25;
 }
 </style>

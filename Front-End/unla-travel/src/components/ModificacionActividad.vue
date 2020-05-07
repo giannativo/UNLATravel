@@ -13,6 +13,8 @@
               placeholder="ID Actividad"
               value
               required
+              v-model="actividad"
+              @input="init"
             />
           </div>
         </div>
@@ -31,25 +33,24 @@
             <th scope="col">Lugar</th>
             <th scope="col">Valoracion</th>
             <th scope="col">Acceso a Discapacitados</th>
-            <th scope="col">Acceso a Discapacitados</th>
+            
             <th scope="col">Editar</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Caminata por la Cumbrecita</td>
-            <td>2020/05/22 24:00</td>
-            <td>2020/07/22 24:00</td>
-            <td>Buenos Aires, Argentina</td>
-            <td>Miami</td>
-            <td>Descripcion</td>
-            <td>8-20</td>
-            <td>Lugar</td>
-            <td>5</td>
-            <td>True</td>
+          <tr v-for="actividad in actividades" :key="actividad.id">
+            <th scope="row">{{actividad.id}}</th>
+            <td>{{actividad.nombreActividad}}</td>
+            <td>{{actividad.fechaDesde}}</td>
+            <td>{{actividad.fechaHasta}}</td>
+            <td>{{actividad.destino}}</td>
+            <td>{{actividad.descripcion}}</td>
+            <td>{{actividad.franjaHoraria}}</td>
+            <td>{{actividad.lugar}}</td>
+            <td>{{actividad.valoracion}}</td>
+            <td>{{actividad.accesoDiscapacitados}}</td>
             <td>
-              <button @click="cargaEdit">
+              <button @click="cargaEdit(actividad)">
                 <i class="fas fa-edit"></i>
               </button>
             </td>
@@ -59,7 +60,7 @@
       <br />
       <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
     </div>
-    
+
     <div v-if="editElement">
       <h4 class="mb-3">ABM Actividades</h4>
       <div class="row">
@@ -68,7 +69,15 @@
             <div class="row options">
               <div>
                 <label for="titulo">Titulo</label>
-                <input type="text" class="form-control" id="titulo" placeholder value required />
+                <input
+                  v-model="nombreActividad"
+                  type="text"
+                  class="form-control"
+                  id="titulo"
+                  placeholder
+                  value
+                  required
+                />
                 <label for="fecha-desde">Fecha Desde</label>
                 <input
                   type="text"
@@ -77,6 +86,7 @@
                   placeholder="aaaa/mm/dd"
                   value
                   required
+                  v-model="fechaDesde"
                 />
                 <input
                   type="text"
@@ -95,6 +105,7 @@
                   placeholder="aaaa/mm/dd"
                   value
                   required
+                  v-model="fechaHasta"
                 />
                 <input
                   type="text"
@@ -106,10 +117,26 @@
                 />
 
                 <label for="destino">Destino</label>
-                <input type="text" class="form-control" id="destino" placeholder value required />
+                <input
+                  v-model="destino"
+                  type="text"
+                  class="form-control"
+                  id="destino"
+                  placeholder
+                  value
+                  required
+                />
 
                 <label for="descripcion">Descripción</label>
-                <input type="text" class="form-control" id="descripcion" placeholder value required />
+                <input
+                  v-model="descripcion"
+                  type="text"
+                  class="form-control"
+                  id="descripcion"
+                  placeholder
+                  value
+                  required
+                />
 
                 <label for="franja-horaria">Franja Horaria</label>
                 <input
@@ -119,10 +146,19 @@
                   placeholder
                   value
                   required
+                  v-model="franjaHoraria"
                 />
 
                 <label for="lugar">Lugar</label>
-                <input type="text" class="form-control" id="lugar" placeholder value required />
+                <input
+                  v-model="lugar"
+                  type="text"
+                  class="form-control"
+                  id="lugar"
+                  placeholder
+                  value
+                  required
+                />
 
                 <label for="valoracion">Valoración</label>
                 <input
@@ -132,18 +168,28 @@
                   placeholder="1-5"
                   value
                   required
+                  v-model="valoracion"
                 />
 
                 <hr class="mb-4" />
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="acceso-discapacitados" />
+                  <input
+                    v-model="accesoDiscapacitados"
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="acceso-discapacitados"
+                  />
                   <label
                     class="custom-control-label"
                     for="acceso-discapacitados"
                   >Acceso a Discapacitados</label>
                 </div>
                 <br />
-                <button type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
+                <button
+                  @click="submit"
+                  type="button"
+                  class="btn btn-lg btn-block btn-primary"
+                >Guardar Cambios</button>
               </div>
             </div>
           </form>
@@ -174,18 +220,84 @@ export default {
     editElement: {
       type: Boolean,
       default: false
-    }
+    },
+    actividades: null,
+    accesoDiscapacitados: null,
+    descripcion: null,
+    destino: null,
+    fechaDesde: null,
+    fechaHasta: null,
+    franjaHoraria: null,
+    lugar: null,
+    nombreActividad: null,
+    valoracion: null,
+    actividad: null,
+    actividad_to_modify_id: Number
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
     },
-    cargaEdit: function() {
-      (this.showList = false), (this.editElement = true);
+    cargaEdit: function(actividad) {
+      (this.accesoDiscapacitados = actividad.accesoDiscapacitados),
+        (this.descripcion = actividad.descripcion);
+      (this.destino = actividad.destino),
+        (this.fechaDesde = actividad.fechaDesde),
+        (this.fechaHasta = actividad.fechaHasta),
+        (this.franjaHoraria = actividad.franjaHoraria),
+        (this.lugar = actividad.lugar),
+        (this.nombreActividad = actividad.nombreActividad),
+        (this.valoracion = actividad.valoracion),
+        (this.actividad_to_modify_id = actividad.id),
+        (this.showList = false),
+        (this.editElement = true);
     },
     cargaLista: function() {
+      this.$axios
+        .get("https://localhost:57935/api/actividad")
+        .then(response => (this.actividades = response.data));
       (this.showList = true), (this.editElement = false);
+    },
+    validar() {
+      return true;
+    },
+    submit() {
+      if (this.validar()) {
+        this.$axios
+          .put(
+            "https://localhost:57935/api/actividad/" +
+              this.actividad_to_modify_id,
+            {
+              id: this.actividad_to_modify_id,
+
+              accesoDiscapacitados: this.accesoDiscapacitados,
+              descripcion: this.descripcion,
+              destino: this.destino,
+              fechaDesde: this.fechaDesde,
+              fechaHasta: this.fechaHasta,
+              franjaHoraria: this.franjaHoraria,
+              lugar: this.lugar,
+              nombreActividad: this.nombreActividad,
+              valoracion: this.valoracion
+            }
+          )
+          .then(() => this.cargaLista());
+      }
+    },
+    init() {
+      if (!this.actividad) {
+        this.$axios
+          .get("https://localhost:57935/api/actividad")
+          .then(response => (this.actividades = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/actividad/" + this.actividad)
+          .then(response => (this.actividades = [response.data]));
+      }
     }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

@@ -68,7 +68,7 @@
 
 <script>
 export default {
-  name: "BajaUsuario",
+  name: "BajaActividad",
   props: {
     showList: {
       type: Boolean,

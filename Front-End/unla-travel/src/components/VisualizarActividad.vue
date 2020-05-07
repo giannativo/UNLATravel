@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <div v-if="showList">
+    
       <h4 class="mb-3">Lista Actividades</h4>
       <form class="needs-validation" novalidate>
         <div class="row options">
@@ -13,6 +13,8 @@
               placeholder="ID Actividad"
               value
               required
+              @input="init"
+              v-model="actividad"
             />
           </div>
         </div>
@@ -31,131 +33,30 @@
             <th scope="col">Lugar</th>
             <th scope="col">Valoracion</th>
             <th scope="col">Acceso a Discapacitados</th>
-            <th scope="col">Acceso a Discapacitados</th>
+            
             
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Caminata por la Cumbrecita</td>
-            <td>2020/05/22 24:00</td>
-            <td>2020/07/22 24:00</td>
-            <td>Buenos Aires, Argentina</td>
-            <td>Miami</td>
-            <td>Descripcion</td>
-            <td>8-20</td>
-            <td>Lugar</td>
-            <td>5</td>
-            <td>True</td>
-            
-          </tr>
-        </tbody>
+        <tr v-for="actividad in actividades" :key="actividad.id">
+          <th scope="row">{{actividad.id}}</th>
+          <td>{{actividad.nombreActividad}}</td>
+          <td>{{actividad.fechaDesde}}</td>
+          <td>{{actividad.fechaHasta}}</td>
+          <td>{{actividad.destino}}</td>
+          <td>{{actividad.descripcion}}</td>
+          <td>{{actividad.franjaHoraria}}</td>
+          <td>{{actividad.lugar}}</td>
+          <td>{{actividad.valoracion}}</td>
+          <td>{{actividad.accesoDiscapacitados}}</td>
+          
+          
+        </tr>
+      </tbody>
       </table>
       <br />
       <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
-    </div>
     
-    <div v-if="editElement">
-      <h4 class="mb-3">ABM Actividades</h4>
-      <div class="row">
-        <div class="options text-center">
-          <form class="needs-validation" novalidate>
-            <div class="row options">
-              <div>
-                <label for="titulo">Titulo</label>
-                <input type="text" class="form-control" id="titulo" placeholder value required />
-                <label for="fecha-desde">Fecha Desde</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="fecha-desde"
-                  placeholder="aaaa/mm/dd"
-                  value
-                  required
-                />
-                <input
-                  type="text"
-                  class="form-control"
-                  id="fecha-desde"
-                  placeholder="HH:MM"
-                  value
-                  required
-                />
-
-                <label for="fecha-hasta">Fecha Hasta</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="fecha-hasta"
-                  placeholder="aaaa/mm/dd"
-                  value
-                  required
-                />
-                <input
-                  type="text"
-                  class="form-control"
-                  id="fecha-hasta"
-                  placeholder="HH:MM"
-                  value
-                  required
-                />
-
-                <label for="destino">Destino</label>
-                <input type="text" class="form-control" id="destino" placeholder value required />
-
-                <label for="descripcion">Descripción</label>
-                <input type="text" class="form-control" id="descripcion" placeholder value required />
-
-                <label for="franja-horaria">Franja Horaria</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="franja-horaria"
-                  placeholder
-                  value
-                  required
-                />
-
-                <label for="lugar">Lugar</label>
-                <input type="text" class="form-control" id="lugar" placeholder value required />
-
-                <label for="valoracion">Valoración</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="valoracion"
-                  placeholder="1-5"
-                  value
-                  required
-                />
-
-                <hr class="mb-4" />
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="acceso-discapacitados" />
-                  <label
-                    class="custom-control-label"
-                    for="acceso-discapacitados"
-                  >Acceso a Discapacitados</label>
-                </div>
-                <br />
-                <button type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-      <br />
-      <div class="row">
-        <div class="options text-center">
-          <button
-            @click="cargaLista"
-            type="button"
-            class="btn btn-lg btn-block btn-primary options text-center"
-          >Cancelar</button>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -163,25 +64,27 @@
 export default {
   name: "VisualizarActividad",
   props: {
-    showList: {
-      type: Boolean,
-      default: true
-    },
-    editElement: {
-      type: Boolean,
-      default: false
-    }
+    actividades: null,
+    actividad: null
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
     },
-    cargaEdit: function() {
-      (this.showList = false), (this.editElement = true);
-    },
-    cargaLista: function() {
-      (this.showList = true), (this.editElement = false);
+    init() {
+      if (!this.actividad) {
+        this.$axios
+          .get("https://localhost:57935/api/actividad")
+          .then(response => (this.actividades = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/actividad/" + this.actividad)
+          .then(response => (this.actividades = [response.data]));
+      }
     }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

@@ -1,7 +1,26 @@
 <template>
   <div>
-    <h4 class="mb-3">Lista de Paquetes</h4>
-    <table class="table options">
+    <div class="text-center">
+      <h4 class="mb-3">Lista de Paquetes</h4>
+      <form class="needs-validation" novalidate>
+        <div class="row options">
+          <div>
+            <label for="id-vuelo">Ingrese ID Paquete</label>
+            <input
+              type="text"
+              class="form-control"
+              id="id-usuario"
+              @input="init"
+              v-model="paquete"
+              placeholder="ID Vuelo"
+              value
+              required
+            />
+          </div>
+        </div>
+      </form>
+      <br />
+       <table class="table options">
       <thead class="thead-dark">
         <tr>
           <th scope="col">#</th>
@@ -18,33 +37,54 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
+        <tr v-for="paquete in paquetes" :key="paquete.id">
+          <th scope="row">{{paquete.id}}</th>
+          <td>{{paquete.tipoPaquete}}</td>
+          <td>{{paquete.destino}}</td>
+          <td>{{paquete.fechaIda}}</td>
+          <td>{{paquete.fechaVuelta}}</td>
+          <td>{{paquete.alojamiento}}</td>
+          <td>{{paquete.vuelo}}</td>
+          <td>{{paquete.actividad}}</td>
+          <td>{{paquete.cantidadPersonas}}</td>
+          <td>{{paquete.habitaciones}}</td>
+          <td>{{paquete.accesoDiscapacitados}}</td>
+          
         </tr>
       </tbody>
     </table>
-    <br/>
-    <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
+      <br />
+
+      <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "VisualizarPaquete",
+  props: {
+    paquetes: [],
+    paquete: null
+  },
   methods: {
     volver() {
       this.$parent.cargaMenu();
+    },
+    init() {
+      if (!this.paquete) {
+        this.$axios
+          .get("https://localhost:57935/api/paquete")
+          .then(response => (this.paquetes = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/paquete/" + this.paquete)
+          .then(response => (this.paquetes = [response.data]));
+      }
     }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

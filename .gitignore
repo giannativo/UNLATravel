@@ -334,6 +334,6 @@ ASALocalRun/
 Logs
 
 # Archivos de SQL Server
-* .mdf
-* .ldf
-* .ndf
+*.mdf
+*.ldf
+*.ndf

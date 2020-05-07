@@ -337,3 +337,5 @@ Logs
 .mdf
 BDD/UnlaTravel.mdf
 BDD/UnlaTravel_log.ldf
+*.mdf
+*.ldf

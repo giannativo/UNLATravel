@@ -5,12 +5,12 @@
         <form class="needs-validation" novalidate>
         <div class="row options">
           <div>
-            <label for="id-vuelo">Ingrese ID Usuario</label>
+            <label for="id-vuelo">Ingrese ID Paquete</label>
             <input
               type="text"
               class="form-control"
               id="id-vuelo"
-              placeholder="ID Usuario"
+              placeholder="ID Paquete"
               @input="init"
               v-model="paquete"
               value

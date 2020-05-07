@@ -332,3 +332,6 @@ ASALocalRun/
 .vscode/
 
 Logs
+
+.ldf
+.mdf

@@ -7,12 +7,12 @@
             <div class="row options">
               <div>            
                <label for="fecha-desde">Fecha Desde</label>
-                <input type="text" class="form-control" id="fecha-desde" placeholder="aaaa/mm/dd" value="" v-model="fechaDesde"  required>
-                <input type="text" class="form-control" id="fecha-desde" placeholder="HH:MM" value="" v-model="horaDesde"  required>
+                <input type="text" class="form-control" id="fecha-desde" placeholder="aaaa/mm/dd HH:MM" value="" v-model="fechaDesde"  required>
+                
                 
                 <label for="fecha-hasta">Fecha Hasta</label>
-                <input type="text" class="form-control" id="fecha-hasta" placeholder="aaaa/mm/dd" value="" v-model="fechaHasta"  required>
-                <input type="text" class="form-control" id="fecha-hasta" placeholder="HH:MM" value="" v-model="horaHasta"  required>
+                <input type="text" class="form-control" id="fecha-hasta" placeholder="aaaa/mm/dd HH:MM" value="" v-model="fechaHasta"  required>
+                
                 
                 <label for="origen">Origen</label>
                 <input type="text" class="form-control" id="origen" placeholder="" value="" v-model="origen" required>

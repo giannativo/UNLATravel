@@ -1,6 +1,24 @@
 <template>
   <div>
     <h4 class="mb-3">Lista de Destinos</h4>
+    <form class="needs-validation" novalidate>
+        <div class="row options">
+          <div>
+            <label for="id-vuelo">Ingrese ID de destino</label>
+            <input
+              type="text"
+              class="form-control"
+              id="id-destino"
+              placeholder="ID Destino"
+              @input="init"
+              v-model="destinoSeleccionado"
+              value
+              required
+            />
+          </div>
+        </div>
+      </form>
+      <br />
     <table class="table options">
       <thead class="thead-dark">
         <tr>
@@ -11,12 +29,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>United States</td>
-          <td>New York</td>
-          <td>New York</td>
-        </tr>
+           <tr v-for="destino in destinos" :key="destino.id">
+            <th scope="row">{{ destino.id }}</th>
+            <td>{{ destino.pais }}</td>
+            <td>{{ destino.region }}</td>
+            <td>{{ destino.ciudad }}</td>     
+            
+          </tr>
       </tbody>
     </table>
     <br/>
@@ -27,11 +46,32 @@
 <script>
 export default {
   name: "VisualizarDestino",
+   props: {
+     destinos:null,
+     destinoSeleccionado:null
+   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
+    },
+
+    init() {
+      if (!this.destinoSeleccionado) {
+        this.$axios
+          .get("https://localhost:57935/api/destino")
+          .then(response => (this.destinos = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/destino/" + this.destinoSeleccionado)
+          .then(response => (this.destinos = [response.data]));
+      }
     }
-  }
+  },
+  
+  
+  mounted() {
+    this.init();
+  },
 };
 </script>
 

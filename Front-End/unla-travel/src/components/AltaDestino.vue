@@ -19,7 +19,7 @@
                 <input type="text" v-model="ciudad" class="form-control" id="ciudad" placeholder="" value="" required>
                 <p v-if="ciudadAlert" class="color-red"> Ingrese una ciudad </p>
                 <br>
-                <button @click="validar" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
+                <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
               </div>            
             </div>
           </form>   
@@ -65,7 +65,7 @@ export default {
         this.$parent.cargaMenu();
     },
     validar(){
-         if(!this.pais){
+        /* if(!this.pais){
            this.paisAlert=true;
          }else{
            this.paisAlert=false;
@@ -79,7 +79,19 @@ export default {
            this.ciudadAlert=true;
          }else{
            this.ciudadAlert=false;
-         }
+         }*/
+         return true;
+    },
+    submit() {
+      if(this.validar()){
+        this.$axios
+        .post('https://localhost:57935/api/destino', {
+          pais: this.pais,
+          region:this.region,
+          ciudad:this.ciudad
+         
+        }).then(this.volver())
+      }
     }
   }
 }

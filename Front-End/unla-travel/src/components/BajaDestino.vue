@@ -2,6 +2,24 @@
   <div>
     <div v-if="showList">  
     <h4 class="mb-3">Lista de Destinos</h4>
+    <form class="needs-validation" novalidate>
+        <div class="row options">
+          <div>
+            <label for="id-vuelo">Ingrese ID de destino</label>
+            <input
+              type="text"
+              class="form-control"
+              id="id-destino"
+              placeholder="ID Destino"
+              @input="init"
+              v-model="destinoSeleccionado"
+              value
+              required
+            />
+          </div>
+        </div>
+      </form>
+      <br />
     <table class="table options">
       <thead class="thead-dark">
         <tr>
@@ -13,13 +31,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>United States</td>
-          <td>New York</td>
-          <td>New York</td>
-          <td><button @click="cargaDelete"><i class="fas fa-trash"></i></button></td>
-        </tr>
+        <tr v-for="destino in destinos" :key="destino.id">
+            <th scope="row">{{ destino.id }}</th>
+            <td>{{ destino.pais }}</td>
+            <td>{{ destino.region }}</td>
+            <td>{{ destino.ciudad }}</td>     
+            <td>
+              <button @click="cargaDelete(destino.id)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>       
       </tbody>
     </table>
     <br/>
@@ -27,7 +49,7 @@
     </div>
     <div v-if="deleteElement">
         <p>Desea eliminar este elemento?</p>
-        <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
+        <button @click="deleteDestino" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
         <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">No</button>
     </div>
   </div>
@@ -45,21 +67,46 @@ export default {
         type: Boolean,
         default: false
     },
+    destinos:null,
+    destinoSeleccionado: null,
+    destino_to_delete_id: Number
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
     },
-    cargaDelete: function () {
-        this.showList = false,
-        this.deleteElement = true
+    cargaDelete: function(destino_id) {
+      (this.showList = false), (this.deleteElement = true);
+      this.destino_to_delete_id = destino_id;
     },
     cargaLista: function () {
-        this.showList = true,
-        this.deleteElement = false
-    }
-  }
+        this.$axios
+        .get('https://localhost:57935/api/destino')
+        .then(response => (this.destinos = response.data));
+      (this.showList = true), (this.deleteElement = false);
+    },    
+    deleteDestino() {
+      this.$axios.delete('https://localhost:57935/api/destino/'+this.destino_to_delete_id)
+      .then(() => this.cargaLista())
+    },
+    init() {
+      if (!this.destinoSeleccionado) {
+        this.$axios
+          .get("https://localhost:57935/api/destino")
+          .then(response => (this.destinos = response.data));
+      } else {
+        this.$axios
+          .get("https://localhost:57935/api/destino/" + this.destinoSeleccionado)
+          .then(response => (this.destinos = [response.data]));
+      }
+    },
+  },
+  
+  mounted() {
+    this.init();
+  },
 };
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

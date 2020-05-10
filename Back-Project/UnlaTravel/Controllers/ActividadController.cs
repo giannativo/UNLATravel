@@ -2,34 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using UnlaTravel.Contexts;
-using UnlaTravel.Model.Data;
+using UnlaTravel.Data;
+using UnlaTravel.Models;
 
 namespace UnlaTravel.Controllers
 {
     [Route("api/[controller]")]
     public class ActividadController : Controller
     {
-        private readonly AppDbContext context;
+        private readonly UnlaTravelContext context;
+        private readonly IMapper _mapper;
 
-        public ActividadController(AppDbContext context)
+        public ActividadController(UnlaTravelContext context, IMapper mapper)
         {
             this.context = context;
+            this._mapper = mapper;
         }
 
         [HttpGet]
-        public IEnumerable<Actividad> Get()
+        public IEnumerable<ActividadResponse> Get()
         {
-            return context.Actividad.ToList();
+            IEnumerable<ActividadResponse> response = new List<ActividadResponse>();
+            var resultDb = context.Actividad.Include(x => x.DestinoNavigation).ToList().OrderBy(x => x.Id);
+            response = _mapper.Map<IEnumerable<Actividad>, IEnumerable<ActividadResponse>>(resultDb);
+            return response;
         }
 
         [HttpGet("{id}")]
-        public Actividad Get(int id)
+        public ActividadResponse Get(int id)
         {
-            var actividad = context.Actividad.FirstOrDefault(u => u.Id == id);
-            return actividad;
+            ActividadResponse response = new ActividadResponse();
+            var resultDb = context.Actividad.Include(x => x.DestinoNavigation).FirstOrDefault(u => u.Id == id);
+            response = _mapper.Map<Actividad, ActividadResponse>(resultDb);
+            return response;
         }
 
         [HttpPost]

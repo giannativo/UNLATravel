@@ -2,34 +2,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using UnlaTravel.Contexts;
-using UnlaTravel.Model.Data;
+using UnlaTravel.Data;
+using UnlaTravel.Models;
 
 namespace UnlaTravel.Controllers
 {
     [Route("api/[controller]")]
     public class AlojamientoController : Controller
     {
-        private readonly AppDbContext context;
+        private readonly UnlaTravelContext context;
+        private readonly IMapper _mapper;
 
-        public AlojamientoController(AppDbContext context)
+        public AlojamientoController(UnlaTravelContext context, IMapper mapper)
         {
             this.context = context;
+            this._mapper = mapper;
         }
 
         [HttpGet]
-        public IEnumerable<Alojamiento> Get()
+        public IEnumerable<AlojamientoResponse> Get()
         {
-            return context.Alojamiento.ToList();
+            IEnumerable<AlojamientoResponse> response = new List<AlojamientoResponse>();
+            var resultDb = context.Alojamiento.Include(x => x.DestinoNavigation).Include(x => x.TipoAlojamientoNavigation).Include(x => x.TipoRegimenNavigation).ToList().OrderBy(x => x.Id);
+            response = _mapper.Map<IEnumerable<Alojamiento>, IEnumerable<AlojamientoResponse>>(resultDb);
+            return response;
         }
 
         [HttpGet("{id}")]
-        public Alojamiento Get(int id)
+        public AlojamientoResponse Get(int id)
         {
-            var alojamiento = context.Alojamiento.FirstOrDefault(u => u.Id == id);
-            return alojamiento;
+            AlojamientoResponse response = new AlojamientoResponse();
+            var resultDb = context.Alojamiento.Include(x => x.DestinoNavigation).Include(x => x.TipoAlojamientoNavigation).Include(x => x.TipoRegimenNavigation).FirstOrDefault(u => u.Id == id);
+            response = _mapper.Map<Alojamiento, AlojamientoResponse>(resultDb);
+            return response;
+
         }
 
         [HttpPost]

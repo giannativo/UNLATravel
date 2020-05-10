@@ -1,34 +1,42 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using UnlaTravel.Contexts;
-using UnlaTravel.Model.Data;
+using UnlaTravel.Data;
+using UnlaTravel.Models;
 
 namespace UnlaTravel.Controllers
 {
     [Route("api/[controller]")]
     public class TipoAlojamientoController : Controller
     {
-        private readonly AppDbContext context;
+        private readonly UnlaTravelContext context;
+        private readonly IMapper _mapper;
 
-        public TipoAlojamientoController(AppDbContext context)
+        public TipoAlojamientoController(UnlaTravelContext context, IMapper mapper)
         {
             this.context = context;
+            this._mapper = mapper;
         }
 
         [HttpGet]
-        public IEnumerable<TipoAlojamiento> Get()
+        public IEnumerable<TipoAlojamientoResponse> Get()
         {
-            return context.TipoAlojamiento.ToList();
+            IEnumerable<TipoAlojamientoResponse> response = new List<TipoAlojamientoResponse>();
+            var resultDb = context.TipoAlojamiento.ToList().OrderBy(x => x.Id); 
+            response = _mapper.Map<IEnumerable<TipoAlojamiento>, IEnumerable<TipoAlojamientoResponse>>(resultDb);
+            return response;
         }
 
         [HttpGet("{id}")]
-        public TipoAlojamiento Get(int id)
+        public TipoAlojamientoResponse Get(int id)
         {
-            var tipoAlojamiento = context.TipoAlojamiento.FirstOrDefault(u => u.Id == id);
-            return tipoAlojamiento;
+            TipoAlojamientoResponse response = new TipoAlojamientoResponse();
+            var resultDb = context.TipoAlojamiento.FirstOrDefault(u => u.Id == id);
+            response = _mapper.Map<TipoAlojamiento, TipoAlojamientoResponse>(resultDb);
+            return response;
         }
     }
 }

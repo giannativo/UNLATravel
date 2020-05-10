@@ -51,38 +51,54 @@ namespace UnlaTravel.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody]Actividad actividad)
         {
-            if (actividad.Id == id)
+            try
             {
-                context.Entry(actividad).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
+                if (actividad.Id == id)
+                {
+                    context.Entry(actividad).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest();
+
+                return BadRequest(e.Message);
             }
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var actividad = context.Actividad.FirstOrDefault(u => u.Id == id);
-            if (actividad != null)
+            try
             {
-                context.Actividad.Remove(actividad);
-                context.SaveChanges();
-                return Ok();
+                var actividad = context.Actividad.FirstOrDefault(u => u.Id == id);
+                if (actividad != null)
+                {
+                    context.Actividad.Remove(actividad);
+                    context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception e) 
             {
-                return BadRequest();
+
+                return BadRequest(e.Message);
             }
         }
     }

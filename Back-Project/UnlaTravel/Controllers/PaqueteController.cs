@@ -71,38 +71,54 @@ namespace UnlaTravel.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody]Paquete paquete)
         {
-            if (paquete.Id == id)
+            try
             {
-                context.Entry(paquete).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
+                if (paquete.Id == id)
+                {
+                    context.Entry(paquete).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest();
+
+                return BadRequest(e.Message);
             }
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var paquete = context.Paquete.FirstOrDefault(u => u.Id == id);
-            if (paquete != null)
+            try
             {
-                context.Paquete.Remove(paquete);
-                context.SaveChanges();
-                return Ok();
+                var paquete = context.Paquete.FirstOrDefault(u => u.Id == id);
+                if (paquete != null)
+                {
+                    context.Paquete.Remove(paquete);
+                    context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest();
+
+                return BadRequest(e.Message);
             }
         }
     }

@@ -59,147 +59,127 @@
       <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
     </div>
     <div v-if="editElement">
-      <h4 class="mb-3">ABM Vuelos</h4>
-      <div class="row">
-        <div class="options text-center">
-          <form class="needs-validation" novalidate>
-            <div class="row options">
-              <div>
-                <label for="fecha-desde">Fecha Desde</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="fecha-desde"
-                  placeholder="aaaa/mm/dd"
-                  value
-                  v-model="fechaDesde"
-                  required
-                />
-                <input
-                  type="text"
-                  class="form-control"
-                  id="fecha-desde"
-                  placeholder="HH:MM"
-                  value
-                  v-model="horaDesde"
-                  required
-                />
+     <h4 class="mb-3">ABM Vuelos</h4>
+    <div class="row">
+      <div class="options text-center">
+        <form class="needs-validation" novalidate>
+          <div class="row options">
+            <div>
+              <label for="fecha-desde">Fecha Desde</label>
+              <input
+                type="text"
+                class="form-control"
+                id="fecha-desde"
+                placeholder="aaaa/mm/dd HH:MM"
+                value
+                v-model="fechaDesde"
+                required
+              />
+              <p v-if="fechaDesdeAlert" class="color-red"> {{fechaDesdeMessage}} </p>
 
-                <label for="fecha-hasta">Fecha Hasta</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="fecha-hasta"
-                  placeholder="aaaa/mm/dd"
-                  value
-                  v-model="fechaHasta"
-                  required
-                />
-                <input
-                  type="text"
-                  class="form-control"
-                  id="fecha-hasta"
-                  placeholder="HH:MM"
-                  value
-                  v-model="horaHasta"
-                  required
-                />
+              <label for="fecha-hasta">Fecha Hasta</label>
+              <input
+                type="text"
+                class="form-control"
+                id="fecha-hasta"
+                placeholder="aaaa/mm/dd HH:MM"
+                value
+                v-model="fechaHasta"
+                required
+              />
+              <p v-if="fechaHastaAlert" class="color-red"> {{fechaHastaMessage}} </p>
 
-                <label for="origen">Origen</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="origen"
-                  placeholder
-                  value
-                  v-model="origen"
-                  required
-                />
-
-                <label for="destino">Destino</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="destino"
-                  placeholder
-                  value
-                  v-model="destino"
-                  required
-                />
-
-                <label for="destino">Clase</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="destino"
-                  placeholder
-                  value
-                  v-model="clase"
-                  required
-                />
-
-                <label for="valoracion">Valoración</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="valoracion"
-                  placeholder="1-5"
-                  value
-                  v-model="valoracion"
-                  required
-                />
-
-                <hr class="mb-4" />
-                <div class="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    id="ida-vuelta"
-                    v-model="idaVuelta"
-                  />
-                  <label class="custom-control-label" for="ida-vuelta">Ida y Vuelta</label>
-                </div>
-
-                <hr class="mb-4" />
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="escala" v-model="escala" />
-                  <label class="custom-control-label" for="escala">Con Escala</label>
-                </div>
-
-                <hr class="mb-4" />
-                <div class="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    id="acceso-discapacitados"
-                    v-model="discapacitados"
-                  />
-                  <label
-                    class="custom-control-label"
-                    for="acceso-discapacitados"
-                  >Acceso a Discapacitados</label>
-                </div>
-                <br />
-                <button
-                  @click="submit"
-                  type="button"
-                  class="btn btn-lg btn-block btn-primary"
-                >Guardar Cambios</button>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Seleccione un Origen</label>
+                <select v-model="origen" class="form-control" id="exampleFormControlSelect1">
+                  <option v-for="destino in destinos" :key="destino.id">{{destino.id}}</option>
+                </select>
               </div>
+              <p v-if="origenAlert" class="color-red"> {{origenMessage}} </p>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Seleccione un Destino</label>
+                <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
+                  <option v-for="destino in destinos" :key="destino.id">{{destino.id}}</option>
+                </select>
+              </div>
+              <p v-if="destinoAlert" class="color-red"> {{destinoMessage}} </p>
+
+              <label for="destino">Clase</label>
+              <input
+                type="text"
+                class="form-control"
+                id="destino"
+                placeholder
+                value
+                v-model="clase"
+                required
+              />
+              <p v-if="claseAlert" class="color-red"> {{claseMessage}} </p>
+
+              <label for="valoracion">Valoración</label>
+              <input
+                type="text"
+                class="form-control"
+                id="valoracion"
+                placeholder="1-5"
+                value
+                v-model="valoracion"
+                required
+              />
+              <p v-if="valoracionAlert" class="color-red"> {{valoracionMessage}} </p>
+
+              <hr class="mb-4" />
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="ida-vuelta"
+                  v-model="idaVuelta"
+                />
+                <label class="custom-control-label" for="ida-vuelta">Ida y Vuelta</label>
+              </div>
+
+              <hr class="mb-4" />
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="escala" v-model="escala" />
+                <label class="custom-control-label" for="escala">Con Escala</label>
+              </div>
+
+              <hr class="mb-4" />
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="acceso-discapacitados"
+                  v-model="discapacitados"
+                />
+                <label
+                  class="custom-control-label"
+                  for="acceso-discapacitados"
+                >Acceso a Discapacitados</label>
+              </div>
+              <br />
+              <button
+                @click="submit"
+                type="button"
+                class="btn btn-lg btn-block btn-primary"
+              >Guardar Cambios</button>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
-      <br />
-      <div class="row">
-        <div class="options text-center">
-          <button
-            @click="cargaLista"
-            type="button"
-            class="btn btn-lg btn-block btn-primary options text-center"
-          >Cancelar</button>
-        </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="options text-center">
+        <button
+          @click="volver"
+          type="button"
+          class="btn btn-lg btn-block btn-primary options text-center"
+        >Volver Al Menú</button>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -228,8 +208,48 @@ export default {
     idaVuelta: null,
     escala: null,
     discapacitados: null,
-    vuelo_to_delete_id: Number
+    vuelo_to_delete_id: Number,
+     destinos: null,
+
+    fechaDesdeAlert: {
+      type: Boolean,
+      default: false
+    },
+    fechaDesdeMessage: null,
+
+    fechaHastaAlert: {
+      type: Boolean,
+      default: false
+    },
+    fechaHastaMessage: null,
+
+    origenAlert: {
+      type: Boolean,
+      default: false
+    },
+    origenMessage: null,
+
+    destinoAlert: {
+      type: Boolean,
+      default: false
+    },
+    destinoMessage: null,
+
+    claseAlert: {
+      type: Boolean,
+      default: false
+    },
+    claseMessage: null,
+
+    valoracionAlert: {
+      type: Boolean,
+      default: false
+    },
+    valoracionMessage: null,
+    isValid: null
   },
+  
+  
   methods: {
     volver() {
       this.$parent.cargaMenu();
@@ -268,7 +288,46 @@ export default {
       }
     },
     validar() {
-      return true;
+      
+      this.isValid = true;
+      
+      if(!this.fechaDesde){
+        this.fechaDesdeAlert = true;
+        this.fechaDesdeMessage = "Ingrese una fecha";
+        this.isValid = false;
+      }else{this.fechaDesdeAlert = false;}
+      
+      if(!this.fechaHasta){
+        this.fechaHastaAlert = true;
+        this.fechaHastaMessage = "Ingrese una fecha";
+        this.isValid = false;
+      }else{this.fechaHastaAlert = false;}
+
+      if(!this.origen){
+        this.origenAlert = true;
+        this.origenMessage = "Seleccione un origen";
+        this.isValid = false;
+      }else{this.origenAlert = false;}
+
+      if(!this.destino){
+        this.destinoAlert = true;
+        this.destinoMessage = "Seleccione un destino";
+        this.isValid = false;
+      }else{this.destinoAlert = false;}
+
+      if(!this.valoracion){
+        this.valoracionAlert = true;
+        this.valoracionMessage = "Seleccione una valoracion";
+        this.isValid = false;
+      }else{this.valoracionAlert = false;}
+
+      if(!this.clase){
+        this.claseAlert = true;
+        this.claseMessage = "Ingrese una clase";
+        this.isValid = false;
+      }else{this.claseAlert = false;}
+
+      return this.isValid;
     },
     submit() {
       if (this.validar()) {
@@ -290,6 +349,9 @@ export default {
     }
   },
   mounted() {
+    this.$axios
+      .get("https://localhost:57935/api/destino")
+      .then(response => (this.destinos = response.data));
     this.init();
   }
 };
@@ -317,5 +379,8 @@ export default {
 }
 .lh-condensed {
   line-height: 1.25;
+}
+.color-red{
+  color: red;
 }
 </style>

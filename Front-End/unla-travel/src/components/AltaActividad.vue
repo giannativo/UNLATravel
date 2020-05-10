@@ -74,17 +74,7 @@
               />
               <p v-if="franjaAlert" class="color-red"> {{franjaMessage}} </p>
 
-              <label for="lugar">Lugar</label>
-              <input
-                v-model="lugar"
-                type="text"
-                class="form-control"
-                id="lugar"
-                placeholder
-                value
-                required
-              />
-              <p v-if="lugarAlert" class="color-red"> {{lugarMessage}} </p>
+             
               
 
 
@@ -212,49 +202,44 @@ export default {
         this.tituloAlert = true;
         this.tituloMessage = "Ingrese un Título"
         this.isValid = false;
-      }else{this.isValid = true;}
+      }else{this.tituloAlert = true;}
 
       if(!this.descripcion){
         this.descripcionAlert = true;
         this.descripcionMessage = "Ingrese un mensaje";
         this.isValid = false;
-      }else{this.isValid = true;}
+      }else{this.descripcionAlert = true;}
 
       if(!this.destino){
         this.destinoAlert = true;
         this.destinoMessage = "Seleccione un destino";
         this.isValid = false;
-      }else{this.isValid = true;}
+      }else{this.destinoAlert = true;}
 
       if(!this.fechaDesde){
         this.fechaDesdeAlert = true;
         this.fechaDesdeMessage = "Ingrese una fecha-hora";
         this.isValid = false;
-      }else{this.isValid = true;}
+      }else{this.fechaDesdeAlert = true;}
 
       if(!this.fechaHasta){
         this.fechaHastaAlert = true;
         this.fechaHastaMessage = "Ingrese una fecha-hora";
         this.isValid = false;
-      }else{this.isValid = true;}
+      }else{this.fechaHastaAlert = true;}
 
       if(!this.franjaHoraria){
         this.franjaAlert = true;
         this.franjaMessage = "Ingrese una franja horaria";
         this.isValid = false;
-      }else{this.isValid = true;}
+      }else{this.franjaAlert = true;}
 
-      if(!this.lugar){
-        this.lugarAlert = true;
-        this.lugarMessage = "Ingrese un lugar";
-        this.isValid = false;
-      }else{this.isValid = true}
-
+      
       if(!this.valoracion){
         this.valoracionAlert = true;
         this.valoracionMessage = "Ingrese una valoracion";
         this.isValid = false;
-      }else{this.isValid = true;}
+      }else{this.valoracionAlert = true;}
 
       return this.isValid;
     },
@@ -268,7 +253,7 @@ export default {
             fechaDesde: this.fechaDesde,
             fechaHasta: this.fechaHasta,
             franjaHoraria: this.franjaHoraria,
-            lugar: this.lugar,
+            
             nombreActividad: this.nombreActividad,
             valoracion: this.valoracion
           })

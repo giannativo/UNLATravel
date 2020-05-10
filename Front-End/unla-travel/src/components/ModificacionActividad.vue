@@ -43,7 +43,7 @@
             <td>{{actividad.nombreActividad}}</td>
             <td>{{actividad.fechaDesde}}</td>
             <td>{{actividad.fechaHasta}}</td>
-            <td>{{actividad.destino}}</td>
+            <td>{{actividad.destino.id}} - {{actividad.destino.ciudad}}</td>
             <td>{{actividad.descripcion}}</td>
             <td>{{actividad.franjaHoraria}}</td>
             <td>{{actividad.lugar}}</td>
@@ -136,17 +136,7 @@
               />
               <p v-if="franjaAlert" class="color-red"> {{franjaMessage}} </p>
 
-              <label for="lugar">Lugar</label>
-              <input
-                v-model="lugar"
-                type="text"
-                class="form-control"
-                id="lugar"
-                placeholder
-                value
-                required
-              />
-              <p v-if="lugarAlert" class="color-red"> {{lugarMessage}} </p>
+             
               
 
 
@@ -283,7 +273,7 @@ export default {
     cargaEdit: function(actividad) {
       (this.accesoDiscapacitados = actividad.accesoDiscapacitados),
         (this.descripcion = actividad.descripcion);
-      (this.destino = actividad.destino),
+      (this.destino = actividad.destino.id),
         (this.fechaDesde = actividad.fechaDesde),
         (this.fechaHasta = actividad.fechaHasta),
         (this.franjaHoraria = actividad.franjaHoraria),
@@ -301,7 +291,51 @@ export default {
       (this.showList = true), (this.editElement = false);
     },
     validar() {
-      return true;
+      this.isValid =true;
+      if(!this.nombreActividad){
+        this.tituloAlert = true;
+        this.tituloMessage = "Ingrese un Título"
+        this.isValid = false;
+      }else{this.tituloAlert = true;}
+
+      if(!this.descripcion){
+        this.descripcionAlert = true;
+        this.descripcionMessage = "Ingrese un mensaje";
+        this.isValid = false;
+      }else{this.descripcionAlert = true;}
+
+      if(!this.destino){
+        this.destinoAlert = true;
+        this.destinoMessage = "Seleccione un destino";
+        this.isValid = false;
+      }else{this.destinoAlert = true;}
+
+      if(!this.fechaDesde){
+        this.fechaDesdeAlert = true;
+        this.fechaDesdeMessage = "Ingrese una fecha-hora";
+        this.isValid = false;
+      }else{this.fechaDesdeAlert = true;}
+
+      if(!this.fechaHasta){
+        this.fechaHastaAlert = true;
+        this.fechaHastaMessage = "Ingrese una fecha-hora";
+        this.isValid = false;
+      }else{this.fechaHastaAlert = true;}
+
+      if(!this.franjaHoraria){
+        this.franjaAlert = true;
+        this.franjaMessage = "Ingrese una franja horaria";
+        this.isValid = false;
+      }else{this.franjaAlert = true;}
+
+      
+      if(!this.valoracion){
+        this.valoracionAlert = true;
+        this.valoracionMessage = "Ingrese una valoracion";
+        this.isValid = false;
+      }else{this.valoracionAlert = true;}
+
+      return this.isValid;
     },
     submit() {
       if (this.validar()) {
@@ -318,7 +352,7 @@ export default {
               fechaDesde: this.fechaDesde,
               fechaHasta: this.fechaHasta,
               franjaHoraria: this.franjaHoraria,
-              lugar: this.lugar,
+              
               nombreActividad: this.nombreActividad,
               valoracion: this.valoracion
             }
@@ -369,5 +403,8 @@ export default {
 }
 .lh-condensed {
   line-height: 1.25;
+}
+.color-red{
+  color: red;
 }
 </style>

@@ -40,7 +40,7 @@
           <td>{{actividad.nombreActividad}}</td>
           <td>{{actividad.fechaDesde}}</td>
           <td>{{actividad.fechaHasta}}</td>
-          <td>{{actividad.destino}}</td>
+          <td>{{actividad.destino.id}} - {{actividad.destino.ciudad}}</td>
           <td>{{actividad.descripcion}}</td>
           <td>{{actividad.franjaHoraria}}</td>
           <td>{{actividad.lugar}}</td>

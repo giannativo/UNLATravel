@@ -40,8 +40,8 @@
             <th scope="row">{{vuelo.id}}</th>
             <td>{{vuelo.fechaIda}}</td>
             <td>{{vuelo.fechaVuelta}}</td>
-            <td>{{vuelo.origen}}</td>
-            <td>{{vuelo.destino}}</td>
+            <td>{{vuelo.origen.ciudad}}, {{vuelo.origen.region}}, {{vuelo.origen.pais}} </td>
+          <td>{{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}} </td>
             <td>{{vuelo.clase}}</td>
             <td>{{vuelo.valoracionAereolinea}}</td>
             <td>{{vuelo.idaVuelta}}</td>

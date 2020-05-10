@@ -41,12 +41,12 @@
         <tr v-for="paquete in paquetes" :key="paquete.id">
           <th scope="row">{{paquete.id}}</th>
           <td>{{paquete.tipoPaquete}}</td>
-          <td>{{paquete.destino}}</td>
+          <td>{{paquete.destino.id}}</td>
           <td>{{paquete.fechaIda}}</td>
           <td>{{paquete.fechaVuelta}}</td>
-          <td>{{paquete.alojamiento}}</td>
-          <td>{{paquete.vuelo}}</td>
-          <td>{{paquete.actividad}}</td>
+          <td>{{paquete.alojamiento.nombreAlojamiento}}</td>
+          <td>{{paquete.vuelo.id}}</td>
+          <td>{{paquete.actividad.nombreActividad}}</td>
           <td>{{paquete.cantidadPersonas}}</td>
           <td>{{paquete.habitaciones}}</td>
           <td>{{paquete.accesoDiscapacitados}}</td>

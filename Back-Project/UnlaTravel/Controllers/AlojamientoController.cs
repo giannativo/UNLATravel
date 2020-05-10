@@ -52,38 +52,54 @@ namespace UnlaTravel.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody]Alojamiento alojamiento)
         {
-            if (alojamiento.Id == id)
+            try
             {
-                context.Entry(alojamiento).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
+                if (alojamiento.Id == id)
+                {
+                    context.Entry(alojamiento).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest();
+
+                return BadRequest(e.Message);
             }
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var alojamiento = context.Alojamiento.FirstOrDefault(u => u.Id == id);
-            if (alojamiento != null)
+            try
             {
-                context.Alojamiento.Remove(alojamiento);
-                context.SaveChanges();
-                return Ok();
+                var alojamiento = context.Alojamiento.FirstOrDefault(u => u.Id == id);
+                if (alojamiento != null)
+                {
+                    context.Alojamiento.Remove(alojamiento);
+                    context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest();
+
+                return BadRequest(e.Message);
             }
         }
     }

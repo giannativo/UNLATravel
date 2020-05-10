@@ -2,34 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using UnlaTravel.Contexts;
-using UnlaTravel.Model.Data;
+using UnlaTravel.Data;
+using UnlaTravel.Models;
 
 namespace UnlaTravel.Controllers
 {
     [Route("api/[controller]")]
     public class DestinoController : Controller
     {
-        private readonly AppDbContext context;
+        private readonly UnlaTravelContext context;
+        private readonly IMapper _mapper;
 
-        public DestinoController(AppDbContext context)
+        public DestinoController(UnlaTravelContext context, IMapper mapper)
         {
             this.context = context;
+            this._mapper = mapper;
         }
 
         [HttpGet]
-        public IEnumerable<Destino> Get()
+        public IEnumerable<DestinoResponse> Get()
         {
-            return context.Destino.ToList();
+            IEnumerable<DestinoResponse> response = new List<DestinoResponse>();
+            var resultDb = context.Destino.ToList().OrderBy(x => x.Id);
+            response = _mapper.Map<IEnumerable<Destino>, IEnumerable<DestinoResponse>>(resultDb);
+            return response;
         }
 
         [HttpGet("{id}")]
-        public Destino Get(int id)
+        public DestinoResponse Get(int id)
         {
-            var destino = context.Destino.FirstOrDefault(u => u.Id == id);
-            return destino;
+            DestinoResponse response = new DestinoResponse();
+            var resultDb = context.Destino.FirstOrDefault(u => u.Id == id);
+            response = _mapper.Map<Destino, DestinoResponse>(resultDb);
+            return response;
         }
 
         [HttpPost]

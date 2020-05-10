@@ -2,34 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using UnlaTravel.Contexts;
-using UnlaTravel.Model.Data;
+using UnlaTravel.Data;
+using UnlaTravel.Models;
 
 namespace UnlaTravel.Controllers
 {
     [Route("api/[controller]")]
     public class VueloController : Controller
     {
-        private readonly AppDbContext context;
+        private readonly UnlaTravelContext context;
+        private readonly IMapper _mapper;
 
-        public VueloController(AppDbContext context)
+        public VueloController(UnlaTravelContext context, IMapper mapper)
         {
             this.context = context;
+            this._mapper = mapper;
         }
 
         [HttpGet]
-        public IEnumerable<Vuelo> Get()
+        public IEnumerable<VueloResponse> Get()
         {
-            return context.Vuelo.ToList();
+            IEnumerable<VueloResponse> response = new List<VueloResponse>();
+            var resultDb = context.Vuelo.Include(x=>x.DestinoNavigation).Include(x=>x.OrigenNavigation).ToList().OrderBy(x=>x.Id);
+            response = _mapper.Map<IEnumerable<Vuelo>,IEnumerable<VueloResponse>>(resultDb);
+            return response;
         }
 
         [HttpGet("{id}")]
-        public Vuelo Get(int id)
+        public VueloResponse Get(int id)
         {
-            var vuelo = context.Vuelo.FirstOrDefault(u => u.Id == id);
-            return vuelo;
+            VueloResponse response = new VueloResponse();
+            var resultDb = context.Vuelo.Include(x => x.DestinoNavigation).Include(x => x.OrigenNavigation).FirstOrDefault(u => u.Id == id);
+            response = _mapper.Map<Vuelo, VueloResponse>(resultDb);
+            return response;
         }
 
         [HttpPost]

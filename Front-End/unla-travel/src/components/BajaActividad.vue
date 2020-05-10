@@ -98,7 +98,7 @@ export default {
     },
     deleteUsuario() {
       this.$axios.delete('https://localhost:57935/api/actividad/'+this.actividad_to_delete_id)
-      .then(() => this.cargaLista())
+      .then(() => {this.cargaLista();}).catch(() => {alert("La actividad tiene dependencias. Elimine las dependencias para continuar");});
     },
     init() {
       if (!this.actividad) {

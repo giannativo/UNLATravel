@@ -101,7 +101,7 @@ export default {
     deleteVuelo() {
       this.$axios
         .delete("https://localhost:57935/api/vuelo/" + this.vuelo_to_delete_id)
-        .then(() => this.cargaLista());
+        .then(() => {this.cargaLista();}).catch(() => {alert("El vuelo tiene dependencias. Elimine las dependencias para continuar");});
     },
     init() {
       if (!this.vuelo) {

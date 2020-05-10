@@ -84,7 +84,7 @@ export default {
     },
     deleteAlojamiento() {
       this.$axios.delete('https://localhost:57935/api/alojamiento/'+this.alojamiento_to_delete_id)
-      .then(() => this.cargaLista())
+      .then(() => {this.cargaLista();}).catch(() => {alert("El alojamiento tiene dependencias. Elimine las dependencias para continuar");});
     },
     cargaLista() {
         this.$axios

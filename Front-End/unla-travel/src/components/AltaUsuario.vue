@@ -183,7 +183,8 @@ export default {
           domicilio: this.domicilio,
           mail: this.mail,
           contraseña: this.password,
-          telefono: this.telefono
+          telefono: this.telefono,
+          rol: true
         }).then(this.volver())
       }
     }

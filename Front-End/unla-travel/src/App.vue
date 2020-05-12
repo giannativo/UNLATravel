@@ -1,5 +1,26 @@
 <template>
+   
+  
+  
   <div id="app">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  
+  
+   
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+        <a class="nav-link" href="#">Iniciar Sesión</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Registrarse</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Mis Viajes</a>
+      </li>
+        </ul>
+    </div>
+</nav>
     <MenuAdmin/>
   </div>
 </template>

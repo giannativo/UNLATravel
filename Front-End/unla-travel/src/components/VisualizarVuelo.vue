@@ -37,8 +37,8 @@
       <tbody>
         <tr v-for="vuelo in vuelos" :key="vuelo.id">
           <th scope="row">{{vuelo.id}}</th>
-          <td>{{vuelo.fechaIda}}</td>
-          <td>{{vuelo.fechaVuelta}}</td>
+          <td>{{vuelo.fechaIda | moment("DD/MM/YYYY LT")}}</td>
+          <td>{{vuelo.fechaVuelta | moment("DD/MM/YYYY LT")}}</td>
           <td>{{vuelo.origen}}</td>
           <td>{{vuelo.destino}}</td>
           <td>{{vuelo.clase}}</td>

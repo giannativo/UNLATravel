@@ -7,12 +7,10 @@
             <div class="row options">
               <div>            
                <label for="fecha-desde">Fecha Desde</label>
-                <input type="text" class="form-control" id="fecha-desde" placeholder="aaaa/mm/dd HH:MM" value="" v-model="fechaDesde"  required>
-                
+                <datetime input-class="form-control" format="yyyy/MM/dd T" type="datetime" id="fecha-desde" placeholder="aaaa/mm/dd HH:MM" v-model="fechaDesde" required></datetime>                
                 
                 <label for="fecha-hasta">Fecha Hasta</label>
-                <input type="text" class="form-control" id="fecha-hasta" placeholder="aaaa/mm/dd HH:MM" value="" v-model="fechaHasta"  required>
-                
+                <datetime input-class="form-control" format="yyyy/MM/dd T" type="datetime" id="fecha-hasta" placeholder="aaaa/mm/dd HH:MM" v-model="fechaHasta" required></datetime>                                
                 
                 <label for="origen">Origen</label>
                 <input type="text" class="form-control" id="origen" placeholder="" value="" v-model="origen" required>
@@ -71,9 +69,7 @@ export default {
   name: 'AltaVuelo',
   props: {
     fechaDesde: null,
-    horaDesde: null,
     fechaHasta: null,
-    horaHasta: null,
     origen: null,
     destino: null,
     clase: null,
@@ -93,8 +89,8 @@ export default {
       if(this.validar()){
         this.$axios
         .post('https://localhost:57935/api/vuelo', {
-          fechaida: this.fechaDesde + " " + this.horaDesde,
-          fechavuelta: this.fechaHasta + " " +  this.horaHasta,
+          fechaida: this.fechaDesde,
+          fechavuelta: this.fechaHasta,
           origen: this.origen,
           destino: this.destino,
           idavuelta: this.idaVuelta,

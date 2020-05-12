@@ -116,7 +116,7 @@ export default {
   },
   methods: {
     volver() {
-      this.$parent.cargaMenu();
+      this.$parent.cargaHome();
     },
     validar() {
       this.isValid = true;

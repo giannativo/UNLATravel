@@ -10,7 +10,7 @@
       <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
       <br>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesion</button>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Cancelar</button>
+      <button @click="volver" class="btn btn-lg btn-primary btn-block" type="submit">Cancelar</button>
       
     </form>
     </div>
@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     volver() {
-      this.$parent.cargaMenu();
+      this.$parent.cargaHome();
     }
     
   },

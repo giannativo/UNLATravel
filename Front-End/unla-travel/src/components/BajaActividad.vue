@@ -40,7 +40,7 @@
           <td>{{actividad.nombreActividad}}</td>
           <td>{{actividad.fechaDesde}}</td>
           <td>{{actividad.fechaHasta}}</td>
-          <td>{{actividad.destino}}</td>
+          <td>{{actividad.destino.ciudad}}, {{actividad.destino.region}}, {{actividad.destino.pais}}</td>
           <td>{{actividad.descripcion}}</td>
           <td>{{actividad.franjaHoraria}}</td>
           <td>{{actividad.lugar}}</td>
@@ -98,7 +98,7 @@ export default {
     },
     deleteUsuario() {
       this.$axios.delete('https://localhost:57935/api/actividad/'+this.actividad_to_delete_id)
-      .then(() => this.cargaLista())
+      .then(() => {this.cargaLista();}).catch(() => {alert("La actividad tiene dependencias. Elimine las dependencias para continuar");});
     },
     init() {
       if (!this.actividad) {

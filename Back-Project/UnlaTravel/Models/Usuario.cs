@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace UnlaTravel.Model.Data
+namespace UnlaTravel.Models
 {
-    public class Usuario
+    public partial class Usuario
     {
-        [Key]
+        public Usuario()
+        {
+            Reserva = new HashSet<Reserva>();
+        }
+
         public int Id { get; set; }
-        public int Dni { get; set; } 
+        public int Dni { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Nacionalidad { get; set; }
         public string Domicilio { get; set; }
         public string Mail { get; set; }
         public string Telefono { get; set; }
-        public Boolean Rol {get; set;}
         public string Contraseña { get; set; }
+        public bool Rol { get; set; }
+
+        public ICollection<Reserva> Reserva { get; set; }
     }
 }

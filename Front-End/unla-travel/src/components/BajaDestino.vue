@@ -87,7 +87,7 @@ export default {
     },    
     deleteDestino() {
       this.$axios.delete('https://localhost:57935/api/destino/'+this.destino_to_delete_id)
-      .then(() => this.cargaLista())
+      .then(() => {this.cargaLista();}).catch(() => {alert("El destino tiene dependencias. Elimine las dependencias para continuar");});
     },
     init() {
       if (!this.destinoSeleccionado) {

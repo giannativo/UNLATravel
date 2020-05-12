@@ -8,27 +8,35 @@
             <div>
               <label for="dni">DNI</label>
               <input type="text" class="form-control" id="dni" v-model="dni" required />
+              <p v-if="dniAlert" class="color-red"> {{dniMessage}} </p>
 
               <label for="nombre">Nombre</label>
               <input type="text" class="form-control" id="nombre" v-model="nombre" required />
+              <p v-if="nombreAlert" class="color-red"> {{nombreMessage}} </p>
 
               <label for="apellido">Apellido</label>
               <input type="text" class="form-control" id="apellido" v-model="apellido" required />
+              <p v-if="apellidoAlert" class="color-red"> {{apellidoMessage}} </p>
 
               <label for="nacionalidad">Nacionalidad</label>
               <input type="text" class="form-control" id="nacionalidad" v-model="nacionalidad" required />
-
+              <p v-if="nacionalidadAlert" class="color-red"> {{nacionalidadMessage}} </p>
+           
               <label for="domicilio">Domicilio</label>
               <input type="text" class="form-control" id="domicilio" v-model="domicilio" required />
+              <p v-if="domicilioAlert" class="color-red"> {{domicilioMessage}} </p>
 
               <label for="mail">Mail</label>
               <input type="text" class="form-control" id="mail" v-model="mail" required />
+              <p v-if="mailAlert" class="color-red"> {{mailMessage}} </p>
 
               <label for="password">Contraseña</label>
               <input type="password" class="form-control" id="password" v-model="password" required />
+              <p v-if="contraseñaAlert" class="color-red"> {{contraseñaMessage}} </p>
 
               <label for="telefono">Telefono</label>
               <input type="text" class="form-control" id="telefono" v-model="telefono" required />
+              <p v-if="telefonoAlert" class="color-red"> {{telefonoMessage}} </p>
 
               <br />
               <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
@@ -54,6 +62,48 @@
 export default {
   name: "AltaUsuario",
   props: {
+
+    dniAlert: {
+      type: Boolean,
+      default: false
+    },
+    dniMessage: null,
+    nombreAlert: {
+      type: Boolean,
+      default: false
+    },
+    nombreMessage: null,
+    apellidoAlert: {
+      type: Boolean,
+      default: false
+    },
+    apellidoMessage: null,
+    nacionalidadAlert: {
+      type: Boolean,
+      default: false
+    },
+    nacionalidadMessage: null,
+    domicilioAlert: {
+      type: Boolean,
+      default: false
+    },
+    domicilioMessage: null,
+    mailAlert: {
+      type: Boolean,
+      default: false
+    },
+    mailMessage: null,
+    contraseñaAlert: {
+      type: Boolean,
+      default: false
+    },
+    contraseñaMessage: null,
+    telefonoAlert: {
+      type: Boolean,
+      default: false
+    },
+    telefonoMessage: null,
+
     dni: null,
     nombre: null,
     apellido: null,
@@ -61,14 +111,66 @@ export default {
     domicilio: null,
     mail: null,
     password: null,
-    telefono: null
+    telefono: null,
+    isValid: null
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
     },
     validar() {
-      return true;
+      this.isValid = true;
+
+      if(!this.dni){
+        this.dniMessage = "Ingrese un DNI";
+        this.dniAlert = true;
+        this.isValid = false;
+      }else{this.dniAlert=false;}
+
+      if(!this.nombre){
+        this.nombreMessage = "Ingrese un nombre";
+        this.nombreAlert = true;
+        this.isValid = false;
+      }else{this.nombreAlert=false;}
+
+      if(!this.apellido){
+        this.apellidoMessage = "Ingrese un apellido";
+        this.apellidoAlert = true;
+        this.isValid = false;
+      }else{this.apellidoAlert=false;}
+
+      if(!this.nacionalidad){
+        this.nacionalidadMessage = "Ingrese una nacionalidad";
+        this.nacionalidadAlert = true;
+        this.isValid = false;
+      }else{this.nacionalidadAlert=false;}
+
+      if(!this.domicilio){
+        this.domicilioMessage = "Ingrese un domicilio";
+        this.domicilioAlert = true;
+        this.isValid = false;
+      }else{this.domicilioAlert=false;}
+
+      if(!this.mail){
+        this.mailMessage = "Ingrese un email";
+        this.mailAlert = true;
+        this.isValid = false;
+      }else{this.mailAlert=false;}
+
+      if(!this.password){
+        this.contraseñaMessage = "Ingrese una contraseña";
+        this.contraseñaAlert = true;
+        this.isValid = false;
+      }else{this.contraseñaAlert=false;}
+
+      if(!this.telefono){
+        this.telefonoMessage = "Ingrese un telefono";
+        this.telefonoAlert = true;
+        this.isValid = false;
+      }else{this.telefonoAlert=false;}
+      
+      
+      return this.isValid;
     },
     submit() {
       if(this.validar()){
@@ -81,7 +183,8 @@ export default {
           domicilio: this.domicilio,
           mail: this.mail,
           contraseña: this.password,
-          telefono: this.telefono
+          telefono: this.telefono,
+          rol: true
         }).then(this.volver())
       }
     }
@@ -111,5 +214,8 @@ export default {
 }
 .lh-condensed {
   line-height: 1.25;
+}
+.color-red{
+  color: red;
 }
 </style>

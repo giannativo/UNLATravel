@@ -37,10 +37,10 @@
           <td>{{ place.nombreAlojamiento }}</td>
           <td>{{ place.tipoServicio }}</td>
           <td>{{ place.tipoHabitacion }}</td>
-          <td>{{ place.destino }}</td>
+          <td>{{ place.destino.ciudad}}, {{place.destino.region}}, {{place.destino.pais}}</td>
           <td>{{ place.cantidadEstrellas }}</td>
-          <td>{{ place.tipoAlojamiento }}</td>
-          <td>{{ place.tipoRegimen }}</td>
+          <td>{{ place.tipoAlojamiento.descripcion }}</td>
+          <td>{{ place.tipoRegimen.descripcion }}</td>
           <td>{{ place.accesoDiscapacitados }}</td>
           <td><button @click="cargaDelete(place)"><i class="fas fa-trash"></i></button></td>
         </tr>
@@ -84,7 +84,7 @@ export default {
     },
     deleteAlojamiento() {
       this.$axios.delete('https://localhost:57935/api/alojamiento/'+this.alojamiento_to_delete_id)
-      .then(() => this.cargaLista())
+      .then(() => {this.cargaLista();}).catch(() => {alert("El alojamiento tiene dependencias. Elimine las dependencias para continuar");});
     },
     cargaLista() {
         this.$axios

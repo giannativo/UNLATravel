@@ -44,6 +44,7 @@ export default {
     pais: null,
     region: null,
     ciudad: null,
+    isValid: null,
 
     paisAlert: {
       type: Boolean,
@@ -65,22 +66,26 @@ export default {
         this.$parent.cargaMenu();
     },
     validar(){
-        /* if(!this.pais){
+         this.isValid = true;
+         if(!this.pais){
            this.paisAlert=true;
+           this.isValid = false;
          }else{
            this.paisAlert=false;
          }
          if(!this.region){
            this.regionAlert=true;
+           this.isValid = false;
          }else{
            this.regionAlert=false;
          }
          if(!this.ciudad){
            this.ciudadAlert=true;
+           this.isValid = false;
          }else{
            this.ciudadAlert=false;
-         }*/
-         return true;
+         }
+         return this.isValid;
     },
     submit() {
       if(this.validar()){

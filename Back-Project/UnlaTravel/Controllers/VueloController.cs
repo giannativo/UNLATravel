@@ -2,34 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using UnlaTravel.Contexts;
-using UnlaTravel.Model.Data;
+using UnlaTravel.Data;
+using UnlaTravel.Models;
 
 namespace UnlaTravel.Controllers
 {
     [Route("api/[controller]")]
     public class VueloController : Controller
     {
-        private readonly AppDbContext context;
+        private readonly UnlaTravelContext context;
+        private readonly IMapper _mapper;
 
-        public VueloController(AppDbContext context)
+        public VueloController(UnlaTravelContext context, IMapper mapper)
         {
             this.context = context;
+            this._mapper = mapper;
         }
 
         [HttpGet]
-        public IEnumerable<Vuelo> Get()
+        public IEnumerable<VueloResponse> Get()
         {
-            return context.Vuelo.ToList();
+            IEnumerable<VueloResponse> response = new List<VueloResponse>();
+            var resultDb = context.Vuelo.Include(x=>x.DestinoNavigation).Include(x=>x.OrigenNavigation).ToList().OrderBy(x=>x.Id);
+            response = _mapper.Map<IEnumerable<Vuelo>,IEnumerable<VueloResponse>>(resultDb);
+            return response;
         }
 
         [HttpGet("{id}")]
-        public Vuelo Get(int id)
+        public VueloResponse Get(int id)
         {
-            var vuelo = context.Vuelo.FirstOrDefault(u => u.Id == id);
-            return vuelo;
+            VueloResponse response = new VueloResponse();
+            var resultDb = context.Vuelo.Include(x => x.DestinoNavigation).Include(x => x.OrigenNavigation).FirstOrDefault(u => u.Id == id);
+            response = _mapper.Map<Vuelo, VueloResponse>(resultDb);
+            return response;
         }
 
         [HttpPost]
@@ -43,38 +51,52 @@ namespace UnlaTravel.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody]Vuelo vuelo)
         {
-            if (vuelo.Id == id)
+            try
             {
-                context.Entry(vuelo).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
+                if (vuelo.Id == id)
+                {
+                    context.Entry(vuelo).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var vuelo = context.Vuelo.FirstOrDefault(u => u.Id == id);
-            if (vuelo != null)
-            {
-                context.Vuelo.Remove(vuelo);
-                context.SaveChanges();
-                return Ok();
+            try
+            { 
+                var vuelo = context.Vuelo.FirstOrDefault(u => u.Id == id);
+                if (vuelo != null)
+                {
+                    context.Vuelo.Remove(vuelo);
+                    context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
     }

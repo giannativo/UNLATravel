@@ -40,8 +40,8 @@
             <th scope="row">{{vuelo.id}}</th>
             <td>{{vuelo.fechaIda}}</td>
             <td>{{vuelo.fechaVuelta}}</td>
-            <td>{{vuelo.origen}}</td>
-            <td>{{vuelo.destino}}</td>
+            <td>{{vuelo.origen.ciudad}}, {{vuelo.origen.region}}, {{vuelo.origen.pais}} </td>
+          <td>{{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}} </td>
             <td>{{vuelo.clase}}</td>
             <td>{{vuelo.valoracionAereolinea}}</td>
             <td>{{vuelo.idaVuelta}}</td>
@@ -101,7 +101,7 @@ export default {
     deleteVuelo() {
       this.$axios
         .delete("https://localhost:57935/api/vuelo/" + this.vuelo_to_delete_id)
-        .then(() => this.cargaLista());
+        .then(() => {this.cargaLista();}).catch(() => {alert("El vuelo tiene dependencias. Elimine las dependencias para continuar");});
     },
     init() {
       if (!this.vuelo) {

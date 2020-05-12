@@ -2,34 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using UnlaTravel.Contexts;
-using UnlaTravel.Model.Data;
+using UnlaTravel.Data;
+using UnlaTravel.Models;
 
 namespace UnlaTravel.Controllers
 {
     [Route("api/[controller]")]
     public class UsuarioController : Controller
     {
-        private readonly AppDbContext context;
+        private readonly UnlaTravelContext context;
+        private readonly IMapper _mapper;
 
-        public UsuarioController(AppDbContext context)
+        public UsuarioController(UnlaTravelContext context, IMapper mapper)
         {
             this.context = context;
+            this._mapper = mapper;
         }
 
         [HttpGet]
-        public IEnumerable<Usuario> Get()
+        public IEnumerable<UsuarioResponse> Get()
         {
-            return context.Usuario.ToList();
+            IEnumerable<UsuarioResponse> response = new List<UsuarioResponse>();
+            var resultDb = context.Usuario.ToList().OrderBy(x => x.Id); 
+            response = _mapper.Map<IEnumerable<Usuario>, IEnumerable<UsuarioResponse>>(resultDb);
+            return response;
         }
 
         [HttpGet("{id}")]
-        public Usuario Get(int id)
+        public UsuarioResponse Get(int id)
         {
-            var user = context.Usuario.FirstOrDefault(u => u.Id == id);
-            return user;
+            UsuarioResponse response = new UsuarioResponse();
+            var resultDb = context.Usuario.FirstOrDefault(u => u.Id == id);
+            response = _mapper.Map<Usuario, UsuarioResponse>(resultDb);
+            return response;
         }
 
         [HttpPost]
@@ -43,38 +51,54 @@ namespace UnlaTravel.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody]Usuario user)
         {
-            if(user.Id == id)
+            try
             {
-                context.Entry(user).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
+                if (user.Id == id)
+                {
+                    context.Entry(user).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest();
+
+                return BadRequest(e.Message);
             }
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var user = context.Usuario.FirstOrDefault(u => u.Id == id);
-            if(user != null)
+            try
             {
-                context.Usuario.Remove(user);
-                context.SaveChanges();
-                return Ok();
+                var user = context.Usuario.FirstOrDefault(u => u.Id == id);
+                if (user != null)
+                {
+                    context.Usuario.Remove(user);
+                    context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest();
+
+                return BadRequest(e.Message);
             }
         }
     }

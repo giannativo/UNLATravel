@@ -36,10 +36,10 @@
             <td>{{ place.nombreAlojamiento }}</td>
             <td>{{ place.tipoServicio }}</td>
             <td>{{ place.tipoHabitacion }}</td>
-            <td>{{ place.destino }}</td>
+            <td>{{ place.destino.ciudad}}, {{place.destino.region}}, {{place.destino.pais}}</td>
             <td>{{ place.cantidadEstrellas }}</td>
-            <td>{{ place.tipoAlojamiento }}</td>
-            <td>{{ place.tipoRegimen }}</td>
+            <td>{{ place.tipoAlojamiento.descripcion }}</td>
+          <td>{{ place.tipoRegimen.descripcion }}</td>
             <td>{{ place.accesoDiscapacitados }}</td>
           </tr>
         </tbody>

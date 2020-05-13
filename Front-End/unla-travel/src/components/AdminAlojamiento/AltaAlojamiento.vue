@@ -43,7 +43,7 @@
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Destino</label>
                 <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
-                  <option v-for="destino in destinos" :key="destino.id">{{destino.id}}</option>
+                  <option v-for="destino in destinos" :key="destino.id" :value="destino.id">{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
               </div>
               <p v-if="destinoAlert" class="color-red">{{destinoMessage}}</p>
@@ -54,46 +54,44 @@
                 id="estrellas"
                 v-model="estrellas"
                 placeholder="1-5"
+                min="1" max="5"
                 value
                 required
               />
               <p v-if="estrellasAlert" class="color-red">{{estrellasMessage}}</p>
               <div class="form-group">
-                <label for="exampleFormControlSelect1">Seleccione un Tipo de Regimen</label>
-                <select v-model="tipo_regimen" class="form-control" id="exampleFormControlSelect1">
-                  <option v-for="regimen in tipoRegimenes" :key="regimen.id">{{regimen.id}}</option>
+                <label for="regimen">Seleccione un Tipo de Regimen</label>
+                <select v-model="tipo_regimen" class="form-control" id="regimen">
+                  <option v-for="regimen in tipoRegimenes" :key="regimen.id" :value="regimen.id">{{regimen.descripcion}}</option>
                 </select>
               </div>
 
               <p v-if="regimenAlert" class="color-red">{{regimenMessage}}</p>
               <div class="form-group">
-                <label for="exampleFormControlSelect1">Seleccione un Tipo Alojamiento</label>
-                <select
-                  v-model="tipo_alojamiento"
-                  class="form-control"
-                  id="exampleFormControlSelect1"
-                >
-                  <option
-                    v-for="alojamiento in tipoAlojamientos"
-                    :key="alojamiento.id"
-                  >{{alojamiento.id}}</option>
+                <label for="tipo_alojamiento">Seleccione un Tipo Alojamiento</label>
+                <select v-model="tipo_alojamiento" class="form-control" id="tipo_alojamiento">
+                  <option v-for="tipo in tipoAlojamientos" :key="tipo.id" :value="tipo.id">{{tipo.descripcion}}</option>
                 </select>
               </div>
               <p v-if="alojamientoAlert" class="color-red">{{alojamientoMessage}}</p>
               <hr class="mb-4" />
-              <div>
+              <div class="custom-control custom-checkbox">
                 <input
                   type="checkbox"
+                  class="custom-control-input"
+                  id="acceso-discapacitados"
                   v-model="acceso_a_discapacitados"
-                  id="acceso_a_discapacitados"
                 />
-                <label for="acceso-discapacitados">Acceso a Discapacitados</label>
+                <label
+                  class="custom-control-label"
+                  for="acceso-discapacitados"
+                >Acceso a Discapacitados</label>
               </div>
               <br />
               <button
                 @click="submit"
                 type="button"
-                class="btn btn-lg btn-block btn-primary"
+                class="btn options btn-lg btn-block btn-success"
               >Guardar Cambios</button>
             </div>
           </div>
@@ -106,10 +104,11 @@
         <button
           @click="volver"
           type="button"
-          class="btn btn-lg btn-block btn-primary options text-center"
+          class="btn options btn-lg btn-block btn-danger options text-center"
         >Volver Al Menú</button>
       </div>
     </div>
+    <br>
   </div>
 </template>
 
@@ -294,5 +293,8 @@ export default {
 }
 .color-red {
   color: red;
+}
+.btn{
+  width: 200px;
 }
 </style>

@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import ABMVuelo from './ABMVuelo.vue'
-import ABMAlojamiento from './ABMAlojamiento.vue'
-import ABMActividad from './ABMActividad.vue'
-import ABMDestino from './ABMDestino.vue'
-import ABMPaquete from './ABMPaquete.vue'
-import ABMUsuario from './ABMUsuario.vue'
+import ABMVuelo from './AdminVuelo/ABMVuelo.vue'
+import ABMAlojamiento from './AdminAlojamiento/ABMAlojamiento.vue'
+import ABMActividad from './AdminActividad/ABMActividad.vue'
+import ABMDestino from './AdminDestino/ABMDestino.vue'
+import ABMPaquete from './AdminPaquete/ABMPaquete.vue'
+import ABMUsuario from './AdminUsuario/ABMUsuario.vue'
 
 export default {
   name: 'MenuAdmin',

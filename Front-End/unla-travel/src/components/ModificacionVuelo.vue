@@ -19,6 +19,7 @@
           </div>
         </div>
       </form>
+      <br>
       <table class="table options">
         <thead class="thead-dark">
           <tr>
@@ -40,8 +41,8 @@
             <th scope="row">{{vuelo.id}}</th>
             <td>{{vuelo.fechaIda}}</td>
             <td>{{vuelo.fechaVuelta}}</td>
-             <td>{{vuelo.origen.ciudad}}, {{vuelo.origen.region}}, {{vuelo.origen.pais}} </td>
-          <td>{{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}} </td>
+            <td>{{vuelo.origen.ciudad}}, {{vuelo.origen.region}}, {{vuelo.origen.pais}} </td>
+            <td>{{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}} </td>
             <td>{{vuelo.clase}}</td>
             <td>{{vuelo.valoracionAereolinea}}</td>
             <td>{{vuelo.idaVuelta}}</td>
@@ -49,50 +50,36 @@
             <td>{{vuelo.accesoDiscapacitados}}</td>
             <td>
               <button @click="cargaEdit(vuelo)">
-                <i class="fas fa-trash"></i>
+                <i class="fas fa-edit"></i>
               </button>
             </td>
           </tr>
         </tbody>
       </table>
       <br />
-      <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
+      <button @click="volver" type="button" class="btn btn-lg btn-block options btn-primary">Volver Al Menú</button>
     </div>
     <div v-if="editElement">
      <h4 class="mb-3">ABM Vuelos</h4>
     <div class="row">
       <div class="options text-center">
-        <form class="needs-validation" novalidate>
+        <form class="needs-validation">
           <div class="row options">
             <div>
               <label for="fecha-desde">Fecha Desde</label>
-              <input
-                type="text"
-                class="form-control"
-                id="fecha-desde"
-                placeholder="aaaa/mm/dd HH:MM"
-                value
-                v-model="fechaDesde"
-                required
-              />
+              <datetime input-class="form-control" format="yyyy/MM/dd T" value-zone="UTC-3" :min-datetime="currentDate"
+              zone="UTC-3" type="datetime" id="fecha-desde" placeholder="aaaa/mm/dd HH:MM" v-model="fechaDesde" required></datetime>                
               <p v-if="fechaDesdeAlert" class="color-red"> {{fechaDesdeMessage}} </p>
 
               <label for="fecha-hasta">Fecha Hasta</label>
-              <input
-                type="text"
-                class="form-control"
-                id="fecha-hasta"
-                placeholder="aaaa/mm/dd HH:MM"
-                value
-                v-model="fechaHasta"
-                required
-              />
+              <datetime input-class="form-control" format="yyyy/MM/dd T" value-zone="UTC-3" :min-datetime="fechaDesde"
+              zone="UTC-3" type="datetime" id="fecha-hasta" placeholder="aaaa/mm/dd HH:MM" v-model="fechaHasta" required></datetime>                                
               <p v-if="fechaHastaAlert" class="color-red"> {{fechaHastaMessage}} </p>
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Origen</label>
                 <select v-model="origen" class="form-control" id="exampleFormControlSelect1">
-                  <option v-for="destino in destinos" :key="destino.id">{{destino.id}}</option>
+                  <option v-for="destino in destinos" :key="destino.id" :value="destino.id">{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
               </div>
               <p v-if="origenAlert" class="color-red"> {{origenMessage}} </p>
@@ -100,7 +87,7 @@
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Destino</label>
                 <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
-                  <option v-for="destino in destinos" :key="destino.id">{{destino.id}}</option>
+                  <option v-for="destino in destinos" :key="destino.id" :value="destino.id">{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
               </div>
               <p v-if="destinoAlert" class="color-red"> {{destinoMessage}} </p>
@@ -109,7 +96,7 @@
               <input
                 type="text"
                 class="form-control"
-                id="destino"
+                id="clase"
                 placeholder
                 value
                 v-model="clase"
@@ -123,6 +110,7 @@
                 class="form-control"
                 id="valoracion"
                 placeholder="1-5"
+                min="1" max="5"
                 value
                 v-model="valoracion"
                 required
@@ -163,7 +151,7 @@
               <button
                 @click="submit"
                 type="button"
-                class="btn btn-lg btn-block btn-primary"
+                class="btn btn-lg btn-block btn-success options button-submit"
               >Guardar Cambios</button>
             </div>
           </div>
@@ -176,7 +164,7 @@
         <button
           @click="volver"
           type="button"
-          class="btn btn-lg btn-block btn-primary options text-center"
+          class="btn btn-lg btn-block btn-danger options text-center"
         >Volver Al Menú</button>
       </div>
     </div>
@@ -246,7 +234,8 @@ export default {
       default: false
     },
     valoracionMessage: null,
-    isValid: null
+    isValid: null,
+    currentDate: null
   },
   
   
@@ -336,8 +325,8 @@ export default {
             id: this.vuelo_to_delete_id,
             fechaida: this.fechaDesde,
             fechavuelta: this.fechaHasta,
-            origen: this.origen,
-            destino: this.destino,
+            origen: this.origen.id,
+            destino: this.destino.id,
             idavuelta: this.idaVuelta,
             valoracion: this.valoracion,
             clase: this.clase,
@@ -352,6 +341,8 @@ export default {
     this.$axios
       .get("https://localhost:57935/api/destino")
       .then(response => (this.destinos = response.data));
+    var date = new Date();
+    this.currentDate = date.toISOString();
     this.init();
   }
 };
@@ -382,5 +373,13 @@ export default {
 }
 .color-red{
   color: red;
+}
+.btn{
+  width: 200px;
+}
+.btn-primary {
+    color: #fff;
+    background-color: darkred;
+    border-color: black;
 }
 </style>

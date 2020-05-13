@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <h4 class="mb-3">ABM Vuelos</h4>
+    <h4 class="mb-3">Alta Vuelo</h4>
     <div class="row">
       <div class="options text-center">
         <form class="needs-validation">
@@ -46,11 +46,10 @@
 
               <label for="valoracion">Valoración</label>
               <input
-                type="number"
+                type="text"
                 class="form-control"
                 id="valoracion"
                 placeholder="1-5"
-                min="1" max="5"
                 value
                 v-model="valoracion"
                 required
@@ -91,7 +90,7 @@
               <button
                 @click="submit"
                 type="button"
-                class="btn btn-lg btn-block btn-success options button-submit"
+                class="btn btn-lg btn-block btn-success options"
               >Guardar Cambios</button>
             </div>
           </div>
@@ -104,7 +103,7 @@
         <button
           @click="volver"
           type="button"
-          class="btn btn-lg btn-block btn-danger options text-center button-submit"
+          class="btn btn-lg btn-block btn-danger options text-center"
         >Volver Al Menú</button>
       </div>
     </div>
@@ -263,7 +262,7 @@ export default {
 .color-red{
   color: red;
 }
-.button-submit{
+.btn{
   width: 200px;
 }
 </style>

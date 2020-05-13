@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-center" v-if="showList">
-      <h4 class="mb-3">Lista de Vuelo</h4>
+      <h4 class="mb-3">Lista de Vuelos</h4>
       <form class="needs-validation" novalidate>
         <div class="row options">
           <div>
@@ -19,6 +19,7 @@
           </div>
         </div>
       </form>
+      <br>
       <table class="table options">
         <thead class="thead-dark">
           <tr>
@@ -41,7 +42,7 @@
             <td>{{vuelo.fechaIda}}</td>
             <td>{{vuelo.fechaVuelta}}</td>
             <td>{{vuelo.origen.ciudad}}, {{vuelo.origen.region}}, {{vuelo.origen.pais}} </td>
-          <td>{{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}} </td>
+            <td>{{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}} </td>
             <td>{{vuelo.clase}}</td>
             <td>{{vuelo.valoracionAereolinea}}</td>
             <td>{{vuelo.idaVuelta}}</td>
@@ -57,12 +58,12 @@
       </table>
       <br />
 
-      <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
+      <button @click="volver" type="button" class="btn options btn-lg btn-block btn-primary">Volver Al Menú</button>
     </div>
     <div v-if="deleteElement">
       <p>Desea eliminar este elemento?</p>
-      <button @click="deleteVuelo" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
-      <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">No</button>
+      <button @click="deleteVuelo" type="button" class="btn options btn-lg btn-block btn-success">Si</button>
+      <button @click="cargaLista" type="button" class="btn options btn-lg btn-block btn-danger">No</button>
     </div>
   </div>
 </template>
@@ -143,5 +144,13 @@ export default {
 }
 .lh-condensed {
   line-height: 1.25;
+}
+.btn {
+  width: 200px;
+}
+.btn-primary {
+    color: #fff;
+    background-color: darkred;
+    border-color: black;
 }
 </style>

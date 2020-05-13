@@ -15,6 +15,9 @@
         </ul>
       </div>
     </nav>
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="./assets/unlaLogo.jpg" alt="" width="72" height="72">  
+    </div>
     <MenuAdmin v-if="showMenuAdmin"/>
     <Login v-if="showLogin"/>
     <Registro v-if="showRegistro"/>
@@ -29,29 +32,19 @@ import Login from "./components/Login.vue"
 import Home from "./components/Home.vue"
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
-
-
-
-
-
-
 export default {
   name: "App",
   components: {
     MenuAdmin,
     Registro,
     Login,
-    Home,
-    
-
-    
+    Home
   },
   props:{
     showHome: {
         type: Boolean,
         default: true
     },
-
     showLogin: {
         type: Boolean,
         default: false
@@ -66,22 +59,30 @@ export default {
     },
     usuario: null
   },
-
   methods: {
     cargaLogin: function () {
       this.showLogin = true,
       this.showMenuAdmin = false,
-      this.showRegistro = false
+      this.showRegistro = false,
+      this.showHome = false
     },
     cargaRegistro: function(){
       this.showRegistro = true,
-      this.showMenuAdmin = false
-      this.showLogin = false
+      this.showMenuAdmin = false,
+      this.showLogin = false,
+      this.showHome = false
     },
     cargaHome() {
       this.showLogin = false,
       this.showRegistro = false,
-      this.showMenuAdmin = true
+      this.showMenuAdmin = false,
+      this.showHome = true
+    },
+    cargaAdmin() {
+      this.showLogin = false,
+      this.showRegistro = false,
+      this.showMenuAdmin = true,
+      this.showHome = false
     }
   }
 };

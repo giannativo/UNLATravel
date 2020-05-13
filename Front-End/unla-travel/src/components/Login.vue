@@ -2,16 +2,14 @@
 <div class="container bg-light">
    <div class="text-center">
    <form class="form-signin">
-      <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesion</h1>
       <label for="inputEmail" class="sr-only">Correo</label>
       <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
       <label for="inputPassword" class="sr-only">Contraseña</label>
       <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
       <br>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesion</button>
+      <button @click="cargaAdmin" class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesion</button>
       <button @click="volver" class="btn btn-lg btn-primary btn-block" type="submit">Cancelar</button>
-      
     </form>
     </div>
 </div>
@@ -20,18 +18,13 @@
 <script>
 export default {
   name: "Login",
-  props: {
-    
-  },
   methods: {
     volver() {
       this.$parent.cargaHome();
+    },
+    cargaAdmin(){
+      this.$parent.cargaAdmin();
     }
-    
-  },
-  
-  mounted() {
-    
   },
 };
 </script>

@@ -1,8 +1,5 @@
 <template>
 <div class="container">
-    <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="../assets/unlaLogo.jpg" alt="" width="72" height="72">  
-    </div>
     <div class="text-center" v-if="showMenuABM">
         <div class="row">
             <div class="options text-center">                

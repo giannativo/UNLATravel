@@ -2,7 +2,7 @@
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-        <ul class="navbar-nav ml-auto">
+        <ul id="navbar-options" class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="nav-link" @click="cargaLogin" href="#">Iniciar Sesión</a>
           </li>
@@ -34,7 +34,6 @@ export default {
     MenuAdmin,
     Registro,
     Login
-    
   },
   props:{
     showLogin: {
@@ -50,31 +49,24 @@ export default {
         default: true
     },
     usuario: null
-
   },
 
   methods: {
-
     cargaLogin: function () {
       this.showLogin = true,
       this.showMenuAdmin = false,
       this.showRegistro = false
-      
     },
-
     cargaRegistro: function(){
       this.showRegistro = true,
       this.showMenuAdmin = false
       this.showLogin = false
-    } ,
-
+    },
     cargaHome() {
       this.showLogin = false,
       this.showRegistro = false,
       this.showMenuAdmin = true
     }
-
-
   }
 };
 </script>
@@ -86,6 +78,14 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+.navbar {
+  padding: 0 !important;
+}
+.navbar-collapse {
+  background-color: darkred;
+}
+.navbar-light .navbar-nav .nav-link {
+  color: white !important;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-<div class="container bg-light">
+<div class="container">
     <div class="py-5 text-center">
         <img class="d-block mx-auto mb-4" src="../assets/unlaLogo.jpg" alt="" width="72" height="72">  
     </div>
@@ -138,9 +138,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
-    max-width: 960px;
-}
 .options {
     margin: auto;
 }
@@ -158,5 +155,11 @@ export default {
 }
 .lh-condensed { 
     line-height: 1.25; 
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: darkred;
+    border-color: black;
 }
 </style>

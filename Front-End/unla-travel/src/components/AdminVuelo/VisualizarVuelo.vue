@@ -51,6 +51,7 @@
     </table>
     <br />
     <button @click="volver" type="button" class="btn options btn-lg btn-block btn-primary">Volver Al Menú</button>
+    <br>
   </div>
 </template>
 

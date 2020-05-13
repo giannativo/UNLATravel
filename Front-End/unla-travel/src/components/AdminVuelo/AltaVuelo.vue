@@ -107,6 +107,7 @@
         >Volver Al Menú</button>
       </div>
     </div>
+    <br>
   </div>
 </template>
 

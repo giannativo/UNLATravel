@@ -11,7 +11,6 @@
             <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver</button>
         </div>             
     </div>
-    
 </div>
 
 

@@ -65,6 +65,7 @@
       <button @click="deleteVuelo" type="button" class="btn options btn-lg btn-block btn-success">Si</button>
       <button @click="cargaLista" type="button" class="btn options btn-lg btn-block btn-danger">No</button>
     </div>
+    <br>
   </div>
 </template>
 

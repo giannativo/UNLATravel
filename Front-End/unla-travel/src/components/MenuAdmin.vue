@@ -1,6 +1,7 @@
 <template>
 <div class="container">
     <div class="text-center" v-if="showMenuABM">
+        <h4 class="mb-3">Menu Administrador</h4>
         <div class="row">
             <div class="options text-center">                
                 <button @click="cargaVuelo" type="button" class="btn btn-lg btn-block btn-primary">ABM Vuelos</button>

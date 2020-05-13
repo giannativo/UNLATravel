@@ -3,21 +3,23 @@
     <h4 class="mb-3">ABM Vuelos</h4>
     <div class="row">
       <div class="options text-center">
-        <form class="needs-validation" novalidate>
+        <form class="needs-validation">
           <div class="row options">
             <div>
               <label for="fecha-desde">Fecha Desde</label>
-              <datetime input-class="form-control" format="yyyy/MM/dd T" type="datetime" id="fecha-desde" placeholder="aaaa/mm/dd HH:MM" v-model="fechaDesde" required></datetime>                
+              <datetime input-class="form-control" format="yyyy/MM/dd T" value-zone="UTC-3" :min-datetime="currentDate"
+              zone="UTC-3" type="datetime" id="fecha-desde" placeholder="aaaa/mm/dd HH:MM" v-model="fechaDesde" required></datetime>                
               <p v-if="fechaDesdeAlert" class="color-red"> {{fechaDesdeMessage}} </p>
 
               <label for="fecha-hasta">Fecha Hasta</label>
-              <datetime input-class="form-control" format="yyyy/MM/dd T" type="datetime" id="fecha-hasta" placeholder="aaaa/mm/dd HH:MM" v-model="fechaHasta" required></datetime>                                
+              <datetime input-class="form-control" format="yyyy/MM/dd T" value-zone="UTC-3" :min-datetime="fechaDesde"
+              zone="UTC-3" type="datetime" id="fecha-hasta" placeholder="aaaa/mm/dd HH:MM" v-model="fechaHasta" required></datetime>                                
               <p v-if="fechaHastaAlert" class="color-red"> {{fechaHastaMessage}} </p>
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Origen</label>
                 <select v-model="origen" class="form-control" id="exampleFormControlSelect1">
-                  <option v-for="destino in destinos" :key="destino.id">{{destino.id}}</option>
+                  <option v-for="destino in destinos" :key="destino.id" :value="destino.id">{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
               </div>
               <p v-if="origenAlert" class="color-red"> {{origenMessage}} </p>
@@ -25,7 +27,7 @@
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Destino</label>
                 <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
-                  <option v-for="destino in destinos" :key="destino.id">{{destino.id}}</option>
+                  <option v-for="destino in destinos" :key="destino.id" :value="destino.id">{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
               </div>
               <p v-if="destinoAlert" class="color-red"> {{destinoMessage}} </p>
@@ -34,7 +36,7 @@
               <input
                 type="text"
                 class="form-control"
-                id="destino"
+                id="clase"
                 placeholder
                 value
                 v-model="clase"
@@ -44,10 +46,11 @@
 
               <label for="valoracion">Valoración</label>
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 id="valoracion"
                 placeholder="1-5"
+                min="1" max="5"
                 value
                 v-model="valoracion"
                 required
@@ -88,7 +91,7 @@
               <button
                 @click="submit"
                 type="button"
-                class="btn btn-lg btn-block btn-primary"
+                class="btn btn-lg btn-block btn-success options button-submit"
               >Guardar Cambios</button>
             </div>
           </div>
@@ -101,7 +104,7 @@
         <button
           @click="volver"
           type="button"
-          class="btn btn-lg btn-block btn-primary options text-center"
+          class="btn btn-lg btn-block btn-danger options text-center button-submit"
         >Volver Al Menú</button>
       </div>
     </div>
@@ -121,7 +124,6 @@ export default {
     idaVuelta: null,
     escala: null,
     discapacitados: null,
-
     destinos: null,
 
     fechaDesdeAlert: {
@@ -158,7 +160,8 @@ export default {
       type: Boolean,
       default: false
     },
-    valoracionMessage: null
+    valoracionMessage: null,
+    currentDate: null
   },
   isValid: null,
   methods: {
@@ -228,6 +231,8 @@ export default {
     this.$axios
       .get("https://localhost:57935/api/destino")
       .then(response => (this.destinos = response.data));
+    var date = new Date();
+    this.currentDate = date.toISOString();
   }
 };
 </script>
@@ -257,5 +262,8 @@ export default {
 }
 .color-red{
   color: red;
+}
+.button-submit{
+  width: 200px;
 }
 </style>

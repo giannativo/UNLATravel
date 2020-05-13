@@ -18,6 +18,7 @@
     <MenuAdmin v-if="showMenuAdmin"/>
     <Login v-if="showLogin"/>
     <Registro v-if="showRegistro"/>
+    <Home v-if="showHome"/>
   </div>
 </template>
 
@@ -25,17 +26,32 @@
 import MenuAdmin from "./components/MenuAdmin.vue";
 import Registro from "./components/Registro.vue";
 import Login from "./components/Login.vue"
+import Home from "./components/Home.vue"
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
+
+
+
+
+
 
 export default {
   name: "App",
   components: {
     MenuAdmin,
     Registro,
-    Login
+    Login,
+    Home,
+    
+
+    
   },
   props:{
+    showHome: {
+        type: Boolean,
+        default: true
+    },
+
     showLogin: {
         type: Boolean,
         default: false
@@ -46,7 +62,7 @@ export default {
     },
     showMenuAdmin: {
         type: Boolean,
-        default: true
+        default: false
     },
     usuario: null
   },
@@ -89,3 +105,4 @@ export default {
   color: white !important;
 }
 </style>
+

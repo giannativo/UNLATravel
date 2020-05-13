@@ -102,9 +102,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
-    max-width: 960px;
-}
 .options {
     margin: auto;
 }
@@ -122,5 +119,10 @@ export default {
 }
 .lh-condensed { 
     line-height: 1.25; 
+}
+.btn-primary {
+    color: #fff;
+    background-color: darkred;
+    border-color: black;
 }
 </style>

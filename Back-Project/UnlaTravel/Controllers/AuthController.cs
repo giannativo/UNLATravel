@@ -35,8 +35,7 @@ namespace UnlaTravel.Controllers
 
         {
             Response responseLogin = new Response();
-            try
-                
+            try { 
                 UsuarioResponse user = new UsuarioResponse();
                 var resultDb = context.Usuario.FirstOrDefault(u => u.Mail == usuario.Mail);
                 user = _mapper.Map<Usuario, UsuarioResponse>(resultDb);
@@ -82,14 +81,8 @@ namespace UnlaTravel.Controllers
                 responseLogin.cod = 502;
                 responseLogin.data = null;
                 responseLogin.mensaje = "Error al intentar verificar el usuario";
-
             }
             return responseLogin;
-
         }
-
-
-
-
     }
 }

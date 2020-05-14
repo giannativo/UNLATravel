@@ -125,6 +125,7 @@ export default {
     escala: null,
     discapacitados: null,
     destinos: null,
+    aerolinea: null,
 
     fechaDesdeAlert: {
       type: Boolean,
@@ -187,13 +188,24 @@ export default {
         this.origenAlert = true;
         this.origenMessage = "Seleccione un origen";
         this.isValid = false;
-      }else{this.origenAlert = false;}
+      }else{
+        
+        if(this.origen == this.destino){
+             this.origenAlert = true;
+            this.origenMessage = "El origen y destino no pueden ser iguales";
+            this.isValid = false;
+        }else{this.origenAlert = false;}
+      }
 
       if(!this.destino){
         this.destinoAlert = true;
         this.destinoMessage = "Seleccione un destino";
         this.isValid = false;
-      }else{this.destinoAlert = false;}
+      }else{if(this.origen == this.destino){
+             this.destinoAlert = true;
+            this.destinoMessage = "El origen y destino no pueden ser iguales";
+            this.isValid = false;
+        }else{this.destinoAlert = false;}}
 
       if(!this.valoracion){
         this.valoracionAlert = true;
@@ -218,12 +230,13 @@ export default {
             origen: this.origen,
             destino: this.destino,
             idavuelta: this.idaVuelta,
-            valoracion: this.valoracion,
+            valoracionaereolinea: this.valoracion,
             clase: this.clase,
             conescala: this.escala,
-            accesodiscapacitados: this.discapacitados
+            accesodiscapacitados: this.discapacitados,
+           
           })
-          .then(this.volver());
+          .then(() => {this.volver();}).catch(() => {alert("El vuelo no fue creado");});
       }
     }
   },

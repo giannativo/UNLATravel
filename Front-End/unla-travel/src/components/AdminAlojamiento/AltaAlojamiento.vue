@@ -250,7 +250,7 @@ export default {
             tipoRegimen: this.tipo_regimen,
             accesoDiscapacitados: this.acceso_a_discapacitados
           })
-          .then(this.volver());
+          .then(() => {this.volver();}).catch(() => {alert("El Alojamiento no fue creado");});
       }
     }
   },

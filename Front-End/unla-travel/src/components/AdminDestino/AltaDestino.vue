@@ -95,7 +95,7 @@ export default {
           region:this.region,
           ciudad:this.ciudad
          
-        }).then(this.volver())
+        }).then(() => {this.volver();}).catch(() => {alert("El Destino no fue creado");});
       }
     }
   }

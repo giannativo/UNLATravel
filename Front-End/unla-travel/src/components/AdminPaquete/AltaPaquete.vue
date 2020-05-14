@@ -289,7 +289,7 @@ export default {
             habitaciones: this.habitaciones,
             accesoDiscapacitados: this.accesoDiscapacitados
           })
-          .then(this.volver());
+          .then(() => {this.volver();}).catch(() => {alert("El Paquete no fue creado");});
       }
     }
   },

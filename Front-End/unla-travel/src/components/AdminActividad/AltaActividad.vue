@@ -257,7 +257,7 @@ export default {
             nombreActividad: this.nombreActividad,
             valoracion: this.valoracion
           })
-          .then(this.volver());
+          .then(() => {this.volver();}).catch(() => {alert("La actividad no fue creado");});
       }
     }
   },

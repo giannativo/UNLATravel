@@ -185,7 +185,7 @@ export default {
           contraseña: this.password,
           telefono: this.telefono,
           rol: true
-        }).then(this.volver())
+        }).then(() => {this.volver();}).catch(() => {alert("El Usuario no fue creado");});
       }
     }
   }

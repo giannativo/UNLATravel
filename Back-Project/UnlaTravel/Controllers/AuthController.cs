@@ -31,45 +31,65 @@ namespace UnlaTravel.Controllers
         }
         [HttpPost]
         [Route("[action]")]
-        public IActionResult Login([FromBody]UsuarioDto usuario)
+        public Response Login([FromBody]UsuarioDto usuario)
+
         {
-            // Tu código para validar que el usuario ingresado es válido
-            UsuarioResponse user = new UsuarioResponse();
-            var resultDb = context.Usuario.FirstOrDefault(u => u.Mail == usuario.Mail);
-            user = _mapper.Map<Usuario, UsuarioResponse>(resultDb);
+            Response responseLogin = new Response();
+            try
+                
+                UsuarioResponse user = new UsuarioResponse();
+                var resultDb = context.Usuario.FirstOrDefault(u => u.Mail == usuario.Mail);
+                user = _mapper.Map<Usuario, UsuarioResponse>(resultDb);
 
-            // Asumamos que tenemos un usuario válido
-          
-            // Leemos el secret_key desde nuestro appseting
-            var secretKey = _configuration.GetValue<string>("SecretKey");
-            var key = Encoding.ASCII.GetBytes(secretKey);
+                if (user != null && user.Contraseña.Equals(usuario.Password))
+                {
+                    // Leemos el secret_key desde nuestro appseting
+                    var secretKey = _configuration.GetValue<string>("SecretKey");
+                    var key = Encoding.ASCII.GetBytes(secretKey);
 
-            // Creamos los claims (pertenencias, características) del usuario
-            
+                    // Creamos los claims (pertenencias, características) del usuario
 
-           /* var claims = new[]
+
+                    /* var claims = new[]
+                     {
+
+                     new System.Security.Claims.ClaimsIdentity("UserData", JsonConvert.SerializeObject(user))
+                      };*/
+
+                    var tokenDescriptor = new SecurityTokenDescriptor
+                    {
+                        Subject = new System.Security.Claims.ClaimsIdentity(),
+                        // Nuestro token va a durar un día
+                        Expires = DateTime.UtcNow.AddDays(1),
+                        // Credenciales para generar el token usando nuestro secretykey y el algoritmo hash 256
+                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    };
+
+                    var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                    var createdToken = tokenHandler.CreateToken(tokenDescriptor);
+                    responseLogin.cod = 200;
+                    responseLogin.data = tokenHandler.WriteToken(createdToken);
+                    responseLogin.mensaje = "OK";
+                }
+                else
+                {
+                    responseLogin.cod = 401;
+                    responseLogin.data = null;
+                    responseLogin.mensaje = "Credenciales invalidas";
+                }
+            }catch(Exception e)
             {
+                responseLogin.cod = 502;
+                responseLogin.data = null;
+                responseLogin.mensaje = "Error al intentar verificar el usuario";
 
-            new System.Security.Claims.ClaimsIdentity("UserData", JsonConvert.SerializeObject(user))
-             };*/
+            }
+            return responseLogin;
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new System.Security.Claims.ClaimsIdentity(),
-                // Nuestro token va a durar un día
-                Expires = DateTime.UtcNow.AddDays(1),
-                // Credenciales para generar el token usando nuestro secretykey y el algoritmo hash 256
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-            var createdToken = tokenHandler.CreateToken(tokenDescriptor);
-
-            return Content(tokenHandler.WriteToken(createdToken));
         }
 
-      
-      
+
+
 
     }
 }

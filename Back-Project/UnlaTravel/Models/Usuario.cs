@@ -19,7 +19,7 @@ namespace UnlaTravel.Models
         public string Mail { get; set; }
         public string Telefono { get; set; }
         public string Contraseña { get; set; }
-        public bool Rol { get; set; }
+        public bool IsAdmin { get; set; }
 
         public ICollection<Reserva> Reserva { get; set; }
     }

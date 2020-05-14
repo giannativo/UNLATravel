@@ -234,6 +234,7 @@ export default {
             clase: this.clase,
             conescala: this.escala,
             accesodiscapacitados: this.discapacitados,
+            nombreaereolinea: "Aereleonia"
            
           })
           .then(() => {this.volver();}).catch(() => {alert("El vuelo no fue creado");});

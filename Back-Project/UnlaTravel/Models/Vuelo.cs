@@ -14,6 +14,7 @@ namespace UnlaTravel.Models
         public int Id { get; set; }
         public DateTime FechaIda { get; set; }
         public DateTime FechaVuelta { get; set; }
+        public string NombreAereolinea { get; set; }
         public int Origen { get; set; }
         public int Destino { get; set; }
         public bool IdaVuelta { get; set; }

@@ -16,6 +16,6 @@ namespace UnlaTravel.Data
         public string Mail { get; set; }
         public string Telefono { get; set; }
         public string Contraseña { get; set; }
-        public bool Rol { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

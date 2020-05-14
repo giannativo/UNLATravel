@@ -45,7 +45,6 @@ namespace UnlaTravel.Controllers
         {
             try
             {
-
                 var resultDbUsuarios = context.Usuario.ToList().OrderBy(x => x.Id);
                 var message = resultDbUsuarios.Any(x => x.Mail.Equals(user.Mail)) ? throw new Exception("Error al registrar usuario, ya existe el mail a registrar.") : "";
                 context.Usuario.Add(user);

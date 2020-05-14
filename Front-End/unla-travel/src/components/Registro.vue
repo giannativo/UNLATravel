@@ -184,7 +184,7 @@ export default {
           mail: this.mail,
           contraseña: this.password,
           telefono: this.telefono,
-          rol : false
+          isAdmin : false
         }).then(this.volver())
       }
     }

@@ -342,7 +342,7 @@ namespace UnlaTravel.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Rol).HasColumnName("rol");
+                entity.Property(e => e.IsAdmin).HasColumnName("isAdmin");
 
                 entity.Property(e => e.Telefono)
                     .HasColumnName("telefono")
@@ -361,6 +361,12 @@ namespace UnlaTravel.Models
                     .HasColumnName("clase")
                     .HasMaxLength(20)
                     .IsUnicode(false);
+
+                entity.Property(e => e.NombreAereolinea)
+                  .IsRequired()
+                  .HasColumnName("nombreAereolinea")
+                  .HasMaxLength(50)
+                  .IsUnicode(false);
 
                 entity.Property(e => e.ConEscala).HasColumnName("conEscala");
 

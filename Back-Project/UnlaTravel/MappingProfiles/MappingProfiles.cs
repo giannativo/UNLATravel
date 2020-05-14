@@ -17,6 +17,7 @@ namespace UnlaTravel.MappingProfiles
             .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Id))
             .ForMember(dest => dest.FechaIda, opts => opts.MapFrom(src => src.FechaIda))
             .ForMember(dest => dest.FechaVuelta, opts => opts.MapFrom(src => src.FechaVuelta))
+            .ForMember(dest => dest.NombreAereolinea, opts => opts.MapFrom(src => src.NombreAereolinea))
             .ForMember(dest => dest.IdaVuelta, opts => opts.MapFrom(src => src.IdaVuelta))
             .ForMember(dest => dest.ValoracionAereolinea, opts => opts.MapFrom(src => src.ValoracionAereolinea))
             .ForMember(dest => dest.Clase, opts => opts.MapFrom(src => src.Clase))
@@ -58,7 +59,7 @@ namespace UnlaTravel.MappingProfiles
             .ForMember(dest => dest.Mail, opts => opts.MapFrom(src => src.Mail))
             .ForMember(dest => dest.Telefono, opts => opts.MapFrom(src => src.Telefono))
             .ForMember(dest => dest.Contraseña, opts => opts.MapFrom(src => src.Contraseña))
-            .ForMember(dest => dest.Rol, opts => opts.MapFrom(src => src.Rol));
+            .ForMember(dest => dest.IsAdmin, opts => opts.MapFrom(src => src.IsAdmin));
             #endregion
 
             #region Map TipoRegimen
@@ -148,6 +149,7 @@ namespace UnlaTravel.MappingProfiles
                 AccesoDiscapacitados = src.VueloNavigation.AccesoDiscapacitados,
                 FechaVuelta = src.VueloNavigation.FechaVuelta,
                 FechaIda = src.VueloNavigation.FechaIda,
+                NombreAereolinea = src.VueloNavigation.NombreAereolinea,
                 Clase = src.VueloNavigation.Clase,
                 ConEscala = src.VueloNavigation.ConEscala,
                 IdaVuelta = src.VueloNavigation.IdaVuelta,
@@ -214,8 +216,6 @@ namespace UnlaTravel.MappingProfiles
                     Descripcion = src.AlojamientoNavigation.TipoRegimenNavigation.Descripcion
                 }
             }));
-
-
             #endregion
 
             #region Map Reserva
@@ -239,6 +239,7 @@ namespace UnlaTravel.MappingProfiles
                 AccesoDiscapacitados = src.VueloNavigation.AccesoDiscapacitados,
                 FechaVuelta = src.VueloNavigation.FechaVuelta,
                 FechaIda = src.VueloNavigation.FechaIda,
+                NombreAereolinea = src.VueloNavigation.NombreAereolinea,
                 Clase = src.VueloNavigation.Clase,
                 ConEscala = src.VueloNavigation.ConEscala,
                 IdaVuelta = src.VueloNavigation.IdaVuelta,
@@ -318,7 +319,7 @@ namespace UnlaTravel.MappingProfiles
                 Mail = src.UsuarioNavigation.Mail,
                 Nacionalidad = src.UsuarioNavigation.Nacionalidad,
                 Nombre = src.UsuarioNavigation.Nombre,
-                Rol = src.UsuarioNavigation.Rol,
+                IsAdmin = src.UsuarioNavigation.IsAdmin,
                 Telefono = src.UsuarioNavigation.Telefono
             }))
 
@@ -347,6 +348,7 @@ namespace UnlaTravel.MappingProfiles
                     AccesoDiscapacitados = src.PaqueteNavigation.VueloNavigation.AccesoDiscapacitados,
                     FechaVuelta = src.PaqueteNavigation.VueloNavigation.FechaVuelta,
                     FechaIda = src.PaqueteNavigation.VueloNavigation.FechaIda,
+                    NombreAereolinea = src.PaqueteNavigation.VueloNavigation.NombreAereolinea,
                     Clase = src.PaqueteNavigation.VueloNavigation.Clase,
                     ConEscala = src.PaqueteNavigation.VueloNavigation.ConEscala,
                     IdaVuelta = src.PaqueteNavigation.VueloNavigation.IdaVuelta,

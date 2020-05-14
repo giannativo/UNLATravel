@@ -63,11 +63,11 @@ export default {
     init() {
       if (!this.usuario) {
         this.$axios
-          .get("https://localhost:57935/api/usuario")
+          .get("https://localhost:57935/api/admin")
           .then(response => (this.users = response.data));
       } else {
         this.$axios
-          .get("https://localhost:57935/api/usuario/" + this.usuario)
+          .get("https://localhost:57935/api/admin/" + this.usuario)
           .then(response => (this.users = [response.data]));
       }
     }

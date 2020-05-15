@@ -66,7 +66,7 @@
                 value
                 required
               />
-              <p v-if="tituloAlert" class="color-red">{{tituloMessage}}</p>
+              <div v-if="tituloAlert" class="alert alert-danger" role="alert">{{tituloMessage}}</div>
 
               <label for="tipo-servicio">Tipo de Servicio</label>
               <input
@@ -78,7 +78,7 @@
                 value
                 required
               />
-              <p v-if="servicioAlert" class="color-red">{{servicioMessage}}</p>
+              <div v-if="servicioAlert" class="alert alert-danger" role="alert">{{servicioMessage}}</div>
               <label for="tipo-habitacion">Tipo Habitación</label>
               <input
                 type="text"
@@ -89,7 +89,7 @@
                 value
                 required
               />
-              <p v-if="habitacionAlert" class="color-red">{{habitacionMessage}}</p>
+              <div v-if="habitacionAlert" class="alert alert-danger" role="alert">{{habitacionMessage}}</div>
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Destino</label>
                 <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
@@ -108,7 +108,7 @@
                 value
                 required
               />
-              <p v-if="estrellasAlert" class="color-red">{{estrellasMessage}}</p>
+              <div v-if="estrellasAlert" class="alert alert-danger" role="alert">{{estrellasMessage}}</div>
               <div class="form-group">
                 <label for="regimen">Seleccione un Tipo de Regimen</label>
                 <select v-model="tipo_regimen" class="form-control" id="regimen">

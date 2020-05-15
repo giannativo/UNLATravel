@@ -16,7 +16,9 @@
                 value
                 required
               />
-              <p v-if="tituloAlert" class="color-red">{{tituloMessage}}</p>
+              <div v-if="tituloAlert" class="alert alert-danger" role="alert">{{tituloMessage}}</div>
+
+              
 
               <label for="tipo-servicio">Tipo de Servicio</label>
               <input
@@ -28,7 +30,8 @@
                 value
                 required
               />
-              <p v-if="servicioAlert" class="color-red">{{servicioMessage}}</p>
+              <div v-if="servicioAlert" class="alert alert-danger" role="alert">{{servicioMessage}}</div>
+              
               <label for="tipo-habitacion">Tipo Habitación</label>
               <input
                 type="text"
@@ -39,14 +42,17 @@
                 value
                 required
               />
-              <p v-if="habitacionAlert" class="color-red">{{habitacionMessage}}</p>
+              <div v-if="habitacionAlert" class="alert alert-danger" role="alert">{{habitacionMessage}}</div>
+              
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Destino</label>
                 <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
                   <option v-for="destino in destinos" :key="destino.id" :value="destino.id">{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
+                <div v-if="destinoAlert" class="alert alert-danger" role="alert">{{destinoMessage}}</div>
               </div>
-              <p v-if="destinoAlert" class="color-red">{{destinoMessage}}</p>
+              
+              
               <label for="valoracion">Cantidad Estrellas</label>
               <input
                 type="number"
@@ -58,22 +64,26 @@
                 value
                 required
               />
-              <p v-if="estrellasAlert" class="color-red">{{estrellasMessage}}</p>
+              <div v-if="estrellasAlert" class="alert alert-danger" role="alert">{{estrellasMessage}}</div>
               <div class="form-group">
                 <label for="regimen">Seleccione un Tipo de Regimen</label>
                 <select v-model="tipo_regimen" class="form-control" id="regimen">
                   <option v-for="regimen in tipoRegimenes" :key="regimen.id" :value="regimen.id">{{regimen.descripcion}}</option>
                 </select>
+                 <div v-if="regimenAlert" class="alert alert-danger" role="alert">{{regimenMessage}}</div>
               </div>
+             
 
-              <p v-if="regimenAlert" class="color-red">{{regimenMessage}}</p>
+              
               <div class="form-group">
                 <label for="tipo_alojamiento">Seleccione un Tipo Alojamiento</label>
                 <select v-model="tipo_alojamiento" class="form-control" id="tipo_alojamiento">
                   <option v-for="tipo in tipoAlojamientos" :key="tipo.id" :value="tipo.id">{{tipo.descripcion}}</option>
                 </select>
+                <div v-if="alojamientoAlert" class="alert alert-danger" role="alert">{{alojamientoMessage}}</div>
               </div>
-              <p v-if="alojamientoAlert" class="color-red">{{alojamientoMessage}}</p>
+              
+             
               <hr class="mb-4" />
               <div class="custom-control custom-checkbox">
                 <input

@@ -24,18 +24,19 @@
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">DNI</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Apellido</th>
-            <th scope="col">Nacionalidad</th>
-            <th scope="col">Domicilio</th>
-            <th scope="col">Mail</th>
-            <th scope="col">Telefono</th>
+            <th scope="col">Actividad</th>
+            <th scope="col">Fecha Desde</th>
+            <th scope="col">Fecha Hasta</th>
+            <th scope="col">Destino</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Franja Horaria</th>
+            <th scope="col">Valoracion</th>
+            <th scope="col">Acceso Discapacitados</th>
             <th scope="col">Eliminar</th>
           </tr>
         </thead>
         <tbody>
-          <tr tr v-for="actividad in actividades" :key="actividad.id">
+      <tr tr v-for="actividad in actividades" :key="actividad.id">
         <th scope="row">{{actividad.id}}</th>
           <td>{{actividad.nombreActividad}}</td>
           <td>{{actividad.fechaDesde}}</td>
@@ -43,7 +44,7 @@
           <td>{{actividad.destino.ciudad}}, {{actividad.destino.region}}, {{actividad.destino.pais}}</td>
           <td>{{actividad.descripcion}}</td>
           <td>{{actividad.franjaHoraria}}</td>
-          <td>{{actividad.lugar}}</td>
+          
           <td>{{actividad.valoracion}}</td>
           <td>{{actividad.accesoDiscapacitados}}</td>
             <td>
@@ -56,13 +57,14 @@
       </table>
       <br />
 
-      <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
+      <button @click="volver" type="button" class="btn options btn-lg btn-block btn-primary">Volver Al Menú</button>
     </div>
     <div v-if="deleteElement">
       <p>Desea eliminar este elemento?</p>
-      <button @click="deleteUsuario" type="button" class="btn btn-lg btn-block btn-primary">Si</button>
-      <button @click="cargaLista" type="button" class="btn btn-lg btn-block btn-primary">No</button>
+      <button @click="deleteUsuario" type="button" class="btn options btn-lg btn-block btn-success">Si</button>
+      <button @click="cargaLista" type="button" class="btn options btn-lg btn-block btn-danger">No</button>
     </div>
+    <br>
   </div>
 </template>
 
@@ -141,5 +143,13 @@ export default {
 }
 .lh-condensed {
   line-height: 1.25;
+}
+.btn {
+  width: 200px;
+}
+.btn-primary {
+    color: #fff;
+    background-color: darkred;
+    border-color: black;
 }
 </style>

@@ -24,16 +24,16 @@
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Titulo</th>
+            <th scope="col">Actividad</th>
             <th scope="col">Fecha Desde</th>
             <th scope="col">Fecha Hasta</th>
             <th scope="col">Destino</th>
             <th scope="col">Descripcion</th>
             <th scope="col">Franja Horaria</th>
-            <th scope="col">Lugar</th>
+
             <th scope="col">Valoracion</th>
             <th scope="col">Acceso a Discapacitados</th>
-            
+
             <th scope="col">Editar</th>
           </tr>
         </thead>
@@ -46,7 +46,7 @@
             <td>{{actividad.destino.ciudad}}, {{actividad.destino.region}}, {{actividad.destino.pais}}</td>
             <td>{{actividad.descripcion}}</td>
             <td>{{actividad.franjaHoraria}}</td>
-            <td>{{actividad.lugar}}</td>
+
             <td>{{actividad.valoracion}}</td>
             <td>{{actividad.accesoDiscapacitados}}</td>
             <td>
@@ -58,134 +58,171 @@
         </tbody>
       </table>
       <br />
-      <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
+      <button
+        @click="volver"
+        type="button"
+        class="btn options btn-lg btn-block btn-primary"
+      >Volver Al Menú</button>
+      <br />
     </div>
 
     <div v-if="editElement">
-     <h4 class="mb-3">ABM Actividades</h4>
-    <div class="row">
-      <div class="options text-center">
-        <form class="needs-validation" novalidate>
-          <div class="row options">
-            <div>
-              <label for="titulo">Titulo</label>
-              <input
-                v-model="nombreActividad"
-                type="text"
-                class="form-control"
-                id="titulo"
-                placeholder
-                value
-                required
-              />
-              <p v-if="tituloAlert" class="color-red"> {{tituloMessage}} </p>
-              <label for="fecha-desde">Fecha Desde</label>
-              <input
-                type="text"
-                class="form-control"
-                id="fecha-desde"
-                placeholder="aaaa/mm/dd HH:MM"
-                value
-                required
-                v-model="fechaDesde"
-              />
-              <p v-if="fechaDesdeAlert" class="color-red"> {{fechaDesdeMessage}} </p>
-
-              <label for="fecha-hasta">Fecha Hasta</label>
-              <input
-                type="text"
-                class="form-control"
-                id="fecha-hasta"
-                placeholder="aaaa/mm/dd HH:MM"
-                value
-                required
-                v-model="fechaHasta"
-              />
-              <p v-if="fechaHastaAlert" class="color-red"> {{fechaHastaMessage}} </p>
-              
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Seleccione un Destino</label>
-                <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
-                  <option v-for="destino in destinos" :key="destino.id">{{destino.id}}</option>
-                  
-                </select>
-              </div>
-              <p v-if="destinoAlert" class="color-red"> {{destinoMessage}} </p>
-
-              <label for="descripcion">Descripción</label>
-              <input
-                v-model="descripcion"
-                type="text"
-                class="form-control"
-                id="descripcion"
-                placeholder
-                value
-                required
-              />
-              <p v-if="descripcionAlert" class="color-red"> {{descripcionMessage}} </p>
- 
-              <label for="franja-horaria">Franja Horaria</label>
-              <input
-                v-model="franjaHoraria"
-                type="text"
-                class="form-control"
-                id="franja-horaria"
-                placeholder
-                value
-                required
-              />
-              <p v-if="franjaAlert" class="color-red"> {{franjaMessage}} </p>
-
-             
-              
-
-
-              <label for="valoracion">Valoración</label>
-              <input
-                v-model="valoracion"
-                type="text"
-                class="form-control"
-                id="valoracion"
-                placeholder="1-5"
-                value
-                required
-              />
-              <p v-if="valoracionAlert" class="color-red"> {{valoracionMessage}} </p>
-
-              <hr class="mb-4" />
-              <div class="custom-control custom-checkbox">
+      <h4 class="mb-3">ABM Actividades</h4>
+      <div class="row">
+        <div class="options text-center">
+          <form class="needs-validation" novalidate>
+            <div class="row options">
+              <div>
+                <label for="titulo">Titulo</label>
                 <input
-                  v-model="accesoDiscapacitados"
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="acceso-discapacitados"
+                  v-model="nombreActividad"
+                  type="text"
+                  class="form-control"
+                  id="titulo"
+                  placeholder
+                  value
+                  required
                 />
-                <label
-                  class="custom-control-label"
-                  for="acceso-discapacitados"
-                >Acceso a Discapacitados</label>
+                <div v-if="tituloAlert" class="alert alert-danger" role="alert">{{tituloMessage}}</div>
+                <label for="fecha-desde">Fecha Desde</label>
+                <datetime
+                  input-class="form-control"
+                  format="yyyy/MM/dd T"
+                  value-zone="UTC-3"
+                  :min-datetime="currentDate"
+                  zone="UTC-3"
+                  type="datetime"
+                  id="fecha-desde"
+                  placeholder="aaaa/mm/dd HH:MM"
+                  v-model="fechaDesde"
+                  required
+                ></datetime>
+
+                <div
+                  v-if="fechaDesdeAlert"
+                  class="alert alert-danger"
+                  role="alert"
+                >{{fechaDesdeMessage}}</div>
+
+                <label for="fecha-hasta">Fecha Hasta</label>
+                <datetime
+                  input-class="form-control"
+                  format="yyyy/MM/dd T"
+                  value-zone="UTC-3"
+                  :min-datetime="fechaDesde"
+                  zone="UTC-3"
+                  type="datetime"
+                  id="fecha-hasta"
+                  placeholder="aaaa/mm/dd HH:MM"
+                  v-model="fechaHasta"
+                  required
+                ></datetime>
+                <div
+                  v-if="fechaHastaAlert"
+                  class="alert alert-danger"
+                  role="alert"
+                >{{fechaHastaMessage}}</div>
+
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Seleccione un Destino</label>
+                  <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
+                    <option
+                      v-for="destino in destinos"
+                      :key="destino.id"
+                      :value="destino.id"
+                    >{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
+                  </select>
+                  <div
+                    v-if="destinoAlert"
+                    class="alert alert-danger"
+                    role="alert"
+                  >{{destinoMessage}}</div>
+                </div>
+
+                <label for="descripcion">Descripción</label>
+                <input
+                  v-model="descripcion"
+                  type="text"
+                  class="form-control"
+                  id="descripcion"
+                  placeholder
+                  value
+                  required
+                />
+
+                <div
+                  v-if="descripcionAlert"
+                  class="alert alert-danger"
+                  role="alert"
+                >{{descripcionMessage}}</div>
+
+                <label for="franja-horaria">Franja Horaria</label>
+                <input
+                  v-model="franjaHoraria"
+                  type="text"
+                  class="form-control"
+                  id="franja-horaria"
+                  placeholder
+                  value
+                  required
+                />
+
+                <div v-if="franjaAlert" class="alert alert-danger" role="alert">{{franjaMessage}}</div>
+
+                <label for="valoracion">Valoración</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="valoracion"
+                  v-model="valoracion"
+                  placeholder="1-5"
+                  min="1"
+                  max="5"
+                  value
+                  required
+                />
+
+                <div
+                  v-if="valoracionAlert"
+                  class="alert alert-danger"
+                  role="alert"
+                >{{valoracionMessage}}</div>
+
+                <hr class="mb-4" />
+                <div class="custom-control custom-checkbox">
+                  <input
+                    v-model="accesoDiscapacitados"
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="acceso-discapacitados"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="acceso-discapacitados"
+                  >Acceso a Discapacitados</label>
+                </div>
+                <br />
+                <button
+                  @click="submit"
+                  type="button"
+                  class="btn btn-lg btn-block btn-success options button-submit"
+                >Guardar Cambios</button>
               </div>
-              <br />
-              <button
-                @click="submit"
-                type="button"
-                class="btn btn-lg btn-block btn-primary"
-              >Guardar Cambios</button>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
-    <br />
-    <div class="row">
-      <div class="options text-center">
-        <button
-          @click="volver"
-          type="button"
-          class="btn btn-lg btn-block btn-primary options text-center"
-        >Volver Al Menú</button>
+      <br />
+      <div class="row">
+        <div class="options text-center">
+          <button
+            @click="volver"
+            type="button"
+            class="btn btn-lg btn-block btn-danger options text-center"
+          >Volver Al Menú</button>
+        </div>
       </div>
-    </div>
+      <br />
     </div>
   </div>
 </template>
@@ -222,7 +259,7 @@ export default {
       default: false
     },
     tituloMessage: null,
-    
+
     fechaDesdeAlert: {
       type: Boolean,
       default: false
@@ -291,49 +328,62 @@ export default {
       (this.showList = true), (this.editElement = false);
     },
     validar() {
-      this.isValid =true;
-      if(!this.nombreActividad){
+      this.isValid = true;
+      if (!this.nombreActividad) {
         this.tituloAlert = true;
-        this.tituloMessage = "Ingrese un Título"
+        this.tituloMessage = "Ingrese un Título";
         this.isValid = false;
-      }else{this.tituloAlert = true;}
+      } else {
+        this.tituloAlert = true;
+      }
 
-      if(!this.descripcion){
+      if (!this.descripcion) {
         this.descripcionAlert = true;
         this.descripcionMessage = "Ingrese un mensaje";
         this.isValid = false;
-      }else{this.descripcionAlert = true;}
+      } else {
+        this.descripcionAlert = true;
+      }
 
-      if(!this.destino){
+      if (!this.destino) {
         this.destinoAlert = true;
         this.destinoMessage = "Seleccione un destino";
         this.isValid = false;
-      }else{this.destinoAlert = true;}
+      } else {
+        this.destinoAlert = true;
+      }
 
-      if(!this.fechaDesde){
+      if (!this.fechaDesde) {
         this.fechaDesdeAlert = true;
         this.fechaDesdeMessage = "Ingrese una fecha-hora";
         this.isValid = false;
-      }else{this.fechaDesdeAlert = true;}
+      } else {
+        this.fechaDesdeAlert = true;
+      }
 
-      if(!this.fechaHasta){
+      if (!this.fechaHasta) {
         this.fechaHastaAlert = true;
         this.fechaHastaMessage = "Ingrese una fecha-hora";
         this.isValid = false;
-      }else{this.fechaHastaAlert = true;}
+      } else {
+        this.fechaHastaAlert = true;
+      }
 
-      if(!this.franjaHoraria){
+      if (!this.franjaHoraria) {
         this.franjaAlert = true;
         this.franjaMessage = "Ingrese una franja horaria";
         this.isValid = false;
-      }else{this.franjaAlert = true;}
+      } else {
+        this.franjaAlert = true;
+      }
 
-      
-      if(!this.valoracion){
+      if (!this.valoracion) {
         this.valoracionAlert = true;
         this.valoracionMessage = "Ingrese una valoracion";
         this.isValid = false;
-      }else{this.valoracionAlert = true;}
+      } else {
+        this.valoracionAlert = true;
+      }
 
       return this.isValid;
     },
@@ -352,7 +402,7 @@ export default {
               fechaDesde: this.fechaDesde,
               fechaHasta: this.fechaHasta,
               franjaHoraria: this.franjaHoraria,
-              
+
               nombreActividad: this.nombreActividad,
               valoracion: this.valoracion
             }
@@ -374,8 +424,8 @@ export default {
   },
   mounted() {
     this.$axios
-          .get("https://localhost:57935/api/destino")
-          .then(response => (this.destinos = response.data));
+      .get("https://localhost:57935/api/destino")
+      .then(response => (this.destinos = response.data));
     this.init();
   }
 };
@@ -404,7 +454,15 @@ export default {
 .lh-condensed {
   line-height: 1.25;
 }
-.color-red{
+.color-red {
   color: red;
+}
+.btn {
+  width: 200px;
+}
+.btn-primary {
+  color: #fff;
+  background-color: darkred;
+  border-color: black;
 }
 </style>

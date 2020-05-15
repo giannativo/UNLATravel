@@ -16,39 +16,59 @@
                 value
                 required
               />
-              <p v-if="tituloAlert" class="color-red"> {{tituloMessage}} </p>
+              <div v-if="tituloAlert" class="alert alert-danger" role="alert">{{tituloMessage}}</div>
+
               <label for="fecha-desde">Fecha Desde</label>
-              <input
-                type="text"
-                class="form-control"
+              <datetime
+                input-class="form-control"
+                format="yyyy/MM/dd T"
+                value-zone="UTC-3"
+                :min-datetime="currentDate"
+                zone="UTC-3"
+                type="datetime"
                 id="fecha-desde"
                 placeholder="aaaa/mm/dd HH:MM"
-                value
-                required
                 v-model="fechaDesde"
-              />
-              <p v-if="fechaDesdeAlert" class="color-red"> {{fechaDesdeMessage}} </p>
+                required
+              ></datetime>
+
+              <div
+                v-if="fechaDesdeAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{fechaDesdeMessage}}</div>
 
               <label for="fecha-hasta">Fecha Hasta</label>
-              <input
-                type="text"
-                class="form-control"
+              <datetime
+                input-class="form-control"
+                format="yyyy/MM/dd T"
+                value-zone="UTC-3"
+                :min-datetime="fechaDesde"
+                zone="UTC-3"
+                type="datetime"
                 id="fecha-hasta"
                 placeholder="aaaa/mm/dd HH:MM"
-                value
-                required
                 v-model="fechaHasta"
-              />
-              <p v-if="fechaHastaAlert" class="color-red"> {{fechaHastaMessage}} </p>
-              
+                required
+              ></datetime>
+
+              <div
+                v-if="fechaHastaAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{fechaHastaMessage}}</div>
+
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Destino</label>
                 <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
-                  <option v-for="destino in destinos" :key="destino.id">{{destino.id}}</option>
-                  
+                  <option
+                    v-for="destino in destinos"
+                    :key="destino.id"
+                    :value="destino.id"
+                  >{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
+                <div v-if="destinoAlert" class="alert alert-danger" role="alert">{{destinoMessage}}</div>
               </div>
-              <p v-if="destinoAlert" class="color-red"> {{destinoMessage}} </p>
 
               <label for="descripcion">Descripción</label>
               <input
@@ -60,8 +80,13 @@
                 value
                 required
               />
-              <p v-if="descripcionAlert" class="color-red"> {{descripcionMessage}} </p>
- 
+
+              <div
+                v-if="descripcionAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{descripcionMessage}}</div>
+
               <label for="franja-horaria">Franja Horaria</label>
               <input
                 v-model="franjaHoraria"
@@ -72,23 +97,27 @@
                 value
                 required
               />
-              <p v-if="franjaAlert" class="color-red"> {{franjaMessage}} </p>
 
-             
-              
-
+              <div v-if="franjaAlert" class="alert alert-danger" role="alert">{{franjaMessage}}</div>
 
               <label for="valoracion">Valoración</label>
               <input
-                v-model="valoracion"
-                type="text"
+                type="number"
                 class="form-control"
                 id="valoracion"
+                v-model="valoracion"
                 placeholder="1-5"
+                min="1"
+                max="5"
                 value
                 required
               />
-              <p v-if="valoracionAlert" class="color-red"> {{valoracionMessage}} </p>
+
+              <div
+                v-if="valoracionAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{valoracionMessage}}</div>
 
               <hr class="mb-4" />
               <div class="custom-control custom-checkbox">
@@ -107,7 +136,7 @@
               <button
                 @click="submit"
                 type="button"
-                class="btn btn-lg btn-block btn-primary"
+                class="btn btn-lg btn-block btn-success options"
               >Guardar Cambios</button>
             </div>
           </div>
@@ -120,10 +149,11 @@
         <button
           @click="volver"
           type="button"
-          class="btn btn-lg btn-block btn-primary options text-center"
+          class="btn btn-lg btn-block btn-danger options text-center"
         >Volver Al Menú</button>
       </div>
     </div>
+    <br />
   </div>
 </template>
 
@@ -147,7 +177,7 @@ export default {
       default: false
     },
     tituloMessage: null,
-    
+
     fechaDesdeAlert: {
       type: Boolean,
       default: false
@@ -172,11 +202,6 @@ export default {
     },
     descripcionMessage: null,
 
-    lugarAlert: {
-      type: Boolean,
-      default: false
-    },
-    lugarMessage: null,
 
     franjaAlert: {
       type: Boolean,
@@ -190,56 +215,68 @@ export default {
     },
     valoracionMessage: null,
     isValid: null
-  
   },
   methods: {
     volver() {
       this.$parent.cargaMenu();
     },
     validar() {
-      this.isValid =true;
-      if(!this.nombreActividad){
+      this.isValid = true;
+      if (!this.nombreActividad) {
         this.tituloAlert = true;
-        this.tituloMessage = "Ingrese un Título"
+        this.tituloMessage = "Ingrese un Título";
         this.isValid = false;
-      }else{this.tituloAlert = true;}
+      } else {
+        this.tituloAlert = false;
+      }
 
-      if(!this.descripcion){
+      if (!this.descripcion) {
         this.descripcionAlert = true;
         this.descripcionMessage = "Ingrese un mensaje";
         this.isValid = false;
-      }else{this.descripcionAlert = true;}
+      } else {
+        this.descripcionAlert = false;
+      }
 
-      if(!this.destino){
+      if (!this.destino) {
         this.destinoAlert = true;
         this.destinoMessage = "Seleccione un destino";
         this.isValid = false;
-      }else{this.destinoAlert = true;}
+      } else {
+        this.destinoAlert = false;
+      }
 
-      if(!this.fechaDesde){
+      if (!this.fechaDesde) {
         this.fechaDesdeAlert = true;
         this.fechaDesdeMessage = "Ingrese una fecha-hora";
         this.isValid = false;
-      }else{this.fechaDesdeAlert = true;}
+      } else {
+        this.fechaDesdeAlert = false;
+      }
 
-      if(!this.fechaHasta){
+      if (!this.fechaHasta) {
         this.fechaHastaAlert = true;
         this.fechaHastaMessage = "Ingrese una fecha-hora";
         this.isValid = false;
-      }else{this.fechaHastaAlert = true;}
+      } else {
+        this.fechaHastaAlert = false;
+      }
 
-      if(!this.franjaHoraria){
+      if (!this.franjaHoraria) {
         this.franjaAlert = true;
         this.franjaMessage = "Ingrese una franja horaria";
         this.isValid = false;
-      }else{this.franjaAlert = true;}
+      } else {
+        this.franjaAlert = false;
+      }
 
-      
-      if(!this.valoracion){
+      if (!this.valoracion) {
         this.valoracionAlert = true;
         this.valoracionMessage = "Ingrese una valoracion";
         this.isValid = false;
-      }else{this.valoracionAlert = true;}
+      } else {
+        this.valoracionAlert = false;
+      }
 
       return this.isValid;
     },
@@ -253,18 +290,23 @@ export default {
             fechaDesde: this.fechaDesde,
             fechaHasta: this.fechaHasta,
             franjaHoraria: this.franjaHoraria,
-            
+
             nombreActividad: this.nombreActividad,
             valoracion: this.valoracion
           })
-          .then(() => {this.volver();}).catch(() => {alert("La actividad no fue creado");});
+          .then(() => {
+            this.volver();
+          })
+          .catch(() => {
+            alert("La actividad no fue creado");
+          });
       }
     }
   },
   mounted() {
     this.$axios
-          .get("https://localhost:57935/api/destino")
-          .then(response => (this.destinos = response.data));
+      .get("https://localhost:57935/api/destino")
+      .then(response => (this.destinos = response.data));
   }
 };
 </script>
@@ -292,7 +334,10 @@ export default {
 .lh-condensed {
   line-height: 1.25;
 }
-.color-red{
+.color-red {
   color: red;
+}
+.btn {
+  width: 200px;
 }
 </style>

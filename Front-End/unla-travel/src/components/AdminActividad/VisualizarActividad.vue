@@ -24,15 +24,15 @@
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Titulo</th>
+            <th scope="col">Actividad</th>
             <th scope="col">Fecha Desde</th>
             <th scope="col">Fecha Hasta</th>
             <th scope="col">Destino</th>
-            <th scope="col">Descripcion</th>
+            <th scope="col">Descripción</th>
             <th scope="col">Franja Horaria</th>
-            <th scope="col">Lugar</th>
             <th scope="col">Valoracion</th>
-            <th scope="col">Acceso a Discapacitados</th>
+            <th scope="col">Acceso Discapacitados</th>
+           
             
             
           </tr>
@@ -46,7 +46,7 @@
           <td>{{actividad.destino.ciudad}}, {{actividad.destino.region}}, {{actividad.destino.pais}}</td>
           <td>{{actividad.descripcion}}</td>
           <td>{{actividad.franjaHoraria}}</td>
-          <td>{{actividad.lugar}}</td>
+          
           <td>{{actividad.valoracion}}</td>
           <td>{{actividad.accesoDiscapacitados}}</td>
           
@@ -55,8 +55,8 @@
       </tbody>
       </table>
       <br />
-      <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
-    
+      <button @click="volver" type="button" class="btn options btn-lg btn-block btn-primary">Volver Al Menú</button>
+    <br>
   </div>
 </template>
 
@@ -111,5 +111,13 @@ export default {
 }
 .lh-condensed {
   line-height: 1.25;
+}
+.btn {
+  width: 200px;
+}
+.btn-primary {
+    color: #fff;
+    background-color: darkred;
+    border-color: black;
 }
 </style>

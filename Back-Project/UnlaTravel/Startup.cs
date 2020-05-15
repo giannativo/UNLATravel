@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using UnlaTravel.MappingProfiles;
 using UnlaTravel.Models;
 
@@ -25,12 +27,32 @@ namespace UnlaTravel
         }
 
         public IConfiguration Configuration { get; }
+     
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
           services.AddDbContext<UnlaTravelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
-          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            var key = System.Text.Encoding.ASCII.GetBytes(Configuration.GetValue<string>("SecretKey"));
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
           services.AddCors();
 
         // Auto Mapper Configurations
@@ -61,7 +83,14 @@ namespace UnlaTravel
               .AllowAnyMethod()
             );
             app.UseHttpsRedirection();
+            app.UseAuthentication();
+
+
             app.UseMvc();
+           
+
+            
+           
         }
     }
 }

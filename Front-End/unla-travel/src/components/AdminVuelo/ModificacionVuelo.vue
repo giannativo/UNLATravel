@@ -120,13 +120,13 @@
 
               <label for="valoracion">Valoración</label>
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 id="valoracion"
+                v-model="valoracion"
                 placeholder="1-5"
                 min="1" max="5"
                 value
-                v-model="valoracion"
                 required
               />
               <p v-if="valoracionAlert" class="color-red"> {{valoracionMessage}} </p>

@@ -7,30 +7,62 @@
           <div class="row options">
             <div>
               <label for="fecha-desde">Fecha Desde</label>
-              <datetime input-class="form-control" format="yyyy/MM/dd T" value-zone="UTC-3" :min-datetime="currentDate"
-              zone="UTC-3" type="datetime" id="fecha-desde" placeholder="aaaa/mm/dd HH:MM" v-model="fechaDesde" required></datetime>                
-              <p v-if="fechaDesdeAlert" class="color-red"> {{fechaDesdeMessage}} </p>
+              <datetime
+                input-class="form-control"
+                format="yyyy/MM/dd T"
+                value-zone="UTC-3"
+                :min-datetime="currentDate"
+                zone="UTC-3"
+                type="datetime"
+                id="fecha-desde"
+                placeholder="aaaa/mm/dd HH:MM"
+                v-model="fechaDesde"
+                required
+              ></datetime>
+              
+              <div v-if="fechaDesdeAlert" class="alert alert-danger" role="alert">{{fechaDesdeMessage}}</div>
 
               <label for="fecha-hasta">Fecha Hasta</label>
-              <datetime input-class="form-control" format="yyyy/MM/dd T" value-zone="UTC-3" :min-datetime="fechaDesde"
-              zone="UTC-3" type="datetime" id="fecha-hasta" placeholder="aaaa/mm/dd HH:MM" v-model="fechaHasta" required></datetime>                                
-              <p v-if="fechaHastaAlert" class="color-red"> {{fechaHastaMessage}} </p>
+              <datetime
+                input-class="form-control"
+                format="yyyy/MM/dd T"
+                value-zone="UTC-3"
+                :min-datetime="fechaDesde"
+                zone="UTC-3"
+                type="datetime"
+                id="fecha-hasta"
+                placeholder="aaaa/mm/dd HH:MM"
+                v-model="fechaHasta"
+                required
+              ></datetime>
+              
+              <div v-if="fechaHastaAlert" class="alert alert-danger" role="alert">{{fechaHastaMessage}}</div>
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Origen</label>
                 <select v-model="origen" class="form-control" id="exampleFormControlSelect1">
-                  <option v-for="destino in destinos" :key="destino.id" :value="destino.id">{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
+                  <option
+                    v-for="destino in destinos"
+                    :key="destino.id"
+                    :value="destino.id"
+                  >{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
+                <div v-if="origenAlert" class="alert alert-danger" role="alert">{{origenMessage}}</div>
               </div>
-              <p v-if="origenAlert" class="color-red"> {{origenMessage}} </p>
+              
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Destino</label>
                 <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
-                  <option v-for="destino in destinos" :key="destino.id" :value="destino.id">{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
+                  <option
+                    v-for="destino in destinos"
+                    :key="destino.id"
+                    :value="destino.id"
+                  >{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
+                <div v-if="destinoAlert" class="alert alert-danger" role="alert">{{destinoMessage}}</div>
               </div>
-              <p v-if="destinoAlert" class="color-red"> {{destinoMessage}} </p>
+             
 
               <label for="destino">Clase</label>
               <input
@@ -42,7 +74,8 @@
                 v-model="clase"
                 required
               />
-              <p v-if="claseAlert" class="color-red"> {{claseMessage}} </p>
+              <div v-if="claseAlert" class="alert alert-danger" role="alert">{{claseMessage}}</div>
+              
 
               <label for="destino">Nombre Aereolinea</label>
               <input
@@ -54,19 +87,22 @@
                 v-model="aereolinea"
                 required
               />
-              <p v-if="aereolineaAlert" class="color-red"> {{aereolineaMessage}} </p>
+              <div v-if="aereolineaAlert" class="alert alert-danger" role="alert">{{aereolineaMessage}}</div>
+              
 
               <label for="valoracion">Valoración</label>
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 id="valoracion"
-                placeholder="1-5"
-                value
                 v-model="valoracion"
+                placeholder="1-5"
+                min="1" max="5"
+                value
                 required
               />
-              <p v-if="valoracionAlert" class="color-red"> {{valoracionMessage}} </p>
+              <div v-if="valoracionAlert" class="alert alert-danger" role="alert">{{valoracionMessage}}</div>
+              
 
               <hr class="mb-4" />
               <div class="custom-control custom-checkbox">
@@ -119,7 +155,7 @@
         >Volver Al Menú</button>
       </div>
     </div>
-    <br>
+    <br />
   </div>
 </template>
 
@@ -189,59 +225,74 @@ export default {
     },
     validar() {
       this.isValid = true;
-      
-      if(!this.fechaDesde){
+
+      if (!this.fechaDesde) {
         this.fechaDesdeAlert = true;
         this.fechaDesdeMessage = "Ingrese una fecha";
         this.isValid = false;
-      }else{this.fechaDesdeAlert = false;}
-      
-      if(!this.fechaHasta){
+      } else {
+        this.fechaDesdeAlert = false;
+      }
+
+      if (!this.fechaHasta) {
         this.fechaHastaAlert = true;
         this.fechaHastaMessage = "Ingrese una fecha";
         this.isValid = false;
-      }else{this.fechaHastaAlert = false;}
+      } else {
+        this.fechaHastaAlert = false;
+      }
 
-      if(!this.origen){
+      if (!this.origen) {
         this.origenAlert = true;
         this.origenMessage = "Seleccione un origen";
         this.isValid = false;
-      }else{
-        
-        if(this.origen == this.destino){
-             this.origenAlert = true;
-            this.origenMessage = "El origen y destino no pueden ser iguales";
-            this.isValid = false;
-        }else{this.origenAlert = false;}
+      } else {
+        if (this.origen == this.destino) {
+          this.origenAlert = true;
+          this.origenMessage = "El origen y destino no pueden ser iguales";
+          this.isValid = false;
+        } else {
+          this.origenAlert = false;
+        }
       }
 
-      if(!this.destino){
+      if (!this.destino) {
         this.destinoAlert = true;
         this.destinoMessage = "Seleccione un destino";
         this.isValid = false;
-      }else{if(this.origen == this.destino){
-             this.destinoAlert = true;
-            this.destinoMessage = "El origen y destino no pueden ser iguales";
-            this.isValid = false;
-        }else{this.destinoAlert = false;}}
+      } else {
+        if (this.origen == this.destino) {
+          this.destinoAlert = true;
+          this.destinoMessage = "El origen y destino no pueden ser iguales";
+          this.isValid = false;
+        } else {
+          this.destinoAlert = false;
+        }
+      }
 
-      if(!this.valoracion){
+      if (!this.valoracion) {
         this.valoracionAlert = true;
         this.valoracionMessage = "Seleccione un destino";
         this.isValid = false;
-      }else{this.valoracionAlert = false;}
+      } else {
+        this.valoracionAlert = false;
+      }
 
-      if(!this.clase){
+      if (!this.clase) {
         this.claseAlert = true;
         this.claseMessage = "Ingrese una clase";
         this.isValid = false;
-      }else{this.claseAlert = false;}
+      } else {
+        this.claseAlert = false;
+      }
 
-      if(!this.aereolinea){
+      if (!this.aereolinea) {
         this.aereolineaAlert = true;
         this.aereolineaMessage = "Ingrese una Aereolinea";
         this.isValid = false;
-      }else{this.aereolineaAlert = false;}
+      } else {
+        this.aereolineaAlert = false;
+      }
 
       return this.isValid;
     },
@@ -258,9 +309,14 @@ export default {
             clase: this.clase,
             conescala: this.escala,
             accesodiscapacitados: this.discapacitados,
-            nombreaereolinea: this.aereolinea           
+            nombreaereolinea: this.aereolinea
           })
-          .then(() => {this.volver();}).catch(() => {alert("El vuelo no fue creado");});
+          .then(() => {
+            this.volver();
+          })
+          .catch(() => {
+            alert("El vuelo no fue creado");
+          });
       }
     }
   },
@@ -297,10 +353,10 @@ export default {
 .lh-condensed {
   line-height: 1.25;
 }
-.color-red{
+.color-red {
   color: red;
 }
-.btn{
+.btn {
   width: 200px;
 }
 </style>

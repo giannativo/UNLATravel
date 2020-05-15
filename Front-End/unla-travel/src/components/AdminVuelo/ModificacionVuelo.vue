@@ -71,12 +71,12 @@
               <label for="fecha-desde">Fecha Desde</label>
               <datetime input-class="form-control" format="yyyy/MM/dd T" value-zone="UTC-3" :min-datetime="currentDate"
               zone="UTC-3" type="datetime" id="fecha-desde" placeholder="aaaa/mm/dd HH:MM" v-model="fechaDesde" required></datetime>                
-              <p v-if="fechaDesdeAlert" class="color-red"> {{fechaDesdeMessage}} </p>
+              <div v-if="fechaDesdeAlert" class="alert alert-danger" role="alert">{{fechaDesdeMessage}}</div>
 
               <label for="fecha-hasta">Fecha Hasta</label>
               <datetime input-class="form-control" format="yyyy/MM/dd T" value-zone="UTC-3" :min-datetime="fechaDesde"
               zone="UTC-3" type="datetime" id="fecha-hasta" placeholder="aaaa/mm/dd HH:MM" v-model="fechaHasta" required></datetime>                                
-              <p v-if="fechaHastaAlert" class="color-red"> {{fechaHastaMessage}} </p>
+              <div v-if="fechaHastaAlert" class="alert alert-danger" role="alert">{{fechaHastaMessage}}</div>
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Origen</label>
@@ -84,7 +84,7 @@
                   <option v-for="destino in destinos" :key="destino.id" :value="destino.id">{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
               </div>
-              <p v-if="origenAlert" class="color-red"> {{origenMessage}} </p>
+              <div v-if="origenAlert" class="alert alert-danger" role="alert">{{origenMessage}}</div>
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Destino</label>
@@ -92,7 +92,7 @@
                   <option v-for="destino in destinos" :key="destino.id" :value="destino.id">{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
               </div>
-              <p v-if="destinoAlert" class="color-red"> {{destinoMessage}} </p>
+              <div v-if="destinoAlert" class="alert alert-danger" role="alert">{{destinoMessage}}</div>
 
               <label for="destino">Clase</label>
               <input
@@ -104,7 +104,7 @@
                 v-model="clase"
                 required
               />
-              <p v-if="claseAlert" class="color-red"> {{claseMessage}} </p>
+              <div v-if="claseAlert" class="alert alert-danger" role="alert">{{claseMessage}}</div>
               
               <label for="destino">Nombre Aereolinea</label>
               <input
@@ -116,7 +116,7 @@
                 v-model="aereolinea"
                 required
               />
-              <p v-if="aereolineaAlert" class="color-red"> {{aereolineaMessage}} </p>
+              <div v-if="aereolineaAlert" class="alert alert-danger" role="alert">{{aereolineaMessage}}</div>
 
               <label for="valoracion">Valoración</label>
               <input
@@ -129,7 +129,7 @@
                 value
                 required
               />
-              <p v-if="valoracionAlert" class="color-red"> {{valoracionMessage}} </p>
+              <div v-if="valoracionAlert" class="alert alert-danger" role="alert">{{valoracionMessage}}</div>
 
               <hr class="mb-4" />
               <div class="custom-control custom-checkbox">

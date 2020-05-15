@@ -39,7 +39,7 @@
       </tbody>
     </table>
     <br/>
-    <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
+    <button @click="volver" type="button" class="btn options btn-lg btn-block btn-primary">Volver Al Menú</button>
   </div>
 </template>
 
@@ -97,5 +97,13 @@ export default {
 }
 .lh-condensed {
   line-height: 1.25;
+}
+.btn {
+  width: 200px;
+}
+.btn-primary {
+    color: #fff;
+    background-color: darkred;
+    border-color: black;
 }
 </style>

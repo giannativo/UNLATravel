@@ -45,7 +45,7 @@
       </tbody>
     </table>
     <br/>
-    <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
+    <button @click="volver" type="button" class="btn options btn-lg btn-block btn-primary">Volver Al Menú</button>
     </div>
     <div v-if="editElement">
      <div class="row">
@@ -58,15 +58,15 @@
                   
                 </label>
                 <input type="text" v-model="pais" class="form-control" id="pais" placeholder="" value="" required>
-                <p v-if="paisAlert" class="color-red"> Ingrese un pais </p>
+                <div v-if="paisAlert" class="alert alert-danger" role="alert">{{paisMessage}}</div>
                 <label for="firstName">Región</label>
                 <input type="text" v-model="region" class="form-control" id="region" placeholder="" value="" required>
-                <p v-if="regionAlert" class="color-red"> Ingrese una región </p>
+                <div v-if="regionAlert" class="alert alert-danger" role="alert">{{regionMessage}}</div>
                 <label for="firstName">Ciudad</label>
                 <input type="text" v-model="ciudad" class="form-control" id="ciudad" placeholder="" value="" required>
-                <p v-if="ciudadAlert" class="color-red"> Ingrese una ciudad </p>
+                <div v-if="ciudadAlert" class="alert alert-danger" role="alert">{{ciudadMessage}}</div>
                 <br>
-                <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
+                <button @click="submit" type="button" class="btn btn-lg btn-block btn-success options button-submit">Guardar Cambios</button>
               </div>            
             </div>
           </form>   
@@ -75,7 +75,8 @@
     <br>
     <div class="row">
         <div class="options text-center">
-            <button @click="volver" type="submit" class="btn btn-lg btn-block btn-primary options text-center">Volver Al Menú</button> 
+        <button @click="volver" type="submit" class="btn btn-lg btn-block btn-danger options text-center">Volver Al Menú</button>
+        <br> 
         </div>             
     </div>
     </div>
@@ -98,15 +99,15 @@ export default {
     paisAlert: {
       type: Boolean,
       default: false
-    },
+    }, paisMessage: null,
     regionAlert: {
       type: Boolean,
       default: false
-    },
+    }, regionMessage: null,
     ciudadAlert: {
       type: Boolean,
       default: false
-    },
+    },ciudadMessage: null,
     isValid: null,
     destinos:null,
     destinoSeleccionado:null,
@@ -124,18 +125,21 @@ export default {
          if(!this.pais){
            this.paisAlert=true;
            this.isValid = false;
+           this.paisMessage = "Ingrese un pais";
          }else{
            this.paisAlert=false;
          }
          if(!this.region){
            this.regionAlert=true;
            this.isValid = false;
+           this.regionMessage = "Ingrese una región";
          }else{
            this.regionAlert=false;
          }
          if(!this.ciudad){
            this.ciudadAlert=true;
            this.isValid = false;
+           this.ciudadMessage = "Ingrese una ciudad";
          }else{
            this.ciudadAlert=false;
          }
@@ -211,5 +215,13 @@ export default {
 }
 .color-red{
   color: red;
+}
+.btn {
+  width: 200px;
+}
+.btn-primary {
+    color: #fff;
+    background-color: darkred;
+    border-color: black;
 }
 </style>

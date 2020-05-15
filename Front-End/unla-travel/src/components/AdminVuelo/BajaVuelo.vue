@@ -30,6 +30,7 @@
             <th scope="col">Destino</th>
             <th scope="col">Clase</th>
             <th scope="col">Valoracion</th>
+            <th scope="col">Aereolinea</th>
             <th scope="col">Ida y Vuelta</th>
             <th scope="col">Con Escala</th>
             <th scope="col">Acceso a Discapacitados</th>
@@ -45,6 +46,7 @@
             <td>{{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}} </td>
             <td>{{vuelo.clase}}</td>
             <td>{{vuelo.valoracionAereolinea}}</td>
+            <td>{{vuelo.nombreAereolinea}}</td>
             <td>{{vuelo.idaVuelta}}</td>
             <td>{{vuelo.conEscala}}</td>
             <td>{{vuelo.accesoDiscapacitados}}</td>

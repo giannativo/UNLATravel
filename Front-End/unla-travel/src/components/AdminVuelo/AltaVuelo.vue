@@ -44,6 +44,18 @@
               />
               <p v-if="claseAlert" class="color-red"> {{claseMessage}} </p>
 
+              <label for="destino">Nombre Aereolinea</label>
+              <input
+                type="text"
+                class="form-control"
+                id="aerolinea"
+                placeholder
+                value
+                v-model="aereolinea"
+                required
+              />
+              <p v-if="aereolineaAlert" class="color-red"> {{aereolineaMessage}} </p>
+
               <label for="valoracion">Valoración</label>
               <input
                 type="text"
@@ -125,7 +137,7 @@ export default {
     escala: null,
     discapacitados: null,
     destinos: null,
-    aerolinea: null,
+    aereolinea: null,
 
     fechaDesdeAlert: {
       type: Boolean,
@@ -162,6 +174,12 @@ export default {
       default: false
     },
     valoracionMessage: null,
+
+    aereolineaAlert: {
+      type: Boolean,
+      default: false
+    },
+    aereolineaMessage: null,
     currentDate: null
   },
   isValid: null,
@@ -219,6 +237,12 @@ export default {
         this.isValid = false;
       }else{this.claseAlert = false;}
 
+      if(!this.aereolinea){
+        this.aereolineaAlert = true;
+        this.aereolineaMessage = "Ingrese una Aereolinea";
+        this.isValid = false;
+      }else{this.aereolineaAlert = false;}
+
       return this.isValid;
     },
     submit() {
@@ -234,8 +258,7 @@ export default {
             clase: this.clase,
             conescala: this.escala,
             accesodiscapacitados: this.discapacitados,
-            nombreaereolinea: "Aereleonia"
-           
+            nombreaereolinea: this.aereolinea           
           })
           .then(() => {this.volver();}).catch(() => {alert("El vuelo no fue creado");});
       }

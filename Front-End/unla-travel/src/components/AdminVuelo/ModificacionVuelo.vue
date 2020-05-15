@@ -30,6 +30,7 @@
             <th scope="col">Destino</th>
             <th scope="col">Clase</th>
             <th scope="col">Valoracion</th>
+            <th scope="col">Aereolinea</th>
             <th scope="col">Ida y Vuelta</th>
             <th scope="col">Con Escala</th>
             <th scope="col">Acceso a Discapacitados</th>
@@ -45,6 +46,7 @@
             <td>{{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}} </td>
             <td>{{vuelo.clase}}</td>
             <td>{{vuelo.valoracionAereolinea}}</td>
+            <td>{{vuelo.nombreAereolinea}}</td>
             <td>{{vuelo.idaVuelta}}</td>
             <td>{{vuelo.conEscala}}</td>
             <td>{{vuelo.accesoDiscapacitados}}</td>
@@ -103,6 +105,18 @@
                 required
               />
               <p v-if="claseAlert" class="color-red"> {{claseMessage}} </p>
+              
+              <label for="destino">Nombre Aereolinea</label>
+              <input
+                type="text"
+                class="form-control"
+                id="aerolinea"
+                placeholder
+                value
+                v-model="aereolinea"
+                required
+              />
+              <p v-if="aereolineaAlert" class="color-red"> {{aereolineaMessage}} </p>
 
               <label for="valoracion">Valoración</label>
               <input
@@ -189,7 +203,7 @@ export default {
     fechaDesde: null,
 
     fechaHasta: null,
-
+    aereolinea: null,
     origen: null,
     destino: null,
     clase: null,
@@ -235,6 +249,11 @@ export default {
       default: false
     },
     valoracionMessage: null,
+    aereolineaAlert: {
+      type: Boolean,
+      default: false
+    },
+    aereolineaMessage: null,
     isValid: null,
     currentDate: null
   },
@@ -255,6 +274,7 @@ export default {
         this.idaVuelta = vuelo.idaVuelta,
         this.escala = vuelo.conEscala,
         this.discapacitados = vuelo.accesoDiscapacitados,
+        this.aereolinea = vuelo.nombreAereolinea,
         
         this.vuelo_to_delete_id = vuelo.id,
     
@@ -317,6 +337,12 @@ export default {
         this.isValid = false;
       }else{this.claseAlert = false;}
 
+      if(!this.aereolinea){
+        this.aereolineaAlert = true;
+        this.aereolineaMessage = "Ingrese una Aereolinea";
+        this.isValid = false;
+      }else{this.aereolineaAlert = false;}
+
       return this.isValid;
     },
     submit() {
@@ -329,10 +355,11 @@ export default {
             origen: this.origen,
             destino: this.destino,
             idavuelta: this.idaVuelta,
-            valoracion: this.valoracion,
+            valoracionAereolinea: this.valoracion,
             clase: this.clase,
             conescala: this.escala,
-            accesodiscapacitados: this.discapacitados
+            accesodiscapacitados: this.discapacitados,
+            nombreAereolinea: this.aereolinea
           })
           .then(() => this.cargaLista());
       }

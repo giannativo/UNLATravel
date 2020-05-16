@@ -6,7 +6,7 @@
         <form class="needs-validation" novalidate>
           <div class="row options">
             <div>
-              <label >Tipo Paquete</label>
+              <label>Tipo Paquete</label>
               <input
                 type="text"
                 v-model="tipoPaquete"
@@ -16,38 +16,58 @@
                 value
                 required
               />
-              <p v-if="paqueteAlert" class="color-red">{{paqueteMessage}}</p>
+              <div v-if="paqueteAlert" class="alert alert-danger" role="alert">{{paqueteMessage}}</div>
               <div class="form-group">
-                <label>Seleccione un Destino</label>
-                <select v-model="destino" class="form-control">
-                  <option v-for="destino in destinos" :key="destino.id">{{destino.id}}</option>
+                <label for="exampleFormControlSelect1">Seleccione un Destino</label>
+                <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
+                  <option
+                    v-for="destino in destinos"
+                    :key="destino.id"
+                    :value="destino.id"
+                  >{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
+                <div v-if="destinoAlert" class="alert alert-danger" role="alert">{{destinoMessage}}</div>
               </div>
-              <p v-if="destinoAlert" class="color-red">{{destinoMessage}}</p>
 
-              <label for="firstName">Fecha de Ida</label>
-              <input
-                type="text"
-                v-model="fechaIda"
-                class="form-control"
+              <label for="fecha-desde">Fecha Desde</label>
+              <datetime
+                input-class="form-control"
+                format="yyyy/MM/dd T"
+                value-zone="UTC-3"
+                :min-datetime="currentDate"
+                zone="UTC-3"
+                type="datetime"
                 id="fecha-desde"
                 placeholder="aaaa/mm/dd HH:MM"
-                value
+                v-model="fechaIda"
                 required
-              />
-              <p v-if="fechaDesdeAlert" class="color-red">{{fechaDesdeMessage}}</p>
+              ></datetime>
 
-              <label for="firstName">Fecha de Vuelta</label>
-              <input
-                type="text"
-                v-model="fechaVuelta"
-                class="form-control"
+              <div
+                v-if="fechaDesdeAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{fechaDesdeMessage}}</div>
+
+              <label for="fecha-hasta">Fecha Hasta</label>
+              <datetime
+                input-class="form-control"
+                format="yyyy/MM/dd T"
+                value-zone="UTC-3"
+                :min-datetime="fechaDesde"
+                zone="UTC-3"
+                type="datetime"
                 id="fecha-hasta"
                 placeholder="aaaa/mm/dd HH:MM"
-                value
+                v-model="fechaVuelta"
                 required
-              />
-              <p v-if="fechaHastaAlert" class="color-red">{{fechaHastaMessage}}</p>
+              ></datetime>
+
+              <div
+                v-if="fechaHastaAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{fechaHastaMessage}}</div>
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Alojamiento</label>
@@ -55,24 +75,39 @@
                   <option
                     v-for="alojamiento in alojamientos"
                     :key="alojamiento.id"
-                  >{{alojamiento.id}}</option>
+                    :value="alojamiento.id"
+                  >{{alojamiento.nombreAlojamiento}}</option>
                 </select>
               </div>
-              <p v-if="alojamientoAlert" class="color-red">{{alojamientoMessage}}</p>
+              <div
+                v-if="alojamientoAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{alojamientoMessage}}</div>
+
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Vuelo</label>
                 <select v-model="vuelo" class="form-control" id="exampleFormControlSelect1">
                   <option v-for="vuelo in vuelos" :key="vuelo.id">{{vuelo.id}}</option>
                 </select>
               </div>
-              <p v-if="vueloAlert" class="color-red">{{vueloMessage}}</p>
+              <div v-if="vueloAlert" class="alert alert-danger" role="alert">{{vueloMessage}}</div>
+
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione una Actividad</label>
                 <select v-model="actividad" class="form-control" id="exampleFormControlSelect1">
-                  <option v-for="actividad in actividades" :key="actividad.id">{{actividad.id}}</option>
+                  <option
+                    v-for="actividad in actividades"
+                    :key="actividad.id"
+                    :value="actividad.id"
+                  >{{actividad.nombreActividad}}</option>
                 </select>
               </div>
-              <p v-if="actividadAlert" class="color-red">{{actividadMessage}}</p>
+              <div
+                v-if="actividadAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{actividadMessage}}</div>
 
               <label for="firstName">Cantidad de Personas</label>
               <input
@@ -84,7 +119,7 @@
                 value
                 required
               />
-              <p v-if="personasAlert" class="color-red">{{personasMessage}}</p>
+              <div v-if="personasAlert" class="alert alert-danger" role="alert">{{personasMessage}}</div>
 
               <label for="firstName">Habitaciones</label>
               <input
@@ -96,8 +131,12 @@
                 value
                 required
               />
+              <div
+                v-if="habitacionesAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{habitacionesMessage}}</div>
 
-              <p v-if="habitacionesAlert" class="color-red">{{habitacionesMessage}}</p>
               <div class="custom-control custom-checkbox">
                 <input
                   type="checkbox"
@@ -114,7 +153,7 @@
               <button
                 @click="submit"
                 type="button"
-                class="btn btn-lg btn-block btn-primary"
+                class="btn btn-lg btn-block btn-success options"
               >Guardar Cambios</button>
             </div>
           </div>
@@ -127,10 +166,11 @@
         <button
           @click="volver"
           type="button"
-          class="btn btn-lg btn-block btn-primary options text-center"
+          class="btn btn-lg btn-block btn-danger options text-center"
         >Volver Al Menú</button>
       </div>
     </div>
+    <br />
   </div>
 </template>
 
@@ -155,60 +195,59 @@ export default {
     alojamientos: null,
     isValid: null,
 
-     paqueteAlert: {
+    paqueteAlert: {
       type: Boolean,
       default: false
     },
     paqueteMessage: null,
 
-     destinoAlert: {
+    destinoAlert: {
       type: Boolean,
       default: false
     },
     destinoMessage: null,
 
-     fechaDesdeAlert: {
+    fechaDesdeAlert: {
       type: Boolean,
       default: false
     },
     fechaDesdeMessage: null,
 
-     fechaHastaAlert: {
+    fechaHastaAlert: {
       type: Boolean,
       default: false
     },
     fechaHastaMessage: null,
 
-     alojamientoAlert: {
+    alojamientoAlert: {
       type: Boolean,
       default: false
     },
     alojamientoMessage: null,
 
-     vueloAlert: {
+    vueloAlert: {
       type: Boolean,
       default: false
     },
     vueloMessage: null,
 
-     actividadAlert: {
+    actividadAlert: {
       type: Boolean,
       default: false
     },
     actividadMessage: null,
 
-     personasAlert: {
+    personasAlert: {
       type: Boolean,
       default: false
     },
     personasMessage: null,
 
-     habitacionesAlert: {
+    habitacionesAlert: {
       type: Boolean,
       default: false
     },
     habitacionesMessage: null
-
   },
   methods: {
     volver() {
@@ -216,61 +255,77 @@ export default {
     },
     validar() {
       this.isValid = true;
-      if(!this.tipoPaquete){
+      if (!this.tipoPaquete) {
         this.paqueteAlert = true;
         this.paqueteMessage = "Ingrese tipo Paquete";
         this.isValid = false;
-      }else{this.paqueteAlert = false;}
+      } else {
+        this.paqueteAlert = false;
+      }
 
-      if(!this.destino){
+      if (!this.destino) {
         this.destinoAlert = true;
         this.destinoMessage = "Seleccione un destino";
         this.isValid = false;
-      }else{this.destinoAlert = false;}
+      } else {
+        this.destinoAlert = false;
+      }
 
-      if(!this.fechaIda){
+      if (!this.fechaIda) {
         this.fechaDesdeAlert = true;
         this.fechaDesdeMessage = "Seleccione una fecha";
         this.isValid = false;
-      }else{this.fechaDesdeAlert = false;}
+      } else {
+        this.fechaDesdeAlert = false;
+      }
 
-       if(!this.fechaVuelta){
+      if (!this.fechaVuelta) {
         this.fechaHastaAlert = true;
         this.fechaHastaMessage = "Seleccione una fecha";
         this.isValid = false;
-      }else{this.fechaHastaAlert = false;}
+      } else {
+        this.fechaHastaAlert = false;
+      }
 
-      if(!this.alojamiento){
+      if (!this.alojamiento) {
         this.alojamientoAlert = true;
         this.alojamientoMessage = "Seleccione una alojamiento";
         this.isValid = false;
-      }else{this.alojamientoAlert = false;}
+      } else {
+        this.alojamientoAlert = false;
+      }
 
-      if(!this.vuelo){
+      if (!this.vuelo) {
         this.vueloAlert = true;
         this.vueloMessage = "Seleccione un vuelo";
         this.isValid = false;
-      }else{this.vueloAlert = false;}
+      } else {
+        this.vueloAlert = false;
+      }
 
-        if(!this.actividad){
+      if (!this.actividad) {
         this.actividadAlert = true;
         this.actividadMessage = "Seleccione una actividad";
         this.isValid = false;
-      }else{this.actividadAlert = false;}
+      } else {
+        this.actividadAlert = false;
+      }
 
-       if(!this.cantidadPersonas){
+      if (!this.cantidadPersonas) {
         this.personasAlert = true;
         this.personasMessage = "Ingrese cantidad de personas";
         this.isValid = false;
-      }else{this.actividadAlert = false;}
+      } else {
+        this.actividadAlert = false;
+      }
 
-      if(!this.habitaciones){
+      if (!this.habitaciones) {
         this.habitacionesAlert = true;
         this.habitacionesMessage = "Ingrese cantidad de personas";
         this.isValid = false;
-      }else{this.habitacionesAlert = false;}
-
-
+      } else {
+        this.habitacionesAlert = false;
+      }
 
       return this.isValid;
     },
@@ -289,7 +344,12 @@ export default {
             habitaciones: this.habitaciones,
             accesoDiscapacitados: this.accesoDiscapacitados
           })
-          .then(() => {this.volver();}).catch(() => {alert("El Paquete no fue creado");});
+          .then(() => {
+            this.volver();
+          })
+          .catch(() => {
+            alert("El Paquete no fue creado");
+          });
       }
     }
   },
@@ -335,5 +395,8 @@ export default {
 }
 .color-red {
   color: red;
+}
+.btn {
+  width: 200px;
 }
 </style>

@@ -2,19 +2,19 @@
   <div>
     <div class="text-center">
       <h4 class="mb-3">Lista de Usuarios</h4>
-        <div class="row options">
-          <div>
-            <label for="id-vuelo">Ingrese ID Usuario</label>
-            <input
-              type="number"
-              class="form-control"
-              id="id-usuario"
-              @input="init"
-              v-model="usuario"
-              placeholder="ID Usuario"
-            />
-          </div>
+      <div class="row options">
+        <div>
+          <label for="id-vuelo">Ingrese ID Usuario</label>
+          <input
+            type="number"
+            class="form-control"
+            id="id-usuario"
+            @input="init"
+            v-model="usuario"
+            placeholder="ID Usuario"
+          />
         </div>
+      </div>
       <br />
       <table class="table options">
         <thead class="thead-dark">
@@ -44,8 +44,13 @@
       </table>
       <br />
 
-      <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
+      <button
+        @click="volver"
+        type="button"
+        class="btn options btn-lg btn-block btn-primary"
+      >Volver Al Menú</button>
     </div>
+    <br />
   </div>
 </template>
 
@@ -100,5 +105,13 @@ export default {
 }
 .lh-condensed {
   line-height: 1.25;
+}
+.btn {
+  width: 200px;
+}
+.btn-primary {
+  color: #fff;
+  background-color: darkred;
+  border-color: black;
 }
 </style>

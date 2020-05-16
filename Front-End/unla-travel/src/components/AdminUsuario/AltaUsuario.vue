@@ -8,38 +8,78 @@
             <div>
               <label for="dni">DNI</label>
               <input type="text" class="form-control" id="dni" v-model="dni" required />
-              <p v-if="dniAlert" class="color-red"> {{dniMessage}} </p>
+               <div
+                v-if="dniAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{dniMessage}}</div>
+              
 
               <label for="nombre">Nombre</label>
               <input type="text" class="form-control" id="nombre" v-model="nombre" required />
-              <p v-if="nombreAlert" class="color-red"> {{nombreMessage}} </p>
+              <div
+                v-if="nombreAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{nombreMessage}}</div>
+              
 
               <label for="apellido">Apellido</label>
               <input type="text" class="form-control" id="apellido" v-model="apellido" required />
-              <p v-if="apellidoAlert" class="color-red"> {{apellidoMessage}} </p>
+              <div
+                v-if="apellidoAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{apellidoMessage}}</div>
+              
 
               <label for="nacionalidad">Nacionalidad</label>
               <input type="text" class="form-control" id="nacionalidad" v-model="nacionalidad" required />
-              <p v-if="nacionalidadAlert" class="color-red"> {{nacionalidadMessage}} </p>
+              <div
+                v-if="nacionalidadAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{nacionalidadMessage}}</div>
+              
            
               <label for="domicilio">Domicilio</label>
               <input type="text" class="form-control" id="domicilio" v-model="domicilio" required />
-              <p v-if="domicilioAlert" class="color-red"> {{domicilioMessage}} </p>
+              <div
+                v-if="domicilioAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{domicilioMessage}}</div>
+              
 
               <label for="mail">Mail</label>
               <input type="text" class="form-control" id="mail" v-model="mail" required />
-              <p v-if="mailAlert" class="color-red"> {{mailMessage}} </p>
+              <div
+                v-if="mailAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{mailMessage}}</div>
+              
 
               <label for="password">Contraseña</label>
               <input type="password" class="form-control" id="password" v-model="password" required />
-              <p v-if="contraseñaAlert" class="color-red"> {{contraseñaMessage}} </p>
+              <div
+                v-if="contraseñaAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{contraseñaMessage}}</div>
+              
 
               <label for="telefono">Telefono</label>
               <input type="text" class="form-control" id="telefono" v-model="telefono" required />
-              <p v-if="telefonoAlert" class="color-red"> {{telefonoMessage}} </p>
+                <div
+                v-if="telefonoAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{telefonoMessage}}</div>
+              
 
               <br />
-              <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
+              <button @click="submit" type="button" class="btn btn-lg btn-block btn-success options">Guardar Cambios</button>
             </div>
           </div>
         </form>
@@ -51,10 +91,11 @@
         <button
           @click="volver"
           type="button"
-          class="btn btn-lg btn-block btn-primary options text-center"
+          class="btn btn-lg btn-block btn-danger options text-center"
         >Volver Al Menú</button>
       </div>
     </div>
+    <br>
   </div>
 </template>
 
@@ -217,5 +258,8 @@ export default {
 }
 .color-red{
   color: red;
+}
+.btn {
+  width: 200px;
 }
 </style>

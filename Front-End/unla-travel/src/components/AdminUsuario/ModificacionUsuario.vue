@@ -54,66 +54,108 @@
       </table>
       <br />
 
-      <button @click="volver" type="button" class="btn btn-lg btn-block btn-primary">Volver Al Menú</button>
+      <button
+        @click="volver"
+        type="button"
+        class="btn options btn-lg btn-block btn-primary"
+      >Volver Al Menú</button>
+      <br />
     </div>
 
     <div v-if="editElement">
-   <h4 class="mb-3">Ingrese Datos de Usuario</h4>
-    <div class="row">
-      <div class="options text-center">
-        <form class="needs-validation" novalidate>
-          <div class="row options">
-            <div>
-              <label for="dni">DNI</label>
-              <input type="text" class="form-control" id="dni" v-model="dni" required />
-              <p v-if="dniAlert" class="color-red"> {{dniMessage}} </p>
+      <h4 class="mb-3">Ingrese Datos de Usuario</h4>
+      <div class="row">
+        <div class="options text-center">
+          <form class="needs-validation" novalidate>
+            <div class="row options">
+              <div>
+                <label for="dni">DNI</label>
+                <input type="text" class="form-control" id="dni" v-model="dni" required />
+                <div v-if="dniAlert" class="alert alert-danger" role="alert">{{dniMessage}}</div>
 
-              <label for="nombre">Nombre</label>
-              <input type="text" class="form-control" id="nombre" v-model="nombre" required />
-              <p v-if="nombreAlert" class="color-red"> {{nombreMessage}} </p>
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" id="nombre" v-model="nombre" required />
+                <div v-if="nombreAlert" class="alert alert-danger" role="alert">{{nombreMessage}}</div>
 
-              <label for="apellido">Apellido</label>
-              <input type="text" class="form-control" id="apellido" v-model="apellido" required />
-              <p v-if="apellidoAlert" class="color-red"> {{apellidoMessage}} </p>
+                <label for="apellido">Apellido</label>
+                <input type="text" class="form-control" id="apellido" v-model="apellido" required />
+                <div
+                  v-if="apellidoAlert"
+                  class="alert alert-danger"
+                  role="alert"
+                >{{apellidoMessage}}</div>
 
-              <label for="nacionalidad">Nacionalidad</label>
-              <input type="text" class="form-control" id="nacionalidad" v-model="nacionalidad" required />
-              <p v-if="nacionalidadAlert" class="color-red"> {{nacionalidadMessage}} </p>
-           
-              <label for="domicilio">Domicilio</label>
-              <input type="text" class="form-control" id="domicilio" v-model="domicilio" required />
-              <p v-if="domicilioAlert" class="color-red"> {{domicilioMessage}} </p>
+                <label for="nacionalidad">Nacionalidad</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nacionalidad"
+                  v-model="nacionalidad"
+                  required
+                />
+                <div
+                  v-if="nacionalidadAlert"
+                  class="alert alert-danger"
+                  role="alert"
+                >{{nacionalidadMessage}}</div>
 
-              <label for="mail">Mail</label>
-              <input type="text" class="form-control" id="mail" v-model="mail" required />
-              <p v-if="mailAlert" class="color-red"> {{mailMessage}} </p>
+                <label for="domicilio">Domicilio</label>
+                <input type="text" class="form-control" id="domicilio" v-model="domicilio" required />
+                <div
+                  v-if="domicilioAlert"
+                  class="alert alert-danger"
+                  role="alert"
+                >{{domicilioMessage}}</div>
 
-              <label for="password">Contraseña</label>
-              <input type="password" class="form-control" id="password" v-model="password" required />
-              <p v-if="contraseñaAlert" class="color-red"> {{contraseñaMessage}} </p>
+                <label for="mail">Mail</label>
+                <input type="text" class="form-control" id="mail" v-model="mail" required />
+                <div v-if="mailAlert" class="alert alert-danger" role="alert">{{mailMessage}}</div>
 
-              <label for="telefono">Telefono</label>
-              <input type="text" class="form-control" id="telefono" v-model="telefono" required />
-              <p v-if="telefonoAlert" class="color-red"> {{telefonoMessage}} </p>
+                <label for="password">Contraseña</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  v-model="password"
+                  required
+                />
+                <div
+                  v-if="contraseñaAlert"
+                  class="alert alert-danger"
+                  role="alert"
+                >{{contraseñaMessage}}</div>
 
-              <br />
-              <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
+                <label for="telefono">Telefono</label>
+                <input type="text" class="form-control" id="telefono" v-model="telefono" required />
+                <div
+                  v-if="telefonoAlert"
+                  class="alert alert-danger"
+                  role="alert"
+                >{{telefonoMessage}}</div>
+
+                <br />
+                <button
+                  @click="submit"
+                  type="button"
+                  class="btn btn-lg btn-block btn-success options button-submit"
+                >Guardar Cambios</button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="options text-center">
+          <button
+            @click="volver"
+            type="button"
+            class="btn btn-lg btn-block btn-danger options text-center"
+          >Volver Al Menú</button>
+        </div>
       </div>
     </div>
     <br />
-    <div class="row">
-      <div class="options text-center">
-        <button
-          @click="volver"
-          type="button"
-          class="btn btn-lg btn-block btn-primary options text-center"
-        >Volver Al Menú</button>
-      </div>
-    </div>
-    </div>
   </div>
 </template>
 
@@ -129,8 +171,8 @@ export default {
       type: Boolean,
       default: false
     },
-      
-      dniAlert: {
+
+    dniAlert: {
       type: Boolean,
       default: false
     },
@@ -189,91 +231,111 @@ export default {
       this.$parent.cargaMenu();
     },
     cargaEdit: function(user) {
-      this.dni = user.dni,
-      this.nombre = user.nombre,
-      this.apellido = user.apellido,
-      this.nacionalidad = user.nacionalidad,
-      this.domicilio = user.domicilio,
-      this.mail = user.mail,
-      this.password = user.contraseña,
-      this.telefono = user.telefono,
-      this.user_to_modify_id = user.id,
-      (this.showList = false), (this.editElement = true);
+      (this.dni = user.dni),
+        (this.nombre = user.nombre),
+        (this.apellido = user.apellido),
+        (this.nacionalidad = user.nacionalidad),
+        (this.domicilio = user.domicilio),
+        (this.mail = user.mail),
+        (this.password = user.contraseña),
+        (this.telefono = user.telefono),
+        (this.user_to_modify_id = user.id),
+        (this.showList = false),
+        (this.editElement = true);
     },
     cargaLista: function() {
       this.$axios
-      .get('https://localhost:57935/api/usuario')
-      .then(response => (this.users = response.data));
+        .get("https://localhost:57935/api/usuario")
+        .then(response => (this.users = response.data));
       (this.showList = true), (this.editElement = false);
     },
     validar() {
       this.isValid = true;
 
-      if(!this.dni){
+      if (!this.dni) {
         this.dniMessage = "Ingrese un DNI";
         this.dniAlert = true;
         this.isValid = false;
-      }else{this.dniAlert=false;}
+      } else {
+        this.dniAlert = false;
+      }
 
-      if(!this.nombre){
+      if (!this.nombre) {
         this.nombreMessage = "Ingrese un nombre";
         this.nombreAlert = true;
         this.isValid = false;
-      }else{this.nombreAlert=false;}
+      } else {
+        this.nombreAlert = false;
+      }
 
-      if(!this.apellido){
+      if (!this.apellido) {
         this.apellidoMessage = "Ingrese un apellido";
         this.apellidoAlert = true;
         this.isValid = false;
-      }else{this.apellidoAlert=false;}
+      } else {
+        this.apellidoAlert = false;
+      }
 
-      if(!this.nacionalidad){
+      if (!this.nacionalidad) {
         this.nacionalidadMessage = "Ingrese una nacionalidad";
         this.nacionalidadAlert = true;
         this.isValid = false;
-      }else{this.nacionalidadAlert=false;}
+      } else {
+        this.nacionalidadAlert = false;
+      }
 
-      if(!this.domicilio){
+      if (!this.domicilio) {
         this.domicilioMessage = "Ingrese un domicilio";
         this.domicilioAlert = true;
         this.isValid = false;
-      }else{this.domicilioAlert=false;}
+      } else {
+        this.domicilioAlert = false;
+      }
 
-      if(!this.mail){
+      if (!this.mail) {
         this.mailMessage = "Ingrese un email";
         this.mailAlert = true;
         this.isValid = false;
-      }else{this.mailAlert=false;}
+      } else {
+        this.mailAlert = false;
+      }
 
-      if(!this.password){
+      if (!this.password) {
         this.contraseñaMessage = "Ingrese una contraseña";
         this.contraseñaAlert = true;
         this.isValid = false;
-      }else{this.contraseñaAlert=false;}
+      } else {
+        this.contraseñaAlert = false;
+      }
 
-      if(!this.telefono){
+      if (!this.telefono) {
         this.telefonoMessage = "Ingrese un telefono";
         this.telefonoAlert = true;
         this.isValid = false;
-      }else{this.telefonoAlert=false;}
-      
-      
+      } else {
+        this.telefonoAlert = false;
+      }
+
       return this.isValid;
     },
     submit() {
-      if(this.validar()){
+      if (this.validar()) {
         this.$axios
-        .put('https://localhost:57935/api/usuario/'+this.user_to_modify_id, {
-          id: this.user_to_modify_id,
-          dni: this.dni,
-          nombre: this.nombre,
-          apellido: this.apellido,
-          nacionalidad: this.nacionalidad,
-          domicilio: this.domicilio,
-          mail: this.mail,
-          contraseña: this.password,
-          telefono: this.telefono
-        }).then( () => this.cargaLista())
+          .put(
+            "https://localhost:57935/api/usuario/" + this.user_to_modify_id,
+            {
+              id: this.user_to_modify_id,
+              dni: this.dni,
+              nombre: this.nombre,
+              apellido: this.apellido,
+              nacionalidad: this.nacionalidad,
+              domicilio: this.domicilio,
+              mail: this.mail,
+              contraseña: this.password,
+              telefono: this.telefono
+            }
+          )
+          .then(() => this.cargaLista());
       }
     },
     init() {
@@ -287,9 +349,8 @@ export default {
           .then(response => (this.users = [response.data]));
       }
     }
-
   },
-  mounted () {
+  mounted() {
     this.init();
   }
 };
@@ -318,7 +379,15 @@ export default {
 .lh-condensed {
   line-height: 1.25;
 }
-.color-red{
+.color-red {
   color: red;
+}
+.btn {
+  width: 200px;
+}
+.btn-primary {
+  color: #fff;
+  background-color: darkred;
+  border-color: black;
 }
 </style>

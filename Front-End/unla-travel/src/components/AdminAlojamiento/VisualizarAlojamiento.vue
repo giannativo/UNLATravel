@@ -2,19 +2,19 @@
   <div>
     <div>
       <h4 class="mb-3">Lista de Alojamientos</h4>
-        <div class="row options">
-          <div>
-            <label for="id-vuelo">Ingrese ID Alojamiento</label>
-            <input
-              type="number"
-              class="form-control"
-              id="id-alojamiento"
-              placeholder="ID Alojamiento"
-              @input="init"
-              v-model="alojamiento_search_id"
-            />
-          </div>
+      <div class="row options">
+        <div>
+          <label for="id-vuelo">Ingrese ID Alojamiento</label>
+          <input
+            type="number"
+            class="form-control"
+            id="id-alojamiento"
+            placeholder="ID Alojamiento"
+            @input="init"
+            v-model="alojamiento_search_id"
+          />
         </div>
+      </div>
       <br />
       <table class="table options">
         <thead class="thead-dark">
@@ -28,6 +28,7 @@
             <th scope="col">Tipo Alojamiento</th>
             <th scope="col">Tipo Régimen</th>
             <th scope="col">Acceso a Discapacitados</th>
+            <th scope="col">Link Imagen</th>
           </tr>
         </thead>
         <tbody>
@@ -39,14 +40,19 @@
             <td>{{ place.destino.ciudad}}, {{place.destino.region}}, {{place.destino.pais}}</td>
             <td>{{ place.cantidadEstrellas }}</td>
             <td>{{ place.tipoAlojamiento.descripcion }}</td>
-          <td>{{ place.tipoRegimen.descripcion }}</td>
+            <td>{{ place.tipoRegimen.descripcion }}</td>
             <td>{{ place.accesoDiscapacitados }}</td>
+            <td>{{ place.link }}</td>
           </tr>
         </tbody>
       </table>
       <br />
-      <button @click="volver" type="button" class="btn options btn-lg btn-block btn-primary">Volver Al Menú</button>
-      <br>
+      <button
+        @click="volver"
+        type="button"
+        class="btn options btn-lg btn-block btn-primary"
+      >Volver Al Menú</button>
+      <br />
     </div>
   </div>
 </template>
@@ -69,7 +75,10 @@ export default {
           .then(response => (this.places = response.data));
       } else {
         this.$axios
-          .get("https://localhost:57935/api/alojamiento/" + this.alojamiento_search_id)
+          .get(
+            "https://localhost:57935/api/alojamiento/" +
+              this.alojamiento_search_id
+          )
           .then(response => (this.places = [response.data]));
       }
     }
@@ -107,8 +116,8 @@ export default {
   width: 200px;
 }
 .btn-primary {
-    color: #fff;
-    background-color: darkred;
-    border-color: black;
+  color: #fff;
+  background-color: darkred;
+  border-color: black;
 }
 </style>

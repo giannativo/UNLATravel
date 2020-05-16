@@ -18,8 +18,6 @@
               />
               <div v-if="tituloAlert" class="alert alert-danger" role="alert">{{tituloMessage}}</div>
 
-              
-
               <label for="tipo-servicio">Tipo de Servicio</label>
               <input
                 type="text"
@@ -31,7 +29,7 @@
                 required
               />
               <div v-if="servicioAlert" class="alert alert-danger" role="alert">{{servicioMessage}}</div>
-              
+
               <label for="tipo-habitacion">Tipo Habitación</label>
               <input
                 type="text"
@@ -42,17 +40,36 @@
                 value
                 required
               />
-              <div v-if="habitacionAlert" class="alert alert-danger" role="alert">{{habitacionMessage}}</div>
-              
+              <div
+                v-if="habitacionAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{habitacionMessage}}</div>
+
+              <label for="tipo-habitacion">Link de Imagen</label>
+              <input
+                type="text"
+                class="form-control"
+                id="link"
+                v-model="link"
+                placeholder
+                value
+                required
+              />
+              <div v-if="linkAlert" class="alert alert-danger" role="alert">{{linkMessage}}</div>
+
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Destino</label>
                 <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
-                  <option v-for="destino in destinos" :key="destino.id" :value="destino.id">{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
+                  <option
+                    v-for="destino in destinos"
+                    :key="destino.id"
+                    :value="destino.id"
+                  >{{destino.ciudad}}, {{destino.region}}, {{destino.pais}}</option>
                 </select>
                 <div v-if="destinoAlert" class="alert alert-danger" role="alert">{{destinoMessage}}</div>
               </div>
-              
-              
+
               <label for="valoracion">Cantidad Estrellas</label>
               <input
                 type="number"
@@ -60,30 +77,45 @@
                 id="estrellas"
                 v-model="estrellas"
                 placeholder="1-5"
-                min="1" max="5"
+                min="1"
+                max="5"
                 value
                 required
               />
-              <div v-if="estrellasAlert" class="alert alert-danger" role="alert">{{estrellasMessage}}</div>
+              <div
+                v-if="estrellasAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{estrellasMessage}}</div>
+
               <div class="form-group">
                 <label for="regimen">Seleccione un Tipo de Regimen</label>
                 <select v-model="tipo_regimen" class="form-control" id="regimen">
-                  <option v-for="regimen in tipoRegimenes" :key="regimen.id" :value="regimen.id">{{regimen.descripcion}}</option>
+                  <option
+                    v-for="regimen in tipoRegimenes"
+                    :key="regimen.id"
+                    :value="regimen.id"
+                  >{{regimen.descripcion}}</option>
                 </select>
-                 <div v-if="regimenAlert" class="alert alert-danger" role="alert">{{regimenMessage}}</div>
+                <div v-if="regimenAlert" class="alert alert-danger" role="alert">{{regimenMessage}}</div>
               </div>
-             
 
-              
               <div class="form-group">
                 <label for="tipo_alojamiento">Seleccione un Tipo Alojamiento</label>
                 <select v-model="tipo_alojamiento" class="form-control" id="tipo_alojamiento">
-                  <option v-for="tipo in tipoAlojamientos" :key="tipo.id" :value="tipo.id">{{tipo.descripcion}}</option>
+                  <option
+                    v-for="tipo in tipoAlojamientos"
+                    :key="tipo.id"
+                    :value="tipo.id"
+                  >{{tipo.descripcion}}</option>
                 </select>
-                <div v-if="alojamientoAlert" class="alert alert-danger" role="alert">{{alojamientoMessage}}</div>
+                <div
+                  v-if="alojamientoAlert"
+                  class="alert alert-danger"
+                  role="alert"
+                >{{alojamientoMessage}}</div>
               </div>
-              
-             
+
               <hr class="mb-4" />
               <div class="custom-control custom-checkbox">
                 <input
@@ -118,7 +150,7 @@
         >Volver Al Menú</button>
       </div>
     </div>
-    <br>
+    <br />
   </div>
 </template>
 
@@ -138,6 +170,7 @@ export default {
     destinos: null,
     tipoRegimenes: null,
     tipoAlojamientos: null,
+    link: null,
 
     tituloAlert: {
       type: Boolean,
@@ -151,6 +184,12 @@ export default {
     default: false
   },
   servicioMessage: null,
+
+  linkAlert: {
+    type: Boolean,
+    default: false
+  },
+  linkMessage: null,
 
   habitacionAlert: {
     type: Boolean,
@@ -245,6 +284,14 @@ export default {
         this.regimenAlert = false;
       }
 
+      if (!this.link) {
+        this.linkAlert = true;
+        this.linkMessage = "Ingrese URL de imagen";
+        this.isValid = false;
+      } else {
+        this.linkAlert = false;
+      }
+
       return this.isValid;
     },
     submit() {
@@ -258,9 +305,15 @@ export default {
             cantidadEstrellas: this.estrellas,
             tipoAlojamiento: this.tipo_alojamiento,
             tipoRegimen: this.tipo_regimen,
-            accesoDiscapacitados: this.acceso_a_discapacitados
+            accesoDiscapacitados: this.acceso_a_discapacitados,
+            link: this.link
           })
-          .then(() => {this.volver();}).catch(() => {alert("El Alojamiento no fue creado");});
+          .then(() => {
+            this.volver();
+          })
+          .catch(() => {
+            alert("El Alojamiento no fue creado");
+          });
       }
     }
   },
@@ -304,7 +357,7 @@ export default {
 .color-red {
   color: red;
 }
-.btn{
+.btn {
   width: 200px;
 }
 </style>

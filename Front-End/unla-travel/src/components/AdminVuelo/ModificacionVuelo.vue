@@ -62,7 +62,7 @@
       <button @click="volver" type="button" class="btn btn-lg btn-block options btn-primary">Volver Al Menú</button>
     </div>
     <div v-if="editElement">
-     <h4 class="mb-3">ABM Vuelos</h4>
+     <h4 class="mb-3">Editar Vuelo</h4>
     <div class="row">
       <div class="options text-center">
         <form class="needs-validation">

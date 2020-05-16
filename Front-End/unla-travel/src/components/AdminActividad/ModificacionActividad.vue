@@ -67,7 +67,7 @@
     </div>
 
     <div v-if="editElement">
-      <h4 class="mb-3">ABM Actividades</h4>
+      <h4 class="mb-3">Editar Actividad</h4>
       <div class="row">
         <div class="options text-center">
           <form class="needs-validation" novalidate>

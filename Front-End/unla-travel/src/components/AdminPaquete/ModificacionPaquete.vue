@@ -67,7 +67,7 @@
       <br />
     </div>
     <div v-if="editElement">
-      <h4 class="mb-3">Ingrese datos de Paquete</h4>
+      <h4 class="mb-3">Editar Paquete</h4>
       <div class="row">
         <div class="options text-center">
           <form class="needs-validation" novalidate>

@@ -54,10 +54,14 @@ namespace UnlaTravel.Controllers
 
                      new System.Security.Claims.ClaimsIdentity("UserData", JsonConvert.SerializeObject(user))
                       };*/
+                    ClaimsIdentity claims = new ClaimsIdentity();
+                    Claim datos =  new Claim("UserData", JsonConvert.SerializeObject(user));
+                 
+                    claims.AddClaim(datos);
 
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
-                        Subject = new System.Security.Claims.ClaimsIdentity(),
+                        Subject = claims,
                         // Nuestro token va a durar un día
                         Expires = DateTime.UtcNow.AddDays(1),
                         // Credenciales para generar el token usando nuestro secretykey y el algoritmo hash 256

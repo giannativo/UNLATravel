@@ -4,13 +4,19 @@
       <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul id="navbar-options" class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" @click="cargaLogin" href="#">Iniciar Sesión</a>
+            <a class="nav-link" v-if="userLogged" href="#">{{usuario.Nombre}} {{usuario.Apellido}}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" @click="cargaRegistro" href="#">Registrarse</a>
+            <a class="nav-link" @click="cargaLogin" v-if="!userLogged" href="#">Iniciar Sesión</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" @click="cargaRegistro" v-if="!userLogged" href="#">Registrarse</a>
+          </li>
+          <li class="nav-item" v-if="showTravels">
             <a class="nav-link" href="#">Mis Viajes</a>
+          </li>
+          <li class="nav-item" v-if="userLogged">
+            <a class="nav-link" @click="logout" href="#">Cerrar Sesión</a>
           </li>
         </ul>
       </div>
@@ -57,7 +63,19 @@ export default {
         type: Boolean,
         default: false
     },
-    usuario: null
+    usuario: null,
+    userLogged: {
+        type: Boolean,
+        default: false
+    },
+    adminLogged: {
+        type: Boolean,
+        default: false
+    },
+    showTravels: {
+      type: Boolean,
+      default: false
+    },
   },
   methods: {
     cargaLogin: function () {
@@ -83,8 +101,35 @@ export default {
       this.showRegistro = false,
       this.showMenuAdmin = true,
       this.showHome = false
+    },
+    init() {
+      var token = localStorage.getItem('token');
+      if(token){
+        this.usuario = JSON.parse(JSON.parse(atob(token.split(".")[1])).UserData);
+        this.userLogged = true;
+        if(this.usuario.IsAdmin){
+          this.cargaAdmin();
+          this.showTravels = false;
+        }
+        else{
+          this.cargaHome();
+          this.showTravels = true;
+        }
+      }
+      else{
+        this.userLogged = false;
+        this.showTravels = false;
+        this.cargaHome();
+      }
+    },
+    logout() {
+      localStorage.removeItem('token');
+      this.init();
     }
-  }
+  },
+  mounted() {
+    this.init();
+  },
 };
 </script>
 

@@ -17,5 +17,6 @@ namespace UnlaTravel.Data
         public DestinoResponse Destino { get; set; }
         public TipoAlojamientoResponse TipoAlojamiento { get; set; }
         public TipoRegimenResponse TipoRegimen { get; set; }
+        public decimal Precio { get; set; }
     }
 }

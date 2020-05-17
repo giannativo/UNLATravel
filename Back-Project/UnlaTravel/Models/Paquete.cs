@@ -21,6 +21,7 @@ namespace UnlaTravel.Models
         public int CantidadPersonas { get; set; }
         public int Habitaciones { get; set; }
         public bool AccesoDiscapacitados { get; set; }
+        public decimal Precio { get; set; }
 
         public Actividad ActividadNavigation { get; set; }
         public Alojamiento AlojamientoNavigation { get; set; }

@@ -16,5 +16,6 @@ namespace UnlaTravel.Data
         public string Valoracion { get; set; }
         public bool AccesoDiscapacitados { get; set; }
         public DestinoResponse Destino { get; set; }
+        public decimal Precio { get; set; }
     }
 }

@@ -21,6 +21,7 @@ namespace UnlaTravel.Models
         public int Destino { get; set; }
         public int TipoAlojamiento { get; set; }
         public int TipoRegimen { get; set; }
+        public decimal Precio { get; set; }
 
         public Destino DestinoNavigation { get; set; }
         public TipoAlojamiento TipoAlojamientoNavigation { get; set; }

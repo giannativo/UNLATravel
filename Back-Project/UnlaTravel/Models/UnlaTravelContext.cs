@@ -59,6 +59,10 @@ namespace UnlaTravel.Models
                     .HasColumnName("fechaHasta")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.Precio)
+                    .HasColumnName("precio")
+                    .HasColumnType("numeric(18, 2)");
+
                 entity.Property(e => e.FranjaHoraria)
                     .HasColumnName("franjaHoraria")
                     .HasMaxLength(50)
@@ -101,6 +105,10 @@ namespace UnlaTravel.Models
                     .HasColumnName("nombreAlojamiento")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Precio)
+                     .HasColumnName("precio")
+                     .HasColumnType("numeric(18, 2)");
 
                 entity.Property(e => e.TipoAlojamiento).HasColumnName("tipoAlojamiento");
 
@@ -178,6 +186,10 @@ namespace UnlaTravel.Models
                     .HasColumnName("fechaIda")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.Precio)
+                    .HasColumnName("precio")
+                    .HasColumnType("numeric(18, 2)");
+
                 entity.Property(e => e.FechaVuelta)
                     .HasColumnName("fechaVuelta")
                     .HasColumnType("datetime");
@@ -231,7 +243,7 @@ namespace UnlaTravel.Models
 
                 entity.Property(e => e.Importe)
                     .HasColumnName("importe")
-                    .HasColumnType("decimal(18, 0)");
+                    .HasColumnType("numeric(18, 2)");
 
                 entity.Property(e => e.NroReserva)
                     .IsRequired()
@@ -371,6 +383,10 @@ namespace UnlaTravel.Models
                 entity.Property(e => e.ConEscala).HasColumnName("conEscala");
 
                 entity.Property(e => e.Destino).HasColumnName("destino");
+
+                entity.Property(e => e.Precio)
+                     .HasColumnName("precio")
+                     .HasColumnType("numeric(18, 2)");
 
                 entity.Property(e => e.FechaIda)
                     .HasColumnName("fechaIda")

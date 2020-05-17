@@ -18,5 +18,6 @@ namespace UnlaTravel.Data
         public int CantidadPersonas { get; set; }
         public int Habitaciones { get; set; }
         public bool AccesoDiscapacitados { get; set; }
+        public decimal Precio { get; set; }
     }
 }

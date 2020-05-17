@@ -19,7 +19,7 @@
           </div>
         </div>
       </form>
-      <br>
+      <br />
       <table class="table options">
         <thead class="thead-dark">
           <tr>
@@ -34,6 +34,7 @@
             <th scope="col">Ida y Vuelta</th>
             <th scope="col">Con Escala</th>
             <th scope="col">Acceso a Discapacitados</th>
+            <th scope="col">Precio</th>
             <th scope="col">Eliminar</th>
           </tr>
         </thead>
@@ -42,14 +43,15 @@
             <th scope="row">{{vuelo.id}}</th>
             <td>{{vuelo.fechaIda}}</td>
             <td>{{vuelo.fechaVuelta}}</td>
-            <td>{{vuelo.origen.ciudad}}, {{vuelo.origen.region}}, {{vuelo.origen.pais}} </td>
-            <td>{{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}} </td>
+            <td>{{vuelo.origen.ciudad}}, {{vuelo.origen.region}}, {{vuelo.origen.pais}}</td>
+            <td>{{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}}</td>
             <td>{{vuelo.clase}}</td>
             <td>{{vuelo.valoracionAereolinea}}</td>
             <td>{{vuelo.nombreAereolinea}}</td>
             <td>{{vuelo.idaVuelta}}</td>
             <td>{{vuelo.conEscala}}</td>
             <td>{{vuelo.accesoDiscapacitados}}</td>
+            <td>{{vuelo.precio}}</td>
             <td>
               <button @click="cargaDelete(vuelo.id)">
                 <i class="fas fa-trash"></i>
@@ -60,14 +62,18 @@
       </table>
       <br />
 
-      <button @click="volver" type="button" class="btn options btn-lg btn-block btn-primary">Volver Al Menú</button>
+      <button
+        @click="volver"
+        type="button"
+        class="btn options btn-lg btn-block btn-primary"
+      >Volver Al Menú</button>
     </div>
     <div v-if="deleteElement">
       <p>Desea eliminar este elemento?</p>
       <button @click="deleteVuelo" type="button" class="btn options btn-lg btn-block btn-success">Si</button>
       <button @click="cargaLista" type="button" class="btn options btn-lg btn-block btn-danger">No</button>
     </div>
-    <br>
+    <br />
   </div>
 </template>
 
@@ -105,7 +111,14 @@ export default {
     deleteVuelo() {
       this.$axios
         .delete("https://localhost:57935/api/vuelo/" + this.vuelo_to_delete_id)
-        .then(() => {this.cargaLista();}).catch(() => {alert("El vuelo tiene dependencias. Elimine las dependencias para continuar");});
+        .then(() => {
+          this.cargaLista();
+        })
+        .catch(() => {
+          alert(
+            "El vuelo tiene dependencias. Elimine las dependencias para continuar"
+          );
+        });
     },
     init() {
       if (!this.vuelo) {
@@ -152,8 +165,8 @@ export default {
   width: 200px;
 }
 .btn-primary {
-    color: #fff;
-    background-color: darkred;
-    border-color: black;
+  color: #fff;
+  background-color: darkred;
+  border-color: black;
 }
 </style>

@@ -118,25 +118,18 @@
                 role="alert"
               >{{valoracionMessage}}</div>
 
-                <label for="precio">Precio</label>
+              <label for="precio">Precio</label>
               <input
                 type="number"
                 class="form-control"
                 id="precio"
                 v-model="precio"
-                
                 min="1"
                 max="100000"
                 value
                 required
               />
-              <div
-                v-if="precioAlert"
-                class="alert alert-danger"
-                role="alert"
-              >{{precioMessage}}</div>
-
-              
+              <div v-if="precioAlert" class="alert alert-danger" role="alert">{{precioMessage}}</div>
 
               <hr class="mb-4" />
               <div class="custom-control custom-checkbox">
@@ -228,7 +221,6 @@ export default {
     },
     descripcionMessage: null,
 
-
     franjaAlert: {
       type: Boolean,
       default: false
@@ -304,7 +296,7 @@ export default {
         this.valoracionAlert = false;
       }
 
-      if(!this.precio){
+      if (!this.precio) {
         this.precioAlert = true;
         this.precioMessage = "Ingrese un precio";
         this.isValid = false;

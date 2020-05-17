@@ -33,6 +33,7 @@
           <th scope="col">Ida y Vuelta</th>
           <th scope="col">Con Escala</th>
           <th scope="col">Acceso a Discapacitados</th>
+          <th scope="col">Precio</th>
         </tr>
       </thead>
       <tbody>
@@ -40,20 +41,25 @@
           <th scope="row">{{vuelo.id}}</th>
           <td>{{vuelo.fechaIda | moment("DD/MM/YYYY LT")}}</td>
           <td>{{vuelo.fechaVuelta | moment("DD/MM/YYYY LT")}}</td>
-          <td>{{vuelo.origen.ciudad}}, {{vuelo.origen.region}}, {{vuelo.origen.pais}} </td>
-          <td>{{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}} </td>
+          <td>{{vuelo.origen.ciudad}}, {{vuelo.origen.region}}, {{vuelo.origen.pais}}</td>
+          <td>{{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}}</td>
           <td>{{vuelo.clase}}</td>
           <td>{{vuelo.valoracionAereolinea}}</td>
           <td>{{vuelo.nombreAereolinea}}</td>
           <td>{{vuelo.idaVuelta}}</td>
           <td>{{vuelo.conEscala}}</td>
           <td>{{vuelo.accesoDiscapacitados}}</td>
+          <td>{{vuelo.precio}}</td>
         </tr>
       </tbody>
     </table>
     <br />
-    <button @click="volver" type="button" class="btn options btn-lg btn-block btn-primary">Volver Al Menú</button>
-    <br>
+    <button
+      @click="volver"
+      type="button"
+      class="btn options btn-lg btn-block btn-primary"
+    >Volver Al Menú</button>
+    <br />
   </div>
 </template>
 
@@ -113,8 +119,8 @@ export default {
   width: 200px;
 }
 .btn-primary {
-    color: #fff;
-    background-color: darkred;
-    border-color: black;
+  color: #fff;
+  background-color: darkred;
+  border-color: black;
 }
 </style>

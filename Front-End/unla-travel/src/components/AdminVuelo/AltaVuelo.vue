@@ -19,8 +19,12 @@
                 v-model="fechaDesde"
                 required
               ></datetime>
-              
-              <div v-if="fechaDesdeAlert" class="alert alert-danger" role="alert">{{fechaDesdeMessage}}</div>
+
+              <div
+                v-if="fechaDesdeAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{fechaDesdeMessage}}</div>
 
               <label for="fecha-hasta">Fecha Hasta</label>
               <datetime
@@ -35,8 +39,12 @@
                 v-model="fechaHasta"
                 required
               ></datetime>
-              
-              <div v-if="fechaHastaAlert" class="alert alert-danger" role="alert">{{fechaHastaMessage}}</div>
+
+              <div
+                v-if="fechaHastaAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{fechaHastaMessage}}</div>
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Origen</label>
@@ -49,7 +57,6 @@
                 </select>
                 <div v-if="origenAlert" class="alert alert-danger" role="alert">{{origenMessage}}</div>
               </div>
-              
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Seleccione un Destino</label>
@@ -62,7 +69,6 @@
                 </select>
                 <div v-if="destinoAlert" class="alert alert-danger" role="alert">{{destinoMessage}}</div>
               </div>
-             
 
               <label for="destino">Clase</label>
               <input
@@ -75,7 +81,6 @@
                 required
               />
               <div v-if="claseAlert" class="alert alert-danger" role="alert">{{claseMessage}}</div>
-              
 
               <label for="destino">Nombre Aereolinea</label>
               <input
@@ -87,8 +92,11 @@
                 v-model="aereolinea"
                 required
               />
-              <div v-if="aereolineaAlert" class="alert alert-danger" role="alert">{{aereolineaMessage}}</div>
-              
+              <div
+                v-if="aereolineaAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{aereolineaMessage}}</div>
 
               <label for="valoracion">Valoración</label>
               <input
@@ -97,12 +105,28 @@
                 id="valoracion"
                 v-model="valoracion"
                 placeholder="1-5"
-                min="1" max="5"
+                min="1"
+                max="5"
                 value
                 required
               />
-              <div v-if="valoracionAlert" class="alert alert-danger" role="alert">{{valoracionMessage}}</div>
-              
+              <div
+                v-if="valoracionAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{valoracionMessage}}</div>
+              <label for="precio">Precio</label>
+              <input
+                type="number"
+                class="form-control"
+                id="precio"
+                v-model="precio"
+                min="1"
+                max="100000"
+                value
+                required
+              />
+              <div v-if="precioAlert" class="alert alert-danger" role="alert">{{precioMessage}}</div>
 
               <hr class="mb-4" />
               <div class="custom-control custom-checkbox">
@@ -174,6 +198,7 @@ export default {
     discapacitados: null,
     destinos: null,
     aereolinea: null,
+    precio: null,
 
     fechaDesdeAlert: {
       type: Boolean,
@@ -218,6 +243,11 @@ export default {
     aereolineaMessage: null,
     currentDate: null
   },
+  precioAlert: {
+    type: Boolean,
+    default: false
+  },
+  precioMessage: null,
   isValid: null,
   methods: {
     volver() {
@@ -294,6 +324,14 @@ export default {
         this.aereolineaAlert = false;
       }
 
+      if (!this.precio) {
+        this.precioAlert = true;
+        this.precioMessage = "Ingrese un precio";
+        this.isValid = false;
+      } else {
+        this.precioAlert = false;
+      }
+
       return this.isValid;
     },
     submit() {
@@ -309,7 +347,8 @@ export default {
             clase: this.clase,
             conescala: this.escala,
             accesodiscapacitados: this.discapacitados,
-            nombreaereolinea: this.aereolinea
+            nombreaereolinea: this.aereolinea,
+            precio: this.precio
           })
           .then(() => {
             this.volver();

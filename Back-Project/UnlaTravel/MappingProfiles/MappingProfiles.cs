@@ -23,6 +23,7 @@ namespace UnlaTravel.MappingProfiles
             .ForMember(dest => dest.Clase, opts => opts.MapFrom(src => src.Clase))
             .ForMember(dest => dest.ConEscala, opts => opts.MapFrom(src => src.ConEscala))
             .ForMember(dest => dest.AccesoDiscapacitados, opts => opts.MapFrom(src => src.AccesoDiscapacitados))
+            .ForMember(dest => dest.Precio, opts => opts.MapFrom(src => src.Precio))
 
             .ForPath(dest => dest.Origen, opts => opts.MapFrom(src => new DestinoResponse
             {
@@ -84,6 +85,7 @@ namespace UnlaTravel.MappingProfiles
             .ForMember(dest => dest.FranjaHoraria, opts => opts.MapFrom(src => src.FranjaHoraria))
             .ForMember(dest => dest.Valoracion, opts => opts.MapFrom(src => src.Valoracion))
             .ForMember(dest => dest.AccesoDiscapacitados, opts => opts.MapFrom(src => src.AccesoDiscapacitados))
+            .ForMember(dest => dest.Precio, opts => opts.MapFrom(src => src.Precio))
 
              .ForPath(dest => dest.Destino, opts => opts.MapFrom(src => new DestinoResponse
              {
@@ -103,6 +105,7 @@ namespace UnlaTravel.MappingProfiles
             .ForMember(dest => dest.TipoServicio, opts => opts.MapFrom(src => src.TipoServicio))
             .ForMember(dest => dest.TipoHabitacion, opts => opts.MapFrom(src => src.TipoHabitacion))
             .ForMember(dest => dest.AccesoDiscapacitados, opts => opts.MapFrom(src => src.AccesoDiscapacitados))
+            .ForMember(dest => dest.Precio, opts => opts.MapFrom(src => src.Precio))
 
             .ForPath(dest => dest.Destino, opts => opts.MapFrom(src => new DestinoResponse
             {
@@ -134,6 +137,7 @@ namespace UnlaTravel.MappingProfiles
             .ForMember(dest => dest.CantidadPersonas, opts => opts.MapFrom(src => src.CantidadPersonas))
             .ForMember(dest => dest.Habitaciones, opts => opts.MapFrom(src => src.Habitaciones))
             .ForMember(dest => dest.AccesoDiscapacitados, opts => opts.MapFrom(src => src.AccesoDiscapacitados))
+            .ForMember(dest => dest.Precio, opts => opts.MapFrom(src => src.Precio))
 
             .ForPath(dest => dest.Destino, opts => opts.MapFrom(src => new DestinoResponse
             {
@@ -154,6 +158,7 @@ namespace UnlaTravel.MappingProfiles
                 ConEscala = src.VueloNavigation.ConEscala,
                 IdaVuelta = src.VueloNavigation.IdaVuelta,
                 ValoracionAereolinea = src.VueloNavigation.ValoracionAereolinea,
+                Precio = src.VueloNavigation.Precio,
                 Destino = new DestinoResponse {
                     Id = src.VueloNavigation.DestinoNavigation.Id ,
                     Ciudad = src.VueloNavigation.DestinoNavigation.Ciudad,
@@ -178,6 +183,7 @@ namespace UnlaTravel.MappingProfiles
                   FranjaHoraria = src.ActividadNavigation.FranjaHoraria,
                   NombreActividad = src.ActividadNavigation.NombreActividad,
                   Valoracion = src.ActividadNavigation.Valoracion,
+                  Precio = src.ActividadNavigation.Precio,
                   Destino = new DestinoResponse
                   {
                       Id = src.ActividadNavigation.DestinoNavigation.Id,
@@ -196,6 +202,7 @@ namespace UnlaTravel.MappingProfiles
                  NombreAlojamiento = src.AlojamientoNavigation.NombreAlojamiento,
                  TipoServicio = src.AlojamientoNavigation.TipoServicio,
                  TipoHabitacion = src.AlojamientoNavigation.TipoHabitacion,
+                 Precio = src.AlojamientoNavigation.Precio,
                  Destino = new DestinoResponse
                  {
                      Id = src.AlojamientoNavigation.DestinoNavigation.Id,
@@ -244,6 +251,7 @@ namespace UnlaTravel.MappingProfiles
                 ConEscala = src.VueloNavigation.ConEscala,
                 IdaVuelta = src.VueloNavigation.IdaVuelta,
                 ValoracionAereolinea = src.VueloNavigation.ValoracionAereolinea,
+                Precio = src.VueloNavigation.Precio,
                 Destino = new DestinoResponse
                 {
                     Id = src.VueloNavigation.DestinoNavigation.Id,
@@ -270,6 +278,7 @@ namespace UnlaTravel.MappingProfiles
                 FranjaHoraria = src.ActividadNavigation.FranjaHoraria,
                 NombreActividad = src.ActividadNavigation.NombreActividad,
                 Valoracion = src.ActividadNavigation.Valoracion,
+                Precio = src.ActividadNavigation.Precio,
                 Destino = new DestinoResponse
                 {
                     Id = src.ActividadNavigation.DestinoNavigation.Id,
@@ -288,6 +297,7 @@ namespace UnlaTravel.MappingProfiles
                 NombreAlojamiento = src.AlojamientoNavigation.NombreAlojamiento,
                 TipoServicio = src.AlojamientoNavigation.TipoServicio,
                 TipoHabitacion = src.AlojamientoNavigation.TipoHabitacion,
+                Precio = src.AlojamientoNavigation.Precio,
                 Destino = new DestinoResponse
                 {
                     Id = src.AlojamientoNavigation.DestinoNavigation.Id,
@@ -333,6 +343,7 @@ namespace UnlaTravel.MappingProfiles
                 CantidadPersonas = src.PaqueteNavigation.CantidadPersonas,
                 Habitaciones = src.PaqueteNavigation.Habitaciones,
                 AccesoDiscapacitados = src.PaqueteNavigation.AccesoDiscapacitados,
+                Precio = src.PaqueteNavigation.Precio,
 
                 Destino = new DestinoResponse
                 {
@@ -353,6 +364,7 @@ namespace UnlaTravel.MappingProfiles
                     ConEscala = src.PaqueteNavigation.VueloNavigation.ConEscala,
                     IdaVuelta = src.PaqueteNavigation.VueloNavigation.IdaVuelta,
                     ValoracionAereolinea = src.PaqueteNavigation.VueloNavigation.ValoracionAereolinea,
+                    Precio = src.PaqueteNavigation.VueloNavigation.Precio,
                     Destino = new DestinoResponse
                     {
                         Id = src.PaqueteNavigation.VueloNavigation.DestinoNavigation.Id,
@@ -379,6 +391,7 @@ namespace UnlaTravel.MappingProfiles
                     FranjaHoraria = src.PaqueteNavigation.ActividadNavigation.FranjaHoraria,
                     NombreActividad = src.PaqueteNavigation.ActividadNavigation.NombreActividad,
                     Valoracion = src.PaqueteNavigation.ActividadNavigation.Valoracion,
+                    Precio = src.PaqueteNavigation.ActividadNavigation.Precio,
                     Destino = new DestinoResponse
                     {
                         Id = src.PaqueteNavigation.ActividadNavigation.DestinoNavigation.Id,
@@ -397,6 +410,7 @@ namespace UnlaTravel.MappingProfiles
                     NombreAlojamiento = src.PaqueteNavigation.AlojamientoNavigation.NombreAlojamiento,
                     TipoServicio = src.PaqueteNavigation.AlojamientoNavigation.TipoServicio,
                     TipoHabitacion = src.PaqueteNavigation.AlojamientoNavigation.TipoHabitacion,
+                    Precio = src.PaqueteNavigation.AlojamientoNavigation.Precio,
                     Destino = new DestinoResponse
                     {
                         Id = src.PaqueteNavigation.AlojamientoNavigation.DestinoNavigation.Id,

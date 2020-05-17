@@ -20,6 +20,7 @@ namespace UnlaTravel.Models
         public string Valoracion { get; set; }
         public bool AccesoDiscapacitados { get; set; }
         public int Destino { get; set; }
+        public decimal Precio { get; set; }
 
         public Destino DestinoNavigation { get; set; }
         public ICollection<Paquete> Paquete { get; set; }

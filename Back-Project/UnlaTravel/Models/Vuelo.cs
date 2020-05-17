@@ -22,6 +22,7 @@ namespace UnlaTravel.Models
         public string Clase { get; set; }
         public bool ConEscala { get; set; }
         public bool AccesoDiscapacitados { get; set; }
+        public decimal Precio { get; set; }
 
         public Destino DestinoNavigation { get; set; }
         public Destino OrigenNavigation { get; set; }

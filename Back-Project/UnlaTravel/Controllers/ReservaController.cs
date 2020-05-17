@@ -89,6 +89,7 @@ namespace UnlaTravel.Controllers
         {
             try
             {
+                reserva.Importe = 0;
                 context.Reserva.Add(reserva);
                 context.SaveChanges();
                 return Ok();
@@ -106,6 +107,7 @@ namespace UnlaTravel.Controllers
             {
                 if (reserva.Id == id)
                 {
+                    reserva.Importe = 0;
                     context.Entry(reserva).State = EntityState.Modified;
                     context.SaveChanges();
                     return Ok();

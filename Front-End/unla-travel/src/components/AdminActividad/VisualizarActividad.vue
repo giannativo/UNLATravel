@@ -32,6 +32,7 @@
             <th scope="col">Franja Horaria</th>
             <th scope="col">Valoracion</th>
             <th scope="col">Acceso Discapacitados</th>
+            <th scope="col">Precio</th>
            
             
             
@@ -49,6 +50,7 @@
           
           <td>{{actividad.valoracion}}</td>
           <td>{{actividad.accesoDiscapacitados}}</td>
+          <td>{{actividad.precio}}</td>
           
           
         </tr>

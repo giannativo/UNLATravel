@@ -112,12 +112,31 @@
                 value
                 required
               />
-
               <div
                 v-if="valoracionAlert"
                 class="alert alert-danger"
                 role="alert"
               >{{valoracionMessage}}</div>
+
+                <label for="precio">Precio</label>
+              <input
+                type="number"
+                class="form-control"
+                id="precio"
+                v-model="precio"
+                
+                min="1"
+                max="100000"
+                value
+                required
+              />
+              <div
+                v-if="precioAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{precioMessage}}</div>
+
+              
 
               <hr class="mb-4" />
               <div class="custom-control custom-checkbox">
@@ -171,6 +190,7 @@ export default {
     nombreActividad: null,
     valoracion: null,
     destinos: null,
+    precio: null,
 
     tituloAlert: {
       type: Boolean,
@@ -189,6 +209,12 @@ export default {
       default: false
     },
     fechaHastaMessage: null,
+
+    precioAlert: {
+      type: Boolean,
+      default: false
+    },
+    precioMessage: null,
 
     destinoAlert: {
       type: Boolean,
@@ -278,6 +304,14 @@ export default {
         this.valoracionAlert = false;
       }
 
+      if(!this.precio){
+        this.precioAlert = true;
+        this.precioMessage = "Ingrese un precio";
+        this.isValid = false;
+      } else {
+        this.precioAlert = false;
+      }
+
       return this.isValid;
     },
     submit() {
@@ -292,7 +326,8 @@ export default {
             franjaHoraria: this.franjaHoraria,
 
             nombreActividad: this.nombreActividad,
-            valoracion: this.valoracion
+            valoracion: this.valoracion,
+            precio: this.precio
           })
           .then(() => {
             this.volver();

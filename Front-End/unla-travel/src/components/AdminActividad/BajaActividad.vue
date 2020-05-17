@@ -32,6 +32,7 @@
             <th scope="col">Franja Horaria</th>
             <th scope="col">Valoracion</th>
             <th scope="col">Acceso Discapacitados</th>
+            <th scope="col">Precio</th>
             <th scope="col">Eliminar</th>
           </tr>
         </thead>
@@ -47,6 +48,7 @@
           
           <td>{{actividad.valoracion}}</td>
           <td>{{actividad.accesoDiscapacitados}}</td>
+          <td>{{actividad.precio}}</td>
             <td>
               <button @click="cargaDelete(actividad.id)">
                 <i class="fas fa-trash"></i>

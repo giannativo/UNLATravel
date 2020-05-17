@@ -33,6 +33,7 @@
 
             <th scope="col">Valoracion</th>
             <th scope="col">Acceso a Discapacitados</th>
+            <th scope="col">Precio</th>
 
             <th scope="col">Editar</th>
           </tr>
@@ -49,6 +50,7 @@
 
             <td>{{actividad.valoracion}}</td>
             <td>{{actividad.accesoDiscapacitados}}</td>
+            <td>{{actividad.precio}}</td>
             <td>
               <button @click="cargaEdit(actividad)">
                 <i class="fas fa-edit"></i>
@@ -187,6 +189,24 @@
                   class="alert alert-danger"
                   role="alert"
                 >{{valoracionMessage}}</div>
+                <label for="precio">Precio</label>
+              <input
+                type="number"
+                class="form-control"
+                id="precio"
+                v-model="precio"
+                
+                min="1"
+                max="100000"
+                value
+                required
+              />
+              <div
+                v-if="precioAlert"
+                class="alert alert-danger"
+                role="alert"
+              >{{precioMessage}}</div>
+
 
                 <hr class="mb-4" />
                 <div class="custom-control custom-checkbox">
@@ -253,6 +273,7 @@ export default {
     actividad_to_modify_id: Number,
 
     destinos: null,
+    precio: null,
 
     tituloAlert: {
       type: Boolean,
@@ -317,6 +338,7 @@ export default {
         (this.lugar = actividad.lugar),
         (this.nombreActividad = actividad.nombreActividad),
         (this.valoracion = actividad.valoracion),
+        (this.precio = actividad.precio),
         (this.actividad_to_modify_id = actividad.id),
         (this.showList = false),
         (this.editElement = true);
@@ -384,6 +406,13 @@ export default {
       } else {
         this.valoracionAlert = true;
       }
+      if(!this.precio){
+        this.precioAlert = true;
+        this.precioMessage = "Ingrese un precio";
+        this.isValid = false;
+      } else {
+        this.precioAlert = false;
+      }
 
       return this.isValid;
     },
@@ -404,7 +433,8 @@ export default {
               franjaHoraria: this.franjaHoraria,
 
               nombreActividad: this.nombreActividad,
-              valoracion: this.valoracion
+              valoracion: this.valoracion,
+              precio: this.precio
             }
           )
           .then(() => this.cargaLista());

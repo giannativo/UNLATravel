@@ -34,6 +34,7 @@
             <th scope="col">Cantidad de Personas</th>
             <th scope="col">Habitaciones</th>
             <th scope="col">Acceso a Discapacitados</th>
+            <th scope="col">Precio</th>
           </tr>
         </thead>
         <tbody>
@@ -49,6 +50,7 @@
             <td>{{paquete.cantidadPersonas}}</td>
             <td>{{paquete.habitaciones}}</td>
             <td>{{paquete.accesoDiscapacitados}}</td>
+            <td>{{paquete.precio}}</td>
           </tr>
         </tbody>
       </table>

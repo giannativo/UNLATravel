@@ -34,6 +34,7 @@
             <th scope="col">Cantidad de Personas</th>
             <th scope="col">Habitaciones</th>
             <th scope="col">Acceso a Discapacitados</th>
+            <th scope="col">Precio</th>
             <th scope="col">Editar</th>
           </tr>
         </thead>
@@ -50,6 +51,7 @@
             <td>{{paquete.cantidadPersonas}}</td>
             <td>{{paquete.habitaciones}}</td>
             <td>{{paquete.accesoDiscapacitados}}</td>
+            <td>{{paquete.precio}}</td>
             <td>
               <button @click="cargaEdit(paquete)">
                 <i class="fas fa-edit"></i>

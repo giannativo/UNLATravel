@@ -137,7 +137,7 @@ namespace UnlaTravel.MappingProfiles
             .ForMember(dest => dest.CantidadPersonas, opts => opts.MapFrom(src => src.CantidadPersonas))
             .ForMember(dest => dest.Habitaciones, opts => opts.MapFrom(src => src.Habitaciones))
             .ForMember(dest => dest.AccesoDiscapacitados, opts => opts.MapFrom(src => src.AccesoDiscapacitados))
-            .ForMember(dest => dest.Precio, opts => opts.MapFrom(src => src.Precio))
+            .ForMember(dest => dest.Precio, opts => opts.MapFrom(src => src.VueloNavigation.Precio + src.ActividadNavigation.Precio + src.AlojamientoNavigation.Precio))
 
             .ForPath(dest => dest.Destino, opts => opts.MapFrom(src => new DestinoResponse
             {
@@ -228,7 +228,7 @@ namespace UnlaTravel.MappingProfiles
             #region Map Reserva
             CreateMap<Reserva, ReservaResponse>()
             .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Id))
-            .ForMember(dest => dest.Importe, opts => opts.MapFrom(src => src.Importe))
+            .ForMember(dest => dest.Importe, opts => opts.MapFrom(src => src.EsUnPaquete ? (src.PaqueteNavigation.VueloNavigation.Precio + src.PaqueteNavigation.ActividadNavigation.Precio + src.PaqueteNavigation.AlojamientoNavigation.Precio) : (src.VueloNavigation.Precio + src.ActividadNavigation.Precio + src.AlojamientoNavigation.Precio)))
             .ForMember(dest => dest.NroReserva, opts => opts.MapFrom(src => src.NroReserva))
             .ForMember(dest => dest.EsUnPaquete, opts => opts.MapFrom(src => src.EsUnPaquete))
 
@@ -343,7 +343,7 @@ namespace UnlaTravel.MappingProfiles
                 CantidadPersonas = src.PaqueteNavigation.CantidadPersonas,
                 Habitaciones = src.PaqueteNavigation.Habitaciones,
                 AccesoDiscapacitados = src.PaqueteNavigation.AccesoDiscapacitados,
-                Precio = src.PaqueteNavigation.Precio,
+                Precio = (src.PaqueteNavigation.VueloNavigation.Precio + src.PaqueteNavigation.ActividadNavigation.Precio + src.PaqueteNavigation.AlojamientoNavigation.Precio),
 
                 Destino = new DestinoResponse
                 {

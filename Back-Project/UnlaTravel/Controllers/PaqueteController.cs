@@ -65,6 +65,7 @@ namespace UnlaTravel.Controllers
         {
             try
             {
+                paquete.Precio = 0;
                 context.Paquete.Add(paquete);
                 context.SaveChanges();
                 return Ok();
@@ -82,6 +83,7 @@ namespace UnlaTravel.Controllers
             {
                 if (paquete.Id == id)
                 {
+                    paquete.Precio = 0;
                     context.Entry(paquete).State = EntityState.Modified;
                     context.SaveChanges();
                     return Ok();

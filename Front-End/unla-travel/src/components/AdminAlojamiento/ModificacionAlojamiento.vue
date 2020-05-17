@@ -29,6 +29,7 @@
             <th scope="col">Tipo Régimen</th>
             <th scope="col">Acceso a Discapacitados</th>
             <th scope="col">Link Imagen</th>
+            <th scope="col">Precio</th>
             <th scope="col">Editar</th>
           </tr>
         </thead>
@@ -44,6 +45,7 @@
             <td>{{ place.tipoRegimen.descripcion }}</td>
             <td>{{ place.accesoDiscapacitados }}</td>
             <td>{{ place.link }}</td>
+            <td>{{ place.precio }}</td>
             <td>
               <button @click="cargaEdit(place)">
                 <i class="fas fa-edit"></i>
@@ -187,6 +189,18 @@
                     role="alert"
                   >{{alojamientoMessage}}</div>
                 </div>
+                <label for="precio">Precio</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="precio"
+                  v-model="precio"
+                  min="1"
+                  max="100000"
+                  value
+                  required
+                />
+                <div v-if="precioAlert" class="alert alert-danger" role="alert">{{precioMessage}}</div>
 
                 <hr class="mb-4" />
                 <div class="custom-control custom-checkbox">
@@ -252,6 +266,7 @@ export default {
     alojamiento_to_modify_id: null,
     alojamiento_search_id: null,
     link: null,
+    precio: null,
     linkAlert: {
       type: Boolean,
       default: false
@@ -305,6 +320,11 @@ export default {
     default: false
   },
   regimenMessage: null,
+  precioAlert: {
+    type: Boolean,
+    default: false
+  },
+  precioMessage: null,
 
   methods: {
     volver() {
@@ -321,6 +341,7 @@ export default {
         (this.acceso_a_discapacitados = place.accesoDiscapacitados),
         (this.alojamiento_to_modify_id = place.id),
         (this.link = place.link),
+        (this.precio = place.precio),
         (this.showList = false),
         (this.editElement = true);
     },
@@ -410,6 +431,13 @@ export default {
       } else {
         this.linkAlert = false;
       }
+      if (!this.precio) {
+        this.precioAlert = true;
+        this.precioMessage = "Ingrese un precio";
+        this.isValid = false;
+      } else {
+        this.precioAlert = false;
+      }
 
       return this.isValid;
     },
@@ -429,7 +457,8 @@ export default {
               tipoAlojamiento: this.tipo_alojamiento,
               tipoRegimen: this.tipo_regimen,
               accesoDiscapacitados: this.acceso_a_discapacitados,
-              link: this.link
+              link: this.link,
+              precio: this.precio
             }
           )
           .then(() => this.cargaLista());

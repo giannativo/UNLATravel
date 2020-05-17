@@ -115,6 +115,18 @@
                   role="alert"
                 >{{alojamientoMessage}}</div>
               </div>
+              <label for="precio">Precio</label>
+              <input
+                type="number"
+                class="form-control"
+                id="precio"
+                v-model="precio"
+                min="1"
+                max="100000"
+                value
+                required
+              />
+              <div v-if="precioAlert" class="alert alert-danger" role="alert">{{precioMessage}}</div>
 
               <hr class="mb-4" />
               <div class="custom-control custom-checkbox">
@@ -171,6 +183,7 @@ export default {
     tipoRegimenes: null,
     tipoAlojamientos: null,
     link: null,
+    precio: null,
 
     tituloAlert: {
       type: Boolean,
@@ -208,6 +221,11 @@ export default {
     default: false
   },
   estrellasMessage: null,
+  precioAlert: {
+    type: Boolean,
+    default: false
+  },
+  precioMessage: null,
 
   alojamientoAlert: {
     type: Boolean,
@@ -291,6 +309,13 @@ export default {
       } else {
         this.linkAlert = false;
       }
+      if (!this.precio) {
+        this.precioAlert = true;
+        this.precioMessage = "Ingrese un precio";
+        this.isValid = false;
+      } else {
+        this.precioAlert = false;
+      }
 
       return this.isValid;
     },
@@ -306,7 +331,8 @@ export default {
             tipoAlojamiento: this.tipo_alojamiento,
             tipoRegimen: this.tipo_regimen,
             accesoDiscapacitados: this.acceso_a_discapacitados,
-            link: this.link
+            link: this.link,
+            precio: this.precio
           })
           .then(() => {
             this.volver();

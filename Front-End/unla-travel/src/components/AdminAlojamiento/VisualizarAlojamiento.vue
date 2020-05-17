@@ -29,6 +29,7 @@
             <th scope="col">Tipo Régimen</th>
             <th scope="col">Acceso a Discapacitados</th>
             <th scope="col">Link Imagen</th>
+            <th scope="col">Precio</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +44,7 @@
             <td>{{ place.tipoRegimen.descripcion }}</td>
             <td>{{ place.accesoDiscapacitados }}</td>
             <td>{{ place.link }}</td>
+            <td>{{ place.precio }}</td>
           </tr>
         </tbody>
       </table>

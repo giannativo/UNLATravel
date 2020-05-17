@@ -28,6 +28,8 @@
           <th scope="col">Tipo Alojamiento</th>
           <th scope="col">Tipo Régimen</th>
           <th scope="col">Acceso a Discapacitados</th>
+          <th scope="col">Link Imagen</th>
+          <th scope="col">Precio</th>
           <th scope="col">Eliminar</th>
         </tr>
       </thead>
@@ -42,6 +44,8 @@
           <td>{{ place.tipoAlojamiento.descripcion }}</td>
           <td>{{ place.tipoRegimen.descripcion }}</td>
           <td>{{ place.accesoDiscapacitados }}</td>
+          <td>{{ place.link }}</td>
+          <td>{{ place.precio }}</td>
           <td><button @click="cargaDelete(place)"><i class="fas fa-trash"></i></button></td>
         </tr>
       </tbody>

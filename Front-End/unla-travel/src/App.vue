@@ -14,7 +14,7 @@
             <a class="nav-link" @click="cargaRegistro" v-if="!userLogged" href="#"><i class="fas fa-envelope"></i> Registrarse</a>
           </li>
           <li class="nav-item" v-if="showTravels">
-            <a class="nav-link" href="#"><i class="fas fa-umbrella-beach"></i> Mis Viajes</a>
+            <a class="nav-link" @click="cargaMiperfil" href="#"><i class="fas fa-umbrella-beach"></i> Mi Perfil</a>
           </li>
           <li class="nav-item" v-if="userLogged">
             <a class="nav-link" @click="logout" href="#"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
@@ -29,14 +29,16 @@
     <Login v-if="showLogin"/>
     <Registro v-if="showRegistro"/>
     <Home v-if="showHome"/>
+    <MiPerfil v-if="showPerfil"/>
   </div>
 </template>
 
 <script>
 import MenuAdmin from "./components/MenuAdmin.vue";
 import Registro from "./components/Registro.vue";
-import Login from "./components/Login.vue"
-import Home from "./components/Home.vue"
+import Login from "./components/Login.vue";
+import Home from "./components/Home.vue";
+import MiPerfil from "./components/UserPerfil/MiPerfil.vue";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 export default {
@@ -45,7 +47,8 @@ export default {
     MenuAdmin,
     Registro,
     Login,
-    Home
+    Home,
+    MiPerfil
   },
   props:{
     showHome: {
@@ -61,6 +64,10 @@ export default {
         default: false
     },
     showMenuAdmin: {
+        type: Boolean,
+        default: false
+    },
+    showPerfil: {
         type: Boolean,
         default: false
     },
@@ -83,25 +90,37 @@ export default {
       this.showLogin = true,
       this.showMenuAdmin = false,
       this.showRegistro = false,
-      this.showHome = false
+      this.showHome = false,
+      this.showPerfil = false
     },
     cargaRegistro: function(){
       this.showRegistro = true,
       this.showMenuAdmin = false,
       this.showLogin = false,
-      this.showHome = false
+      this.showHome = false,
+      this.showPerfil = false
     },
     cargaHome() {
       this.showLogin = false,
       this.showRegistro = false,
       this.showMenuAdmin = false,
-      this.showHome = true
+      this.showHome = true,
+      this.showPerfil = false
     },
     cargaAdmin() {
       this.showLogin = false,
       this.showRegistro = false,
       this.showMenuAdmin = true,
-      this.showHome = false
+      this.showHome = false,
+      this.showPerfil = false
+    },
+    cargaMiperfil(){
+      this.showLogin = false,
+      this.showRegistro = false,
+      this.showMenuAdmin = false,
+      this.showHome = false,
+      this.showPerfil = true
+
     },
     init() {
       var token = localStorage.getItem('token');

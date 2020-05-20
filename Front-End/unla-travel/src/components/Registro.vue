@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <h4 class="mb-3">Ingrese sus datos personales</h4>
-    <div class="row">
+    <div class="row options">
       <div class="options text-center">
         <form class="needs-validation" novalidate>
           <div class="row options">
@@ -39,13 +39,13 @@
               <p v-if="telefonoAlert" class="color-red"> {{telefonoMessage}} </p>
 
               <br />
-              <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary">Guardar Cambios</button>
+              <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary options">Guardar Cambios</button>
             </div>
           </div>
         </form>
       </div>
     </div>
-    <br />
+    <br/>
     <div class="row">
       <div class="options text-center">
         <button
@@ -55,6 +55,7 @@
         >Volver Al Menú</button>
       </div>
     </div>
+    <br/>
   </div>
 </template>
 
@@ -217,5 +218,13 @@ export default {
 }
 .color-red{
   color: red;
+}
+.btn {
+  width: 200px;
+}
+.btn-primary {
+  color: #fff;
+  background-color: darkred;
+  border-color: black;
 }
 </style>

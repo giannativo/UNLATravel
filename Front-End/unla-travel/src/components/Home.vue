@@ -2,10 +2,18 @@
  <div>
    <b-container class="bv-example-row" v-if="activeSearch">
   <b-row>
-    <b-col>Vuelos</b-col>
-    <b-col>Alojamientos</b-col>
-    <b-col>Paquetes</b-col>
-    <b-col>Actividades</b-col>
+    <b-col>
+      <button @click="cargaVuelos" class="btn btn-primary"><i class="fas fa-plane"></i> Vuelos</button>
+    </b-col>
+    <b-col>
+      <button @click="cargaAlojamientos" class="btn btn-primary"><i class="fas fa-hotel"></i> Alojamientos</button>
+    </b-col>
+    <b-col>
+      <button @click="cargaPaquetes" class="btn btn-primary"><i class="fas fa-suitcase-rolling"></i> Paquetes</button>
+    </b-col>
+    <b-col>
+      <button @click="cargaActividades" class="btn btn-primary"><i class="fas fa-skiing"></i> Actividades</button>
+    </b-col>
   </b-row>
 </b-container>
         <div class="my-3 p-3 rounded container" v-if="!activeSearch">   
@@ -18,16 +26,25 @@
         <button @click="search()" type="button" class="btn btn-lg btn-block btn-primary">Buscar</button>
       </div>
       <VistaVuelo v-if="showVuelos"/>
+      <VistaAlojamiento v-if="showAlojamientos"/>
+      <VistaPaquete v-if="showPaquetes"/>
+      <VistaActividad v-if="showActividades"/>
  </div>
 </template>
 
 <script>
 import VistaVuelo from './VistaVuelo.vue'
+import VistaAlojamiento from './VistaAlojamiento.vue'
+import VistaPaquete from './VistaPaquete.vue'
+import VistaActividad from './VistaActividad.vue'
 
 export default {
   name: "Home",
   components: {
-    VistaVuelo
+    VistaVuelo,
+    VistaAlojamiento,
+    VistaPaquete,
+    VistaActividad
   },
   props: {
     destinos: null,
@@ -36,6 +53,18 @@ export default {
       default: false
     },
     showVuelos: {
+      type: Boolean,
+      default: false
+    },
+    showAlojamientos: {
+      type: Boolean,
+      default: false
+    },
+    showPaquetes: {
+      type: Boolean,
+      default: false
+    },
+    showActividades: {
       type: Boolean,
       default: false
     }
@@ -55,6 +84,30 @@ export default {
     search(){
       this.activeSearch = true;
       this.showVuelos = true;
+    },
+    cargaVuelos(){
+      this.showVuelos = true;
+      this.showAlojamientos = false;
+      this.showPaquetes = false;
+      this.showActividades = false;
+    },
+    cargaAlojamientos(){
+      this.showVuelos = false;
+      this.showAlojamientos = true;
+      this.showPaquetes = false;
+      this.showActividades = false;
+    },
+    cargaPaquetes(){
+      this.showVuelos = false;
+      this.showAlojamientos = false;
+      this.showPaquetes = true;
+      this.showActividades = false;
+    },
+    cargaActividades(){
+      this.showVuelos = false;
+      this.showAlojamientos = false;
+      this.showPaquetes = false;
+      this.showActividades = true;
     }
   },
   mounted() {
@@ -90,6 +143,14 @@ export default {
   color: red;
 }
 .bv-example-row{
-  max-height: 300px;
+  color: white;
+}
+.fas{
+  color: white;
+}
+.btn-primary {
+    color: #fff;
+    background-color: darkred;
+    border-color: black;
 }
 </style>

@@ -4,16 +4,17 @@
    <form class="form-signin">
       <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
       <label for="mail">Mail</label>
-      <input type="text" class="form-control" id="mail" v-model="mail" required />
+      <input type="text" class="form-control options" id="mail" v-model="mail" required />
       <div v-if="mailAlert" class="alert alert-danger" role="alert">{{mailMessage}}</div>
+      <br/>
       <label for="password">Contraseña</label>
-      <input type="password" class="form-control" id="password" v-model="password" required />
+      <input type="password" class="form-control options" id="password" v-model="password" required />
       <div v-if="contraseñaAlert" class="alert alert-danger" role="alert">{{contraseñaMessage}}</div>
-      <br>
-      <button @click="login" class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesion</button>
+      <br/>
+      <button @click="login" class="btn btn-lg btn-primary btn-block options" type="submit">Iniciar Sesion</button>
     </form>
     <br>
-    <button @click="volver" class="btn btn-lg btn-primary btn-block" type="submit">Cancelar</button>
+    <button @click="volver" class="btn btn-lg btn-primary btn-block options" type="submit">Cancelar</button>
     </div>
 </div>
 </template>
@@ -99,5 +100,16 @@ export default {
 }
 .lh-condensed {
   line-height: 1.25;
+}
+.btn {
+  width: 200px;
+}
+.form-control {
+  width: 500px;
+}
+.btn-primary {
+  color: #fff;
+  background-color: darkred;
+  border-color: black;
 }
 </style>

@@ -1,22 +1,23 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand nav-item nav-link" @click="cargaHome" href="#">UNLATravel</a>
       <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul id="navbar-options" class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" v-if="userLogged" href="#">{{usuario.Nombre}} {{usuario.Apellido}}</a>
+            <a class="nav-link" v-if="userLogged" href="#"><i class="fas fa-user-alt"></i> {{usuario.Nombre}} {{usuario.Apellido}}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" @click="cargaLogin" v-if="!userLogged" href="#">Iniciar Sesión</a>
+            <a class="nav-link" @click="cargaLogin" v-if="!userLogged" href="#"><i class="fas fa-user-friends"></i> Iniciar Sesión</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" @click="cargaRegistro" v-if="!userLogged" href="#">Registrarse</a>
+            <a class="nav-link" @click="cargaRegistro" v-if="!userLogged" href="#"><i class="fas fa-envelope"></i> Registrarse</a>
           </li>
           <li class="nav-item" v-if="showTravels">
-            <a class="nav-link" href="#">Mis Viajes</a>
+            <a class="nav-link" href="#"><i class="fas fa-umbrella-beach"></i> Mis Viajes</a>
           </li>
           <li class="nav-item" v-if="userLogged">
-            <a class="nav-link" @click="logout" href="#">Cerrar Sesión</a>
+            <a class="nav-link" @click="logout" href="#"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
           </li>
         </ul>
       </div>
@@ -144,10 +145,14 @@ export default {
 .navbar {
   padding: 0 !important;
 }
-.navbar-collapse {
+.navbar-brand {
+  margin-right: 0 !important;
+  color: white !important;
+}
+.navbar-collapse, .navbar-brand {
   background-color: darkred;
 }
-.navbar-light .navbar-nav .nav-link {
+.navbar-light .navbar-nav .nav-link, .fas {
   color: white !important;
 }
 </style>

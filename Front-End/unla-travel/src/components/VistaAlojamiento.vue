@@ -3,7 +3,7 @@
     <div class="my-3 p-3 rounded container">   
     <div>
   <b-card
-    title="Vuelo"
+    title="Alojamiento"
     img-src="https://picsum.photos/600/300/?image=25"
     img-alt="Image"
     img-top
@@ -38,9 +38,9 @@
 <script>
 
 export default {
-  name: "VistaVuelo",
+  name: "VistaAlojamiento",
   props: {
-    vuelos: null
+    alojamientos: null
   }
 };
 </script>

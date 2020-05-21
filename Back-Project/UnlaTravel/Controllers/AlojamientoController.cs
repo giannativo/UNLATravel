@@ -41,6 +41,16 @@ namespace UnlaTravel.Controllers
 
         }
 
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public IEnumerable<AlojamientoResponse> Destino(int id)
+        {
+            IEnumerable<AlojamientoResponse> response = new List<AlojamientoResponse>();
+            var resultDb = context.Alojamiento.Include(x => x.DestinoNavigation).Include(x => x.TipoAlojamientoNavigation).Include(x => x.TipoRegimenNavigation).Where(u => u.DestinoNavigation.Id == id);
+            response = _mapper.Map<IEnumerable<Alojamiento>, IEnumerable<AlojamientoResponse>>(resultDb);
+            return response;
+        }
+
         [HttpPost]
         public ActionResult Post([FromBody]Alojamiento alojamiento)
         {

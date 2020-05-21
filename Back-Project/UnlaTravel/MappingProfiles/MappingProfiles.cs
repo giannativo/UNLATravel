@@ -228,7 +228,9 @@ namespace UnlaTravel.MappingProfiles
             #region Map Reserva
             CreateMap<Reserva, ReservaResponse>()
             .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Id))
-            .ForMember(dest => dest.Importe, opts => opts.MapFrom(src => src.EsUnPaquete ? (src.PaqueteNavigation.VueloNavigation.Precio + src.PaqueteNavigation.ActividadNavigation.Precio + src.PaqueteNavigation.AlojamientoNavigation.Precio) : (src.VueloNavigation.Precio + src.ActividadNavigation.Precio + src.AlojamientoNavigation.Precio)))
+            .ForMember(dest => dest.Importe, opts => opts.MapFrom(src => src.EsUnPaquete ? (src.PaqueteNavigation.VueloNavigation.Precio + src.PaqueteNavigation.ActividadNavigation.Precio + src.PaqueteNavigation.AlojamientoNavigation.Precio) 
+            : (( src.VueloNavigation != null ? src.VueloNavigation.Precio : 0 ) + (src.ActividadNavigation != null ? src.ActividadNavigation.Precio : 0) + (src.AlojamientoNavigation != null ? src.AlojamientoNavigation.Precio : 0))))
+            
             .ForMember(dest => dest.NroReserva, opts => opts.MapFrom(src => src.NroReserva))
             .ForMember(dest => dest.EsUnPaquete, opts => opts.MapFrom(src => src.EsUnPaquete))
 

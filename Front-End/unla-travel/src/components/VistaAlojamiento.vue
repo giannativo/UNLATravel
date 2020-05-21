@@ -2,33 +2,23 @@
  <div>
     <div class="my-3 p-3 rounded container">   
     <div>
-  <b-card
-    title="Alojamiento"
-    img-src="https://picsum.photos/600/300/?image=25"
+  <b-card v-for="alojamiento in alojamientos" :key="alojamiento.id"
+    :title="alojamiento.nombreAlojamiento"
+    img-src="https://imgcy.trivago.com/c_limit,d_dummy.jpeg,f_auto,h_1300,q_auto,w_2000/itemimages/21/90/219001_v5.jpeg"
     img-alt="Image"
     img-top
-    tag="article"
+    tag="flight"
     class="mb-2 flight"
   >
-    <b-card-text>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </b-card-text>
-
-    <b-button href="#" variant="primary">Go somewhere</b-button>
-  </b-card>
-  <b-card
-    title="Card Title"
-    img-src="https://picsum.photos/600/300/?image=25"
-    img-alt="Image"
-    img-top
-    tag="article"
-    class="mb-2 flight"
-  >
-    <b-card-text>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </b-card-text>
-
-    <b-button href="#" variant="primary">Go somewhere</b-button>
+    <h6>{{alojamiento.destino.ciudad}}, {{alojamiento.destino.region}}, {{alojamiento.destino.pais}}</h6>
+    <h6>{{alojamiento.cantidadEstrellas}} estrellas</h6>
+    <h6>Tipo: {{alojamiento.tipoServicio}}</h6>
+    <h6>Habitacion: {{alojamiento.tipoHabitacion}}</h6>
+    <h6>Tipo: {{alojamiento.tipoAlojamiento.descripcion}}</h6>
+    <h6>Regimen: {{alojamiento.tipoRegimen.descripcion}}</h6>
+    <h6 v-if="alojamiento.accesoDiscapacitados">Acceso a Discapacitados</h6>
+    <h5>${{alojamiento.precio}}</h5>
+    <b-button href="#" variant="primary">Agregar a Reserva</b-button>
   </b-card>
 </div>
     </div>
@@ -36,11 +26,20 @@
 </template>
 
 <script>
-
 export default {
   name: "VistaAlojamiento",
   props: {
     alojamientos: null
+  },
+  methods: {
+    init() {
+      this.$axios
+        .get("https://localhost:57935/api/alojamiento/destino/" + this.$parent.destino)
+        .then(response => (this.alojamientos = response.data));
+    }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

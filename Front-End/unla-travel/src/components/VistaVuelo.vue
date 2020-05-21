@@ -2,33 +2,22 @@
  <div>
     <div class="my-3 p-3 rounded container">   
     <div>
-  <b-card
-    title="Vuelo"
-    img-src="https://picsum.photos/600/300/?image=25"
+  <b-card v-for="vuelo in vuelos" :key="vuelo.id"
+    img-src="https://www.aerolineas.com.ar/images/flota/boeing.jpg"
     img-alt="Image"
     img-top
-    tag="article"
+    tag="flight"
     class="mb-2 flight"
   >
-    <b-card-text>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </b-card-text>
-
-    <b-button href="#" variant="primary">Go somewhere</b-button>
-  </b-card>
-  <b-card
-    title="Card Title"
-    img-src="https://picsum.photos/600/300/?image=25"
-    img-alt="Image"
-    img-top
-    tag="article"
-    class="mb-2 flight"
-  >
-    <b-card-text>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </b-card-text>
-
-    <b-button href="#" variant="primary">Go somewhere</b-button>
+    <h6>{{vuelo.origen.ciudad}}, {{vuelo.origen.region}}, {{vuelo.origen.pais}} - {{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}}</h6>
+    <h6>Fecha Ida: {{vuelo.fechaIda | moment("DD/MM/YYYY LT")}}</h6>
+    <h6>Fecha Vuelta: {{vuelo.fechaIda | moment("DD/MM/YYYY LT")}}</h6>
+    <h6>{{vuelo.clase}}</h6>
+    <h6>{{vuelo.nombreAereolinea}} - {{vuelo.valoracionAereolinea}}</h6>
+    <h6 v-if="vuelo.conEscala">Vuelo con escalas</h6>
+    <h6 v-if="vuelo.accesoDiscapacitados">Acceso a Discapacitados</h6>
+    <h5>${{vuelo.precio}}</h5>
+    <b-button href="#" variant="primary">Agregar a Reserva</b-button>
   </b-card>
 </div>
     </div>
@@ -41,6 +30,16 @@ export default {
   name: "VistaVuelo",
   props: {
     vuelos: null
+  },
+  methods: {
+    init() {
+      this.$axios
+        .get("https://localhost:57935/api/vuelo/destino/" + this.$parent.destino)
+        .then(response => (this.vuelos = response.data));
+    }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

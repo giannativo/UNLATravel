@@ -48,6 +48,7 @@ export default {
   },
   props: {
     destinos: null,
+    destino: null,
     activeSearch: {
       type: Boolean,
       default: false
@@ -67,7 +68,8 @@ export default {
     showActividades: {
       type: Boolean,
       default: false
-    }
+    },
+    current_destino: null
   },
   methods: {
     init() {
@@ -82,6 +84,7 @@ export default {
       }
     },
     search(){
+      
       this.activeSearch = true;
       this.showVuelos = true;
     },

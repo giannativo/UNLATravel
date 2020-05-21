@@ -1,46 +1,48 @@
 <template>
- <div>
-    <div class="my-3 p-3 rounded container">   
-    <div>
-  <b-card
-    title="Paquete"
-    img-src="https://picsum.photos/600/300/?image=25"
-    img-alt="Image"
-    img-top
-    tag="article"
-    class="mb-2 flight"
-  >
-    <b-card-text>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </b-card-text>
-
-    <b-button href="#" variant="primary">Go somewhere</b-button>
-  </b-card>
-  <b-card
-    title="Card Title"
-    img-src="https://picsum.photos/600/300/?image=25"
-    img-alt="Image"
-    img-top
-    tag="article"
-    class="mb-2 flight"
-  >
-    <b-card-text>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </b-card-text>
-
-    <b-button href="#" variant="primary">Go somewhere</b-button>
-  </b-card>
-</div>
+  <div>
+    <div  class="my-3 p-3 rounded container">
+      <div >
+        <b-card v-for="paquete in paquetes" :key="paquete.id"
+          title=""
+         
+          img-alt="Image"
+          img-top
+          tag="article"
+          class="mb-2 flight"
+        >
+          <h6>Tipo Paquete: {{paquete.tipoPaquete}} </h6>
+          <h6>Destino: {{paquete.destino.ciudad}}, {{paquete.destino.region}}, {{paquete.destino.pais}}</h6>
+          <h6>Fecha Desde: {{paquete.fechaIda | moment("DD/MM/YYYY LT")}}</h6>
+          <h6>Fecha Hasta: {{paquete.fechaVuelta | moment("DD/MM/YYYY LT")}}</h6>
+          <h6>Alojamiento: {{paquete.alojamiento.nombreAlojamiento}}</h6>
+          <h6>{{paquete.vuelo.id}}</h6>
+          <h6>Activiad: {{paquete.actividad.nombreActividad}}</h6>
+          <h6>Cantidad Personas: {{paquete.cantidadPersonas}}</h6>
+          <h6>Cantidad Habitaciones: {{paquete.habitaciones}}</h6>
+          <h6 v-if="paquete.accesoDiscapacitados">Acceso a discapacitados</h6>
+          <h6>${{paquete.precio}}</h6>
+          
+           
+          <b-button href="#" variant="primary">Reservar</b-button>
+        </b-card>
+       
+      </div>
     </div>
- </div>
+  </div>
 </template>
 
 <script>
-
 export default {
   name: "VistaPaquete",
   props: {
     paquetes: null
+  },
+  mounted() {
+    this.$axios
+      .get(
+        "https://localhost:57935/api/paquete/destino/" + this.$parent.destino
+      )
+      .then(response => (this.paquetes = response.data));
   }
 };
 </script>
@@ -68,13 +70,13 @@ export default {
 .lh-condensed {
   line-height: 1.25;
 }
-.color-red{
+.color-red {
   color: red;
 }
-.bv-example-row{
+.bv-example-row {
   max-height: 300px;
 }
-.flight{
+.flight {
   display: inline-block;
   max-width: 15rem;
   margin-right: 20px;

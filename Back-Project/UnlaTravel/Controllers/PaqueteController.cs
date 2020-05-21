@@ -60,6 +60,26 @@ namespace UnlaTravel.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public IEnumerable<PaqueteResponse> Destino(int id)
+        {
+            IEnumerable<PaqueteResponse> response = new List<PaqueteResponse>();
+            var resultDb = context.Paquete.Include(x => x.DestinoNavigation)
+               .Include(x => x.VueloNavigation)
+               .Include(x => x.VueloNavigation.OrigenNavigation)
+               .Include(x => x.VueloNavigation.DestinoNavigation)
+               .Include(x => x.ActividadNavigation)
+               .Include(x => x.ActividadNavigation.DestinoNavigation)
+               .Include(x => x.AlojamientoNavigation)
+               .Include(x => x.AlojamientoNavigation.DestinoNavigation)
+               .Include(x => x.AlojamientoNavigation.TipoRegimenNavigation)
+               .Include(x => x.AlojamientoNavigation.TipoAlojamientoNavigation)
+               .Where(u => u.DestinoNavigation.Id == id);
+            response = _mapper.Map<IEnumerable<Paquete>, IEnumerable<PaqueteResponse>>(resultDb);
+            return response;
+        }
+
         [HttpPost]
         public ActionResult Post([FromBody]Paquete paquete)
         {

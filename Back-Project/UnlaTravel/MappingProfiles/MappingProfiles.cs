@@ -24,6 +24,7 @@ namespace UnlaTravel.MappingProfiles
             .ForMember(dest => dest.ConEscala, opts => opts.MapFrom(src => src.ConEscala))
             .ForMember(dest => dest.AccesoDiscapacitados, opts => opts.MapFrom(src => src.AccesoDiscapacitados))
             .ForMember(dest => dest.Precio, opts => opts.MapFrom(src => src.Precio))
+            .ForMember(dest => dest.Link, opts => opts.MapFrom(src => src.Link))
 
             .ForPath(dest => dest.Origen, opts => opts.MapFrom(src => new DestinoResponse
             {
@@ -86,6 +87,7 @@ namespace UnlaTravel.MappingProfiles
             .ForMember(dest => dest.Valoracion, opts => opts.MapFrom(src => src.Valoracion))
             .ForMember(dest => dest.AccesoDiscapacitados, opts => opts.MapFrom(src => src.AccesoDiscapacitados))
             .ForMember(dest => dest.Precio, opts => opts.MapFrom(src => src.Precio))
+            .ForMember(dest => dest.Link, opts => opts.MapFrom(src => src.Link))
 
              .ForPath(dest => dest.Destino, opts => opts.MapFrom(src => new DestinoResponse
              {
@@ -159,6 +161,7 @@ namespace UnlaTravel.MappingProfiles
                 IdaVuelta = src.VueloNavigation.IdaVuelta,
                 ValoracionAereolinea = src.VueloNavigation.ValoracionAereolinea,
                 Precio = src.VueloNavigation.Precio,
+                Link = src.VueloNavigation.Link,
                 Destino = new DestinoResponse {
                     Id = src.VueloNavigation.DestinoNavigation.Id ,
                     Ciudad = src.VueloNavigation.DestinoNavigation.Ciudad,
@@ -184,6 +187,7 @@ namespace UnlaTravel.MappingProfiles
                   NombreActividad = src.ActividadNavigation.NombreActividad,
                   Valoracion = src.ActividadNavigation.Valoracion,
                   Precio = src.ActividadNavigation.Precio,
+                  Link = src.ActividadNavigation.Link,
                   Destino = new DestinoResponse
                   {
                       Id = src.ActividadNavigation.DestinoNavigation.Id,
@@ -254,6 +258,7 @@ namespace UnlaTravel.MappingProfiles
                 IdaVuelta = src.VueloNavigation.IdaVuelta,
                 ValoracionAereolinea = src.VueloNavigation.ValoracionAereolinea,
                 Precio = src.VueloNavigation.Precio,
+                Link = src.VueloNavigation.Link,
                 Destino = new DestinoResponse
                 {
                     Id = src.VueloNavigation.DestinoNavigation.Id,
@@ -281,6 +286,7 @@ namespace UnlaTravel.MappingProfiles
                 NombreActividad = src.ActividadNavigation.NombreActividad,
                 Valoracion = src.ActividadNavigation.Valoracion,
                 Precio = src.ActividadNavigation.Precio,
+                Link = src.ActividadNavigation.Link,
                 Destino = new DestinoResponse
                 {
                     Id = src.ActividadNavigation.DestinoNavigation.Id,
@@ -367,6 +373,7 @@ namespace UnlaTravel.MappingProfiles
                     IdaVuelta = src.PaqueteNavigation.VueloNavigation.IdaVuelta,
                     ValoracionAereolinea = src.PaqueteNavigation.VueloNavigation.ValoracionAereolinea,
                     Precio = src.PaqueteNavigation.VueloNavigation.Precio,
+                    Link = src.PaqueteNavigation.VueloNavigation.Link,
                     Destino = new DestinoResponse
                     {
                         Id = src.PaqueteNavigation.VueloNavigation.DestinoNavigation.Id,
@@ -394,6 +401,7 @@ namespace UnlaTravel.MappingProfiles
                     NombreActividad = src.PaqueteNavigation.ActividadNavigation.NombreActividad,
                     Valoracion = src.PaqueteNavigation.ActividadNavigation.Valoracion,
                     Precio = src.PaqueteNavigation.ActividadNavigation.Precio,
+                    Link = src.PaqueteNavigation.ActividadNavigation.Link,
                     Destino = new DestinoResponse
                     {
                         Id = src.PaqueteNavigation.ActividadNavigation.DestinoNavigation.Id,

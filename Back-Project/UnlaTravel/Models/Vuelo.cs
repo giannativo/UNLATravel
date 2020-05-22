@@ -17,6 +17,7 @@ namespace UnlaTravel.Models
         public string NombreAereolinea { get; set; }
         public int Origen { get; set; }
         public int Destino { get; set; }
+        public string Link { get; set; }
         public bool IdaVuelta { get; set; }
         public int? ValoracionAereolinea { get; set; }
         public string Clase { get; set; }

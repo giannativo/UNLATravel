@@ -11,6 +11,7 @@ namespace UnlaTravel.Data
         public DateTime FechaIda { get; set; }
         public DateTime FechaVuelta { get; set; }
         public string NombreAereolinea { get; set; }
+        public string Link { get; set; }
         public DestinoResponse Origen { get; set; }
         public DestinoResponse Destino { get; set; }
         public bool IdaVuelta { get; set; }

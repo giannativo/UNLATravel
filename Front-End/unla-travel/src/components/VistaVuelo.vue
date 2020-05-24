@@ -1,5 +1,131 @@
 <template>
  <div>
+   <div class="container">
+     <div class="row d-flex justify-content-center mt-3 filtro">
+       <div class="col-9">
+
+   <form>
+     <div class="form-row p-2">
+       <div class="col">
+         <p  style="color:white;">Vuelos</p>
+       </div>
+       <div class="col">
+
+       <input class="form-check-input" type="radio" v-model="idaVuelta" :value="true" name="inlineRadioOptions" id="inlineRadio1">
+       <label class="form-check-label" for="inlineRadio1" style="color:white;">Ida y vuelta</label>
+
+       </div>
+       <div class="col">
+
+       <input class="form-check-input" type="radio" v-model="ida" :value="true" name="inlineRadioOptions" id="inlineRadio2" >
+       <label class="form-check-label" for="inlineRadio2"  style="color:white;">Ida</label>
+       
+       </div>
+       <div class="col">
+
+       <input class="form-check-input" type="radio" v-model="escala" :value="false" name="escalaOptions" id="escalaRadio1">
+       <label class="form-check-label" for="escalaRadio1"  style="color:white;">Directo</label>
+
+       </div>
+       <div class="col">
+
+       <input class="form-check-input" type="radio" v-model="escala" :value="true" name="escalaOptions" id="escalaRadio2" >
+       <label class="form-check-label" for="escalaRadio2"  style="color:white;">Con escala</label>
+       
+       </div>
+     </div>
+    <div class="form-row p-2">
+      <div class="col">        
+       
+    
+  <b-form-input list="origen" v-model="origen" placeholder="Origen"></b-form-input>
+
+  <datalist id="origen" > 
+    <select v-model="origen"  class="form-control"> 
+    <option v-for="vuelo in vuelos" :key="vuelo.id" :value="vuelo.origen.ciudad">{{vuelo.origen.region}} </option>
+    </select>
+  </datalist>
+
+
+      </div>
+      <div class="col">
+        <b-form-input list="destino" v-model="destino" placeholder="Destino"></b-form-input>
+
+        <datalist id="destino">
+            <select v-model="destino"  class="form-control">
+                <option v-for="vueloDestino in vuelos" :key="vueloDestino.id" :value="vueloDestino.destino.ciudad">{{ vueloDestino.destino.region }} </option>
+             </select>
+         </datalist>
+      </div>
+      <div class="col">
+              <datetime
+                input-class="form-control"
+                format="dd/MM/yyyy T"
+                value-zone="UTC-3"
+                :min-datetime="currentDate"
+                zone="UTC-3"
+                type="datetime"
+                id="fecha-desde"
+                placeholder="Desde"
+                v-model="fechaDesde"
+                required
+              ></datetime>
+        
+      
+      </div>
+      <div class="col">
+              <datetime
+                input-class="form-control"
+                format="yyyy/MM/dd T"
+                value-zone="UTC-3"
+                :min-datetime="currentDate"
+                zone="UTC-3"
+                type="datetime"
+                id="fecha-desde"
+                placeholder="Hasta"
+                v-model="fechaHasta"
+                required
+              ></datetime>
+      </div>
+      <div class="col">
+        <button type="button" class="btn btn-success" @click="submit" >Buscar</button>
+        
+
+        
+      </div>
+     
+    </div>
+    
+</form>
+   </div>
+   </div>
+   <div class="row justify-content-end">
+     
+     <div class="col-2">
+        
+       <b-dropdown id="dropdown-1" text="Valoracion" class="m-md-2" variant="outline-success">
+    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
+    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
+  </b-dropdown>       
+      
+     </div>
+    
+        
+  <div class="col-2">
+        
+       <b-dropdown id="dropdown-2" text="Clase" class="m-md-2" variant="outline-success">
+    <b-dropdown-item @click="ordenarPorClase('mayor')" >Ascendente</b-dropdown-item>
+    <b-dropdown-item @click="ordenarPorClase('menor')" >Descentente</b-dropdown-item>    
+  </b-dropdown>       
+      
+     </div>
+    
+  
+      
+     </div>
+  
+   </div>
+
     <div class="my-3 p-3 rounded container">   
     <div>
   <b-card v-for="vuelo in vuelos" :key="vuelo.id"
@@ -11,8 +137,9 @@
   >
     <h6>{{vuelo.origen.ciudad}}, {{vuelo.origen.region}}, {{vuelo.origen.pais}} - {{vuelo.destino.ciudad}}, {{vuelo.destino.region}}, {{vuelo.destino.pais}}</h6>
     <h6>Fecha Ida: {{vuelo.fechaIda | moment("DD/MM/YYYY LT")}}</h6>
-    <h6>Fecha Vuelta: {{vuelo.fechaIda | moment("DD/MM/YYYY LT")}}</h6>
+    <h6>Fecha Vuelta: {{vuelo.fechaVuelta | moment("DD/MM/YYYY LT")}}</h6>
     <h6>{{vuelo.clase}}</h6>
+  
     <h6>{{vuelo.nombreAereolinea}} - {{vuelo.valoracionAereolinea}}</h6>
     <h6 v-if="vuelo.conEscala">Vuelo con escalas</h6>
     <h6 v-if="vuelo.accesoDiscapacitados">Acceso a Discapacitados</h6>
@@ -28,17 +155,96 @@
 export default {
   name: "VistaVuelo",
   props: {
-    vuelos: null
+    vuelos: null,
+    origen:null,
+    destino:null,
+    fechaDesde:null,
+    fechaHasta:null,
+    escala:null,
+    directo:null,
+    ida:null,
+    idaVuelta:null,
+    vuelosOriginal:null
   },
+  data() {
+      return {
+        selected: [], // Must be an array reference!
+        valores: [
+          { text: '1', value: '1' },
+          { text: '2', value: '2' },
+          { text: '3', value: '3'},
+          { text: '4', value: '4' },
+          { text: '5', value: '5' }
+        ],
+        clases:[
+          { text: 'Economica', value: 'Económica' },
+          { text: 'Primera clase', value: 'Primera clase' }
+
+        ]
+      }
+    },
   methods: {
-    init() {
+   async init() {
       this.$axios
         .get("https://localhost:57935/api/vuelo/destino/" + this.$parent.destino)
-        .then(response => (this.vuelos = response.data));
+        .then(response => {
+          this.vuelos = response.data;
+          this.vuelosOriginal = this.vuelos;});
+    },filtro(vuelo){
+
+      return vuelo.origen.ciudad == this.origen && vuelo.destino.ciudad == this.destino && vuelo.fechaIda.toString() >= this.fechaDesde.toString() 
+      && vuelo.fechaVuelta.toString() <=this.fechaHasta.toString() && vuelo.conEscala == this.escala;
+
+    },
+    submit(){
+     console.log(this.escala);
+     this.vuelos=this.vuelosOriginal;
+     this.vuelos = this.vuelos.filter(this.filtro);
+ 
+    },
+  
+    
+    ordenarPorValoracion(orden){
+      switch(orden){
+        case 'mayor':
+          this.vuelos.sort(function(a, b){return b.valoracionAereolinea - a.valoracionAereolinea});
+        break;
+        case 'menor':
+          this.vuelos.sort(function(a, b){return a.valoracionAereolinea - b.valoracionAereolinea});
+          break;
+
+
+      }
+    },
+    ordenarPorClase(orden){
+
+      
+      switch(orden){
+        case 'mayor':
+          this.vuelos.sort((a,b)=>(this.ordenar(a.clase,b.clase)));
+        break;
+        case 'menor':
+          this.vuelos.sort((a,b)=>(this.ordenar(b.clase,a.clase)));
+          break;
+
+
+      }
+
+    },
+    ordenar(x,y){
+      
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
     }
+
+
+   
   },
-  mounted() {
-    this.init();
+ async mounted() {
+   await this.init();
+   
+   
   }
 };
 </script>
@@ -47,6 +253,13 @@ export default {
 <style scoped>
 .container {
   max-width: 960px;
+}
+.filtro{
+  border-radius: 23px 23px 23px 23px;
+-moz-border-radius: 23px 23px 23px 23px;
+-webkit-border-radius: 23px 23px 23px 23px;
+border: 0px solid #000000;
+background: darkred;
 }
 .options {
   margin: auto;

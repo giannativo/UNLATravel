@@ -1,5 +1,108 @@
 <template>
  <div>
+   <div class="container">
+     <div class="row d-flex justify-content-center mt-3 filtro">
+       <div class="col-9">
+
+   <form>
+    
+    <div class="form-row p-2">     
+      
+      <div class="col">
+              <datetime
+                input-class="form-control"
+                format="dd/MM/yyyy T"
+                value-zone="UTC-3"
+                :min-datetime="currentDate"
+                zone="UTC-3"
+                type="datetime"
+                id="fecha-desde"
+                placeholder="Desde"
+                v-model="fechaDesde"
+                required
+              ></datetime>
+        
+      
+      </div>
+      <div class="col">
+              <datetime
+                input-class="form-control"
+                format="yyyy/MM/dd T"
+                value-zone="UTC-3"
+                :min-datetime="currentDate"
+                zone="UTC-3"
+                type="datetime"
+                id="fecha-desde"
+                placeholder="Hasta"
+                v-model="fechaHasta"
+                required
+              ></datetime>
+      </div>
+      <div class="col">
+          <b-form-input list="act" v-model="nombreAlojamiento" placeholder="alojamiento" ></b-form-input>
+
+          <datalist id="act" >
+          <select v-model="destino"   class="form-control">
+          <option v-for="alojamiento in alojamientosOriginal" :key="alojamiento.id" :value="alojamiento.nombrealojamiento"></option>
+          </select>
+          </datalist>      
+      </div>
+      <div class="col">
+        <button type="button" class="btn btn-success" @click="submit" >Buscar</button>
+        
+
+        
+      </div>
+     
+    </div>
+    
+</form>
+   </div>
+   </div>
+   <div class="row justify-content-center">
+     
+     <div class="col">
+        
+       <b-dropdown id="dropdown-1" text="Tipo habitacion" class="m-md-2" variant="outline-success">
+    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
+    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
+  </b-dropdown>       
+      
+     </div>
+      <div class="col">
+        
+       <b-dropdown id="dropdown-2" text="Tipo servicio" class="m-md-2" variant="outline-success">
+    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
+    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
+  </b-dropdown>       
+      
+     </div>
+     <div class="col">
+        
+       <b-dropdown id="dropdown-3" text="Tipo regimen" class="m-md-2" variant="outline-success">
+    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
+    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
+  </b-dropdown>       
+      
+     </div>
+      <div class="col">
+        
+       <b-dropdown id="dropdown-4" text="Cantidad estrellas" class="m-md-2" variant="outline-success">
+    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
+    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
+  </b-dropdown>       
+      
+     </div>
+     <div class="col">
+        
+       <b-dropdown id="dropdown-5" text="Tipo habitacion" class="m-md-2" variant="outline-success">
+    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
+    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
+  </b-dropdown>       
+      
+     </div>
+   </div>
+   </div>
     <div class="my-3 p-3 rounded container">   
     <div>
   <b-card v-for="alojamiento in alojamientos" :key="alojamiento.id"
@@ -29,13 +132,29 @@
 export default {
   name: "VistaAlojamiento",
   props: {
-    alojamientos: null
+    alojamientos: null,
+    fechaDesde:null,
+    fechaHasta:null,
+    alojamientosOriginal:null,
+    nombreAlojamiento:null
   },
   methods: {
     init() {
       this.$axios
         .get("https://localhost:57935/api/alojamiento/destino/" + this.$parent.destino)
-        .then(response => (this.alojamientos = response.data));
+        .then(response => {
+          this.alojamientos = response.data;
+          this.alojamientosOriginal=this.alojamientos;});
+    }, filtro(alojamiento){
+
+      return alojamiento.fechaDesde.toString() >= this.fechaDesde.toString() 
+      && alojamiento.fechaHasta.toString() <=this.fechaHasta.toString() && alojamiento.nombreAlojamiento == this.nombrealojamiento;
+
+    },
+    submit(){
+     this.alojamientos=this.alojamientosOriginal;
+     this.alojamientos = this.alojamientos.filter(this.filtro);
+ 
     }
   },
   mounted() {
@@ -48,6 +167,13 @@ export default {
 <style scoped>
 .container {
   max-width: 960px;
+}
+.filtro{
+  border-radius: 23px 23px 23px 23px;
+-moz-border-radius: 23px 23px 23px 23px;
+-webkit-border-radius: 23px 23px 23px 23px;
+border: 0px solid #000000;
+background: darkred;
 }
 .options {
   margin: auto;

@@ -1,5 +1,76 @@
 <template>
   <div>
+    <div class="container">
+     <div class="row d-flex justify-content-center mt-3 filtro">
+       <div class="col-9">
+
+   <form>
+    
+    <div class="form-row p-2">     
+      
+      <div class="col">
+              <datetime
+                input-class="form-control"
+                format="dd/MM/yyyy T"
+                value-zone="UTC-3"
+                :min-datetime="currentDate"
+                zone="UTC-3"
+                type="datetime"
+                id="fecha-desde"
+                placeholder="Desde"
+                v-model="fechaDesde"
+                required
+              ></datetime>
+        
+      
+      </div>
+      <div class="col">
+              <datetime
+                input-class="form-control"
+                format="yyyy/MM/dd T"
+                value-zone="UTC-3"
+                :min-datetime="currentDate"
+                zone="UTC-3"
+                type="datetime"
+                id="fecha-desde"
+                placeholder="Hasta"
+                v-model="fechaHasta"
+                required
+              ></datetime>
+      </div>
+      <div class="col">
+          <b-form-input list="act" v-model="nombreActividad" placeholder="Actividad" ></b-form-input>
+
+          <datalist id="act" >
+          <select v-model="destino"   class="form-control">
+          <option v-for="actividad in actividadesOriginal" :key="actividad.id" :value="actividad.nombreActividad"></option>
+          </select>
+          </datalist>      
+      </div>
+      <div class="col">
+        <button type="button" class="btn btn-success" @click="submit" >Buscar</button>
+        
+
+        
+      </div>
+     
+    </div>
+    
+</form>
+   </div>
+   </div>
+    <div class="row justify-content-end">
+     
+     <div class="col-2">
+        
+       <b-dropdown id="dropdown-1" text="Valoracion" class="m-md-2" variant="outline-success">
+    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
+    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
+  </b-dropdown>       
+      
+     </div>
+   </div>
+    </div>
     <div class="my-3 p-3 rounded container">
       <div> 
         <b-card v-for="actividad in actividades" :key="actividad.id"
@@ -29,7 +100,43 @@
 export default {
   name: "VistaActividad",
   props: {
-    actividades: null
+    actividades: null,
+    fechaDesde:null,
+    fechaHasta:null,
+    actividadesOriginal:null,
+    nombreActividad:null
+  },
+  methods:{
+    filtro(actividad){
+
+      return actividad.fechaDesde.toString() >= this.fechaDesde.toString() 
+      && actividad.fechaHasta.toString() <=this.fechaHasta.toString() && actividad.nombreActividad == this.nombreActividad;
+
+    },
+    submit(){
+     this.actividades=this.actividadesOriginal;
+     this.actividades = this.actividades.filter(this.filtro);
+ 
+    },
+     ordenarPorValoracion(orden){
+       
+      switch(orden){
+        case 'mayor':
+          this.actividades.sort((a, b)=>(this.ordenar(b.valoracion,a.valoracion)));
+        break;
+        case 'menor':
+          this.actividades.sort((a, b)=>(this.ordenar(a.valoracion,b.valoracion)));
+          break;
+
+
+      }
+      },
+      ordenar(x,y){
+      
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    } 
   },
 
   mounted() {
@@ -37,7 +144,9 @@ export default {
       .get(
         "https://localhost:57935/api/actividad/destino/" + this.$parent.destino
       )
-      .then(response => (this.actividades = response.data));
+      .then(response => {
+        this.actividades = response.data;
+        this.actividadesOriginal = this.actividades});
   }
 };
 </script>
@@ -46,6 +155,13 @@ export default {
 <style scoped>
 .container {
   max-width: 960px;
+}
+.filtro{
+  border-radius: 23px 23px 23px 23px;
+-moz-border-radius: 23px 23px 23px 23px;
+-webkit-border-radius: 23px 23px 23px 23px;
+border: 0px solid #000000;
+background: darkred;
 }
 .options {
   margin: auto;

@@ -6,52 +6,53 @@
 
    <form>
     
-    <div class="form-row p-2">     
+    <div class="form-row p-2">
       
-      <div class="col">
-              <datetime
-                input-class="form-control"
-                format="dd/MM/yyyy T"
-                value-zone="UTC-3"
-                :min-datetime="currentDate"
-                zone="UTC-3"
-                type="datetime"
-                id="fecha-desde"
-                placeholder="Desde"
-                v-model="fechaDesde"
-                required
-              ></datetime>
-        
-      
-      </div>
-      <div class="col">
-              <datetime
-                input-class="form-control"
-                format="yyyy/MM/dd T"
-                value-zone="UTC-3"
-                :min-datetime="currentDate"
-                zone="UTC-3"
-                type="datetime"
-                id="fecha-desde"
-                placeholder="Hasta"
-                v-model="fechaHasta"
-                required
-              ></datetime>
-      </div>
-      <div class="col">
-          <b-form-input list="act" v-model="nombreAlojamiento" placeholder="alojamiento" ></b-form-input>
+     <div class="col">
+  <b-form-input list="alojamiento" v-model="tipoAlojamiento" placeholder="Tipo alojamiento"></b-form-input>
 
-          <datalist id="act" >
-          <select v-model="destino"   class="form-control">
-          <option v-for="alojamiento in alojamientosOriginal" :key="alojamiento.id" :value="alojamiento.nombrealojamiento"></option>
+          <datalist id="alojamiento">
+          <select v-model="tipoAlojamiento" class="form-control">
+          <option v-for="alojamiento in alojamientosOriginal" :key="alojamiento.id" :value="alojamiento.tipoAlojamiento.descripcion"></option>
+          </select>
+          </datalist>        
+      
+     </div>
+      <div class="col"> 
+
+      <b-form-input list="serv" v-model="servicio" placeholder="Tipo servicio"></b-form-input>
+
+          <datalist id="serv">
+          <select v-model="servicio" class="form-control">
+          <option v-for="alojamiento in alojamientosOriginal" :key="alojamiento.id" :value="alojamiento.tipoServicio"></option>
+          </select>
+          </datalist>        
+      
+     </div>
+     <div class="col">
+       <b-form-input list="regimen" v-model="regimen" placeholder="Tipo regimen" ></b-form-input>
+
+          <datalist id="regimen" >
+          <select v-model="regimen" class="form-control">
+          <option v-for="alojamiento in alojamientosOriginal" :key="alojamiento.id" :value="alojamiento.tipoRegimen.descripcion"></option>
           </select>
           </datalist>      
-      </div>
+      
+     </div>
+      
+     <div class="col">
+        
+          <b-form-input list="hab" v-model="habitacion" placeholder="Tipo habitacion" ></b-form-input>
+
+          <datalist id="hab" >
+          <select v-model="habitacion"   class="form-control">
+          <option v-for="alojamiento in alojamientosOriginal" :key="alojamiento.id" :value="alojamiento.tipoHabitacion"></option>
+          </select>
+          </datalist>       
+      
+     </div>     
       <div class="col">
         <button type="button" class="btn btn-success" @click="submit" >Buscar</button>
-        
-
-        
       </div>
      
     </div>
@@ -59,48 +60,17 @@
 </form>
    </div>
    </div>
-   <div class="row justify-content-center">
+   <div class="row d-flex justify-content-end ">
      
-     <div class="col">
+      <div class="col-3">
         
-       <b-dropdown id="dropdown-1" text="Tipo habitacion" class="m-md-2" variant="outline-success">
-    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
-    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
-  </b-dropdown>       
+     <b-dropdown id="dropdown-4" text="Cantidad estrellas" class="m-md-2" variant="outline-success">
+        <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
+        <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
+      </b-dropdown>       
       
      </div>
-      <div class="col">
-        
-       <b-dropdown id="dropdown-2" text="Tipo servicio" class="m-md-2" variant="outline-success">
-    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
-    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
-  </b-dropdown>       
-      
-     </div>
-     <div class="col">
-        
-       <b-dropdown id="dropdown-3" text="Tipo regimen" class="m-md-2" variant="outline-success">
-    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
-    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
-  </b-dropdown>       
-      
-     </div>
-      <div class="col">
-        
-       <b-dropdown id="dropdown-4" text="Cantidad estrellas" class="m-md-2" variant="outline-success">
-    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
-    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
-  </b-dropdown>       
-      
-     </div>
-     <div class="col">
-        
-       <b-dropdown id="dropdown-5" text="Tipo habitacion" class="m-md-2" variant="outline-success">
-    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
-    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
-  </b-dropdown>       
-      
-     </div>
+   
    </div>
    </div>
     <div class="my-3 p-3 rounded container">   
@@ -136,7 +106,11 @@ export default {
     fechaDesde:null,
     fechaHasta:null,
     alojamientosOriginal:null,
-    nombreAlojamiento:null
+    nombreAlojamiento:null,
+    habitacion:null,
+    regimen:null,
+    servicio:null,
+    tipoAlojamiento:null
   },
   methods: {
     init() {
@@ -147,14 +121,27 @@ export default {
           this.alojamientosOriginal=this.alojamientos;});
     }, filtro(alojamiento){
 
-      return alojamiento.fechaDesde.toString() >= this.fechaDesde.toString() 
-      && alojamiento.fechaHasta.toString() <=this.fechaHasta.toString() && alojamiento.nombreAlojamiento == this.nombrealojamiento;
+      return  alojamiento.tipoServicio == this.servicio && alojamiento.tipoRegimen.descripcion ==this.regimen &&
+       alojamiento.tipoHabitacion == this.habitacion && alojamiento.tipoAlojamiento.descripcion == this.tipoAlojamiento;
 
     },
     submit(){
      this.alojamientos=this.alojamientosOriginal;
+     console.log(this.servicio,this.tipoAlojamiento,this.habitacion,this.regimen);
      this.alojamientos = this.alojamientos.filter(this.filtro);
  
+    },
+      ordenarPorValoracion(orden){
+      switch(orden){
+        case 'mayor':
+          this.alojamientos.sort(function(a, b){return b.cantidadEstrellas - a.cantidadEstrellas});
+        break;
+        case 'menor':
+          this.alojamientos.sort(function(a, b){return a.cantidadEstrellas - b.cantidadEstrellas});
+          break;
+
+
+      }
     }
   },
   mounted() {

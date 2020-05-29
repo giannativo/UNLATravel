@@ -49,6 +49,18 @@
              </select>
          </datalist>
       </div> 
+      <div class="col-3">
+        
+       
+        <b-form-input list="paquete" v-model="tipoPaquete" placeholder="Tipo paquete" ></b-form-input>
+
+        <datalist id="paquete">
+            <select v-model="tipoPaquete"  class="form-control">
+                <option v-for="paquete in paquetesOriginal" :key="paquete.id" :value="paquete.tipoPaquete"> </option>
+             </select>
+         </datalist>    
+      
+     </div>
       
       <div class="col">
         <button type="button" class="btn btn-success" @click="submit" >Buscar</button>
@@ -64,27 +76,11 @@
    </div>
     <div class="row justify-content-end">
      
-     <div class="col-3">
-        
-       <b-dropdown id="dropdown-1" text="Tipo paquete" class="m-md-2" variant="outline-success">
-    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
-    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
-  </b-dropdown>       
-      
-     </div>
-      <div class="col-3">
-        
-       <b-dropdown id="dropdown-2" text="Tipo habitacion" class="m-md-2" variant="outline-success">
-    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
-    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
-  </b-dropdown>       
-      
-     </div>
-     <div class="col-3">
+        <div class="col-3">
         
        <b-dropdown id="dropdown-3" text="Cantidad de personas" class="m-md-2" variant="outline-success">
-    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
-    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
+    <b-dropdown-item @click="ordenarPorCantidad('mayor')" >Mayor cantidad primero</b-dropdown-item>
+    <b-dropdown-item @click="ordenarPorCantidad('menor')" >Menor cantidad primero</b-dropdown-item>    
   </b-dropdown>       
       
      </div>
@@ -131,13 +127,14 @@ export default {
     destino:null,
     fechaDesde:null,
     fechaHasta:null,
-    alojamiento:null
+    alojamiento:null,
+    tipoPaquete:null
   },
   methods:{
      filtro(paquete){
 
       return paquete.fechaIda.toString() >= this.fechaDesde.toString() 
-      && paquete.fechaVuelta.toString() <=this.fechaHasta.toString() && paquete.alojamiento.nombreAlojamiento == this.alojamiento;
+      && paquete.fechaVuelta.toString() <=this.fechaHasta.toString() && paquete.alojamiento.nombreAlojamiento == this.alojamiento && this.tipoPaquete == paquete.tipoPaquete;
 
     },
     submit(){
@@ -146,6 +143,18 @@ export default {
      this.paquetes = this.paquetes.filter(this.filtro);
  
     },
+    ordenarPorCantidad(orden){
+      switch(orden){
+        case 'mayor':
+          this.paquetes.sort(function(a, b){return b.cantidadPersonas - a.cantidadPersonas});
+        break;
+        case 'menor':
+          this.paquetes.sort(function(a, b){return a.cantidadPersonas - b.cantidadPersonas});
+          break;
+
+
+      }
+    }
   },
   mounted() {
     this.$axios

@@ -1,41 +1,44 @@
 <template>
  <div>
-     <h4>Activas</h4>
+     <h4>Reserva</h4>
     <b-card 
     img-alt="Image"
     img-top
     tag="flight"
     class="mb-2 flight"
   >
-    <h6>Reserva</h6>
-    <h6>Vuelo: </h6>
-    <h6>Alojamiento: </h6>
-    <h6>Paquete: </h6>
-    <h6>Actividad: </h6>
-    <h5>$total</h5>
-    <b-button href="#" variant="primary">Ver Reserva</b-button>
+    <h6>Vuelo</h6>
   </b-card>
-    <h4>Finalizadas</h4>
-  <b-card 
+        <b-card 
     img-alt="Image"
     img-top
     tag="flight"
     class="mb-2 flight"
   >
-    <h6>Reserva</h6>
-    <h6>Vuelo: </h6>
-    <h6>Alojamiento: </h6>
-    <h6>Paquete: </h6>
-    <h6>Actividad: </h6>
-    <h5>$total</h5>
-    <b-button href="#" variant="primary">Ver Reserva</b-button>
+    <h6>Alojamiento</h6>
+  </b-card>
+      <b-card 
+    img-alt="Image"
+    img-top
+    tag="flight"
+    class="mb-2 flight"
+  >
+    <h6>Actividad</h6>
+  </b-card>
+      <b-card 
+    img-alt="Image"
+    img-top
+    tag="flight"
+    class="mb-2 flight"
+  >
+    <h6>Paquete</h6>
   </b-card>
 </div>
 </template>
 
 <script>
 export default {
-  name: "MisViajes",
+  name: "VistaReserva",
   props: {
   },
 };

@@ -17,5 +17,6 @@ namespace UnlaTravel.Data
         public bool EsUnPaquete { get; set; }
         public PaqueteResponse Paquete { get; set; }
         public decimal Importe { get; set; }
+        public bool ReservaFinalizada { get; set; }
     }
 }

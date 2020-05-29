@@ -245,6 +245,8 @@ namespace UnlaTravel.Models
 
                 entity.Property(e => e.EsUnPaquete).HasColumnName("esUnPaquete");
 
+                entity.Property(e => e.ReservaFinalizada).HasColumnName("reservaFinalizada");
+
                 entity.Property(e => e.Importe)
                     .HasColumnName("importe")
                     .HasColumnType("numeric(18, 2)");

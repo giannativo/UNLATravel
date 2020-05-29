@@ -237,6 +237,7 @@ namespace UnlaTravel.MappingProfiles
             
             .ForMember(dest => dest.NroReserva, opts => opts.MapFrom(src => src.NroReserva))
             .ForMember(dest => dest.EsUnPaquete, opts => opts.MapFrom(src => src.EsUnPaquete))
+            .ForMember(dest => dest.ReservaFinalizada, opts => opts.MapFrom(src => src.ReservaFinalizada))
 
             .ForPath(dest => dest.Destino, opts => opts.MapFrom(src => new DestinoResponse
             {

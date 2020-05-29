@@ -84,6 +84,38 @@ namespace UnlaTravel.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public IEnumerable<ReservaResponse> Usuario(int id)
+        {
+            IEnumerable<ReservaResponse> response = new List<ReservaResponse>();
+            var resultDb = context.Reserva.Include(x => x.DestinoNavigation)
+                .Include(x => x.UsuarioNavigation)
+                .Include(x => x.VueloNavigation)
+                .Include(x => x.VueloNavigation.OrigenNavigation)
+                .Include(x => x.VueloNavigation.DestinoNavigation)
+                .Include(x => x.ActividadNavigation)
+                .Include(x => x.ActividadNavigation.DestinoNavigation)
+                .Include(x => x.AlojamientoNavigation)
+                .Include(x => x.AlojamientoNavigation.DestinoNavigation)
+                .Include(x => x.AlojamientoNavigation.TipoRegimenNavigation)
+                .Include(x => x.AlojamientoNavigation.TipoAlojamientoNavigation)
+                .Include(x => x.PaqueteNavigation)
+                .Include(x => x.PaqueteNavigation.DestinoNavigation)
+                .Include(x => x.PaqueteNavigation.VueloNavigation)
+                .Include(x => x.PaqueteNavigation.VueloNavigation.OrigenNavigation)
+                .Include(x => x.PaqueteNavigation.VueloNavigation.DestinoNavigation)
+                .Include(x => x.PaqueteNavigation.ActividadNavigation)
+                .Include(x => x.PaqueteNavigation.ActividadNavigation.DestinoNavigation)
+                .Include(x => x.PaqueteNavigation.AlojamientoNavigation)
+                .Include(x => x.PaqueteNavigation.AlojamientoNavigation.DestinoNavigation)
+                .Include(x => x.PaqueteNavigation.AlojamientoNavigation.TipoRegimenNavigation)
+                .Include(x => x.PaqueteNavigation.AlojamientoNavigation.TipoAlojamientoNavigation)
+                .Where(u => u.UsuarioNavigation.Id == id);
+            response = _mapper.Map<IEnumerable<Reserva>, IEnumerable<ReservaResponse>>(resultDb);
+            return response;
+        }
+
         [HttpPost]
         public ActionResult Post([FromBody]Reserva reserva)
         {

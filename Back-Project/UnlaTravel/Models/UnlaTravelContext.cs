@@ -21,6 +21,7 @@ namespace UnlaTravel.Models
         public virtual DbSet<Destino> Destino { get; set; }
         public virtual DbSet<Paquete> Paquete { get; set; }
         public virtual DbSet<Reserva> Reserva { get; set; }
+        public virtual DbSet<Pasajero> Pasajero { get; set; }
         public virtual DbSet<TipoAlojamiento> TipoAlojamiento { get; set; }
         public virtual DbSet<TipoRegimen> TipoRegimen { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
@@ -297,6 +298,55 @@ namespace UnlaTravel.Models
                     .HasForeignKey(d => d.Vuelo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Reserva_Vuelo");
+            });
+
+            modelBuilder.Entity<Pasajero>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Reserva).HasColumnName("reserva");
+
+                entity.Property(e => e.Apellido)
+                    .IsRequired()
+                    .HasColumnName("apellido")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Dni).HasColumnName("dni");
+
+                entity.Property(e => e.Domicilio)
+                    .IsRequired()
+                    .HasColumnName("domicilio")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Mail)
+                    .HasColumnName("mail")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nacionalidad)
+                    .IsRequired()
+                    .HasColumnName("nacionalidad")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnName("nombre")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Telefono)
+                    .HasColumnName("telefono")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.ReservaNavigation)
+                   .WithMany(p => p.Pasajero)
+                   .HasForeignKey(d => d.Reserva)
+                   .OnDelete(DeleteBehavior.Cascade)
+                   .HasConstraintName("FK_Pasajero_Reserva");
             });
 
             modelBuilder.Entity<TipoAlojamiento>(entity =>

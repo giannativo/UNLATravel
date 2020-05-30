@@ -89,7 +89,6 @@ namespace UnlaTravel.Controllers
         {
             try
             {
-                var resultDbPasajero = context.Pasajero.ToList().OrderBy(x => x.Id);
                 context.Pasajero.Add(pasajero);
                 context.SaveChanges();
                 return Ok();

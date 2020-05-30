@@ -345,7 +345,7 @@ namespace UnlaTravel.Models
                 entity.HasOne(d => d.ReservaNavigation)
                    .WithMany(p => p.Pasajero)
                    .HasForeignKey(d => d.Reserva)
-                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .OnDelete(DeleteBehavior.Cascade)
                    .HasConstraintName("FK_Pasajero_Reserva");
             });
 

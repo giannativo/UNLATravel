@@ -18,5 +18,6 @@ namespace UnlaTravel.Data
         public PaqueteResponse Paquete { get; set; }
         public decimal Importe { get; set; }
         public bool ReservaFinalizada { get; set; }
+        public List<PasajeroResponse> Pasajeros { get; set; } = new List<PasajeroResponse>();
     }
 }

@@ -444,6 +444,19 @@ namespace UnlaTravel.MappingProfiles
                 }
             }));
             #endregion
+
+            #region Map Pasajero
+            CreateMap<Pasajero, PasajeroResponse>()
+            .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Dni, opts => opts.MapFrom(src => src.Dni))
+            .ForMember(dest => dest.Nombre, opts => opts.MapFrom(src => src.Nombre))
+            .ForMember(dest => dest.Apellido, opts => opts.MapFrom(src => src.Apellido))
+            .ForMember(dest => dest.Nacionalidad, opts => opts.MapFrom(src => src.Nacionalidad))
+            .ForMember(dest => dest.Domicilio, opts => opts.MapFrom(src => src.Domicilio))
+            .ForMember(dest => dest.Mail, opts => opts.MapFrom(src => src.Mail))
+            .ForMember(dest => dest.Telefono, opts => opts.MapFrom(src => src.Telefono))
+            .ForMember(dest => dest.Reserva, opts => opts.MapFrom(src => src.Reserva));
+            #endregion
         }
     }
 }

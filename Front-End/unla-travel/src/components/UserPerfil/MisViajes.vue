@@ -1,7 +1,7 @@
 <template>
  <div>
      <h4>Activas</h4>
-    <b-card 
+    <b-card v-for="reserva in reservas" :key="reserva.id"
     img-alt="Image"
     img-top
     tag="flight"
@@ -12,7 +12,7 @@
     <h6>Alojamiento: </h6>
     <h6>Paquete: </h6>
     <h6>Actividad: </h6>
-    <h5>$total</h5>
+    <h5>${{reserva.importe}}</h5>
     <b-button href="#" variant="primary">Ver Reserva</b-button>
   </b-card>
     <h4>Finalizadas</h4>
@@ -37,7 +37,35 @@
 export default {
   name: "MisViajes",
   props: {
+    reservas: null,
+    reservasActivas :null,
+    reservasFinalizadas : null
   },
+    methods: {
+      filtro(reserva){
+
+      return  reserva.reservaFinalizada==false;
+
+    },
+    init(){
+      this.$axios
+      .get("https://localhost:57935/api/reserva/usuario/" + this.$parent.current_user[0].id)
+      .then(response => {
+        this.reservas = response.data;
+        this.reservasActivas = this.reservas.filter(function(reserva) {return reserva.reservaFinalizada == true;});
+        this.reservasFinalizadas = this.reservas.filter(function(reserva) {return reserva.reservaFinalizada == false
+        ;});
+        });
+        
+    }
+
+
+  },
+
+  mounted() {
+    
+    this.init();
+  }
 };
 </script>
 

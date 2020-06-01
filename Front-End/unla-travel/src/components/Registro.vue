@@ -8,44 +8,54 @@
             <div>
               <label for="dni">DNI</label>
               <input type="text" class="form-control" id="dni" v-model="dni" required />
-              <p v-if="dniAlert" class="color-red"> {{dniMessage}} </p>
+              <p v-if="dniAlert" class="color-red">{{dniMessage}}</p>
 
               <label for="nombre">Nombre</label>
               <input type="text" class="form-control" id="nombre" v-model="nombre" required />
-              <p v-if="nombreAlert" class="color-red"> {{nombreMessage}} </p>
+              <p v-if="nombreAlert" class="color-red">{{nombreMessage}}</p>
 
               <label for="apellido">Apellido</label>
               <input type="text" class="form-control" id="apellido" v-model="apellido" required />
-              <p v-if="apellidoAlert" class="color-red"> {{apellidoMessage}} </p>
+              <p v-if="apellidoAlert" class="color-red">{{apellidoMessage}}</p>
 
               <label for="nacionalidad">Nacionalidad</label>
-              <input type="text" class="form-control" id="nacionalidad" v-model="nacionalidad" required />
-              <p v-if="nacionalidadAlert" class="color-red"> {{nacionalidadMessage}} </p>
-           
+              <input
+                type="text"
+                class="form-control"
+                id="nacionalidad"
+                v-model="nacionalidad"
+                required
+              />
+              <p v-if="nacionalidadAlert" class="color-red">{{nacionalidadMessage}}</p>
+
               <label for="domicilio">Domicilio</label>
               <input type="text" class="form-control" id="domicilio" v-model="domicilio" required />
-              <p v-if="domicilioAlert" class="color-red"> {{domicilioMessage}} </p>
+              <p v-if="domicilioAlert" class="color-red">{{domicilioMessage}}</p>
 
               <label for="mail">Mail</label>
               <input type="text" class="form-control" id="mail" v-model="mail" required />
-              <p v-if="mailAlert" class="color-red"> {{mailMessage}} </p>
+              <p v-if="mailAlert" class="color-red">{{mailMessage}}</p>
 
               <label for="password">Contraseña</label>
               <input type="password" class="form-control" id="password" v-model="password" required />
-              <p v-if="contraseñaAlert" class="color-red"> {{contraseñaMessage}} </p>
+              <p v-if="contraseñaAlert" class="color-red">{{contraseñaMessage}}</p>
 
               <label for="telefono">Telefono</label>
               <input type="text" class="form-control" id="telefono" v-model="telefono" required />
-              <p v-if="telefonoAlert" class="color-red"> {{telefonoMessage}} </p>
+              <p v-if="telefonoAlert" class="color-red">{{telefonoMessage}}</p>
 
               <br />
-              <button @click="submit" type="button" class="btn btn-lg btn-block btn-primary options">Guardar Cambios</button>
+              <button
+                @click="submit"
+                type="button"
+                class="btn btn-lg btn-block btn-primary options"
+              >Guardar Cambios</button>
             </div>
           </div>
         </form>
       </div>
     </div>
-    <br/>
+    <br />
     <div class="row">
       <div class="options text-center">
         <button
@@ -55,7 +65,7 @@
         >Volver Al Menú</button>
       </div>
     </div>
-    <br/>
+    <br />
   </div>
 </template>
 
@@ -63,7 +73,6 @@
 export default {
   name: "Registro",
   props: {
-
     dniAlert: {
       type: Boolean,
       default: false
@@ -122,71 +131,92 @@ export default {
     validar() {
       this.isValid = true;
 
-      if(!this.dni){
+      if (!this.dni) {
         this.dniMessage = "Ingrese un DNI";
         this.dniAlert = true;
         this.isValid = false;
-      }else{this.dniAlert=false;}
+      } else {
+        this.dniAlert = false;
+      }
 
-      if(!this.nombre){
+      if (!this.nombre) {
         this.nombreMessage = "Ingrese un nombre";
         this.nombreAlert = true;
         this.isValid = false;
-      }else{this.nombreAlert=false;}
+      } else {
+        this.nombreAlert = false;
+      }
 
-      if(!this.apellido){
+      if (!this.apellido) {
         this.apellidoMessage = "Ingrese un apellido";
         this.apellidoAlert = true;
         this.isValid = false;
-      }else{this.apellidoAlert=false;}
+      } else {
+        this.apellidoAlert = false;
+      }
 
-      if(!this.nacionalidad){
+      if (!this.nacionalidad) {
         this.nacionalidadMessage = "Ingrese una nacionalidad";
         this.nacionalidadAlert = true;
         this.isValid = false;
-      }else{this.nacionalidadAlert=false;}
+      } else {
+        this.nacionalidadAlert = false;
+      }
 
-      if(!this.domicilio){
+      if (!this.domicilio) {
         this.domicilioMessage = "Ingrese un domicilio";
         this.domicilioAlert = true;
         this.isValid = false;
-      }else{this.domicilioAlert=false;}
+      } else {
+        this.domicilioAlert = false;
+      }
 
-      if(!this.mail){
+      if (!this.mail) {
         this.mailMessage = "Ingrese un email";
         this.mailAlert = true;
         this.isValid = false;
-      }else{this.mailAlert=false;}
+      } else {
+        this.mailAlert = false;
+      }
 
-      if(!this.password){
+      if (!this.password) {
         this.contraseñaMessage = "Ingrese una contraseña";
         this.contraseñaAlert = true;
         this.isValid = false;
-      }else{this.contraseñaAlert=false;}
+      } else {
+        this.contraseñaAlert = false;
+      }
 
-      if(!this.telefono){
+      if (!this.telefono) {
         this.telefonoMessage = "Ingrese un telefono";
         this.telefonoAlert = true;
         this.isValid = false;
-      }else{this.telefonoAlert=false;}
-      
-      
+      } else {
+        this.telefonoAlert = false;
+      }
+
       return this.isValid;
     },
     submit() {
-      if(this.validar()){
+      if (this.validar()) {
         this.$axios
-        .post('https://localhost:57935/api/usuario', {
-          dni: this.dni,
-          nombre: this.nombre,
-          apellido: this.apellido,
-          nacionalidad: this.nacionalidad,
-          domicilio: this.domicilio,
-          mail: this.mail,
-          contraseña: this.password,
-          telefono: this.telefono,
-          isAdmin : false
-        }).then(this.volver())
+          .post("https://localhost:57935/api/usuario", {
+            dni: this.dni,
+            nombre: this.nombre,
+            apellido: this.apellido,
+            nacionalidad: this.nacionalidad,
+            domicilio: this.domicilio,
+            mail: this.mail,
+            contraseña: this.password,
+            telefono: this.telefono,
+            isAdmin: false
+          })
+          .then(() => {
+            this.volver();
+          })
+          .catch(() => {
+            alert("El email ingresado ya existe");
+          });
       }
     }
   }
@@ -216,7 +246,7 @@ export default {
 .lh-condensed {
   line-height: 1.25;
 }
-.color-red{
+.color-red {
   color: red;
 }
 .btn {

@@ -65,7 +65,7 @@ namespace UnlaTravel.Controllers
                 if (user.Id == id)
                 {
                     var resultDbUsuarios = context.Usuario.ToList().OrderBy(x => x.Id);
-                    var message = resultDbUsuarios.Any(x => x.Mail.Equals(user.Mail)) ? throw new Exception("Error al registrar usuario, ya existe el mail a registrar.") : "";
+                    var message = resultDbUsuarios.Any(x => x.Mail.Equals(user.Mail) && x.Id!=user.Id) ? throw new Exception("Error al registrar usuario, ya existe el mail a registrar.") : "";
                     context.Entry(user).State = EntityState.Modified;
                     context.SaveChanges();
                     return Ok();

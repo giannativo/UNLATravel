@@ -15,6 +15,7 @@ namespace UnlaTravel.Models
         public DateTime FechaDesde { get; set; }
         public DateTime FechaHasta { get; set; }
         public string NombreActividad { get; set; }
+        public string Link { get; set; }
         public string Descripcion { get; set; }
         public string FranjaHoraria { get; set; }
         public string Valoracion { get; set; }

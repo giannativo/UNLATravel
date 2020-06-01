@@ -5,6 +5,11 @@ namespace UnlaTravel.Models
 {
     public partial class Reserva
     {
+        public Reserva()
+        {
+            Pasajero = new HashSet<Pasajero>();
+        }
+
         public int Id { get; set; }
         public string NroReserva { get; set; }
         public int Usuario { get; set; }
@@ -15,6 +20,7 @@ namespace UnlaTravel.Models
         public bool EsUnPaquete { get; set; }
         public int? Paquete { get; set; }
         public decimal Importe { get; set; }
+        public bool ReservaFinalizada { get; set; }
 
         public Actividad ActividadNavigation { get; set; }
         public Alojamiento AlojamientoNavigation { get; set; }
@@ -22,5 +28,6 @@ namespace UnlaTravel.Models
         public Paquete PaqueteNavigation { get; set; }
         public Usuario UsuarioNavigation { get; set; }
         public Vuelo VueloNavigation { get; set; }
+        public ICollection<Pasajero> Pasajero { get; set; }
     }
 }

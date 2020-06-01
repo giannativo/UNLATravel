@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using UnlaTravel.Controllers;
 using UnlaTravel.MappingProfiles;
 using UnlaTravel.Models;
 
@@ -54,6 +55,8 @@ namespace UnlaTravel
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
           services.AddCors();
+
+            services.AddScoped<PasajeroController>();
 
         // Auto Mapper Configurations
         var mappingConfig = new MapperConfiguration(mc =>

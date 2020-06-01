@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UnlaTravel.Data;
+using UnlaTravel.Data.Requets;
 using UnlaTravel.Models;
 
 namespace UnlaTravel.Controllers
@@ -15,11 +16,13 @@ namespace UnlaTravel.Controllers
     {
         private readonly UnlaTravelContext context;
         private readonly IMapper _mapper;
+        private readonly PasajeroController _pasajeroController;
 
-        public ReservaController(UnlaTravelContext context, IMapper mapper)
+        public ReservaController(UnlaTravelContext context, IMapper mapper, PasajeroController pasajeroController)
         {
             this.context = context;
             this._mapper = mapper;
+            _pasajeroController = pasajeroController;
         }
 
         [HttpGet]
@@ -50,6 +53,15 @@ namespace UnlaTravel.Controllers
                 .Include(x => x.PaqueteNavigation.AlojamientoNavigation.TipoAlojamientoNavigation)
                 .ToList().OrderBy(x => x.Id);
             response = _mapper.Map<IEnumerable<Reserva>, IEnumerable<ReservaResponse>>(resultDb);
+
+            var pasajeros = _pasajeroController.Get().ToList();
+
+            foreach(ReservaResponse reserva in response)
+            {
+                var pasajeroDeReserva = pasajeros.Where(x => x.Reserva == reserva.Id);
+                reserva.Pasajeros.AddRange(pasajeroDeReserva);
+            }
+
             return response;
         }
 
@@ -81,21 +93,88 @@ namespace UnlaTravel.Controllers
                 .Include(x => x.PaqueteNavigation.AlojamientoNavigation.TipoAlojamientoNavigation)
                 .FirstOrDefault(u => u.Id == id);
             response = _mapper.Map<Reserva, ReservaResponse>(resultDb);
+
+            var pasajeros = _pasajeroController.Get().ToList();
+            var pasajeroDeReserva = pasajeros.Where(x => x.Reserva == response.Id);
+            response.Pasajeros.AddRange(pasajeroDeReserva);
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public IEnumerable<ReservaResponse> Usuario(int id)
+        {
+            IEnumerable<ReservaResponse> response = new List<ReservaResponse>();
+            var resultDb = context.Reserva.Include(x => x.DestinoNavigation)
+                .Include(x => x.UsuarioNavigation)
+                .Include(x => x.VueloNavigation)
+                .Include(x => x.VueloNavigation.OrigenNavigation)
+                .Include(x => x.VueloNavigation.DestinoNavigation)
+                .Include(x => x.ActividadNavigation)
+                .Include(x => x.ActividadNavigation.DestinoNavigation)
+                .Include(x => x.AlojamientoNavigation)
+                .Include(x => x.AlojamientoNavigation.DestinoNavigation)
+                .Include(x => x.AlojamientoNavigation.TipoRegimenNavigation)
+                .Include(x => x.AlojamientoNavigation.TipoAlojamientoNavigation)
+                .Include(x => x.PaqueteNavigation)
+                .Include(x => x.PaqueteNavigation.DestinoNavigation)
+                .Include(x => x.PaqueteNavigation.VueloNavigation)
+                .Include(x => x.PaqueteNavigation.VueloNavigation.OrigenNavigation)
+                .Include(x => x.PaqueteNavigation.VueloNavigation.DestinoNavigation)
+                .Include(x => x.PaqueteNavigation.ActividadNavigation)
+                .Include(x => x.PaqueteNavigation.ActividadNavigation.DestinoNavigation)
+                .Include(x => x.PaqueteNavigation.AlojamientoNavigation)
+                .Include(x => x.PaqueteNavigation.AlojamientoNavigation.DestinoNavigation)
+                .Include(x => x.PaqueteNavigation.AlojamientoNavigation.TipoRegimenNavigation)
+                .Include(x => x.PaqueteNavigation.AlojamientoNavigation.TipoAlojamientoNavigation)
+                .Where(u => u.UsuarioNavigation.Id == id);
+            response = _mapper.Map<IEnumerable<Reserva>, IEnumerable<ReservaResponse>>(resultDb);
+
+            var pasajeros = _pasajeroController.Get().ToList();
+
+            foreach (ReservaResponse reserva in response)
+            {
+                var pasajeroDeReserva = pasajeros.Where(x => x.Reserva == reserva.Id);
+                reserva.Pasajeros.AddRange(pasajeroDeReserva);
+            }
+
             return response;
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody]Reserva reserva)
+        public ActionResult Post([FromBody]RequestReserva reservaRequest)
         {
+            var reservaInsertadaCorrectamente = false;
+            var reservaInsertada = new Reserva();
+            var idReserva = 0;
             try
             {
-                reserva.Importe = 0;
+                var pasajeros = reservaRequest.Pasajeros.Any() ? _mapper.Map<IEnumerable<RequestPasajero>, IEnumerable<Pasajero>>(reservaRequest.Pasajeros) : null;
+                Reserva reserva = _mapper.Map<RequestReserva, Reserva>(reservaRequest);
                 context.Reserva.Add(reserva);
                 context.SaveChanges();
+
+                if (pasajeros != null)
+                {
+                    reservaInsertada = context.Reserva.FirstOrDefault(x => x.NroReserva == reserva.NroReserva);
+                    idReserva = reservaInsertada.Id;
+                    pasajeros.ToList().ForEach(x => x.Reserva = idReserva);
+                    reservaInsertadaCorrectamente = true;
+                    context.Pasajero.AddRange(pasajeros);
+                    context.SaveChanges();
+                    
+                }
+
                 return Ok();
             }
             catch (Exception e)
             {
+                if (reservaInsertadaCorrectamente)
+                {
+                    context.Reserva.Remove(reservaInsertada);
+                    context.SaveChanges();
+                }
                 return BadRequest(e.Message);
             }
         }
@@ -130,10 +209,18 @@ namespace UnlaTravel.Controllers
             try
             {
                 var reserva = context.Reserva.FirstOrDefault(u => u.Id == id);
+                var pasajerosAux = context.Pasajero.Where(x => x.Reserva == reserva.Id).ToList();
                 if (reserva != null)
                 {
                     context.Reserva.Remove(reserva);
+
+                    if(pasajerosAux != null)
+                    {
+                        context.Pasajero.RemoveRange(pasajerosAux);
+                    }
+                    
                     context.SaveChanges();
+
                     return Ok();
                 }
                 else

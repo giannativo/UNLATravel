@@ -144,7 +144,7 @@
     <h6 v-if="vuelo.conEscala">Vuelo con escalas</h6>
     <h6 v-if="vuelo.accesoDiscapacitados">Acceso a Discapacitados</h6>
     <h5>${{vuelo.precio}}</h5>
-    <b-button href="#" variant="primary">Agregar a Reserva</b-button>
+    <b-button v-if="allowedToAddVuelo" @click="agregarVueloAReserva(vuelo)" variant="primary">Agregar a Reserva</b-button>  
   </b-card>
 </div>
     </div>
@@ -156,15 +156,20 @@ export default {
   name: "VistaVuelo",
   props: {
     vuelos: null,
-    origen:null,
-    destino:null,
-    fechaDesde:null,
-    fechaHasta:null,
-    escala:null,
-    directo:null,
-    ida:null,
-    idaVuelta:null,
-    vuelosOriginal:null
+    origen: null,
+    destino: null,
+    fechaDesde: null,
+    fechaHasta: null,
+    escala: null,
+    directo: null,
+    ida: null,
+    idaVuelta: null,
+    vuelosOriginal: null,
+    reservaActiva: null,
+    allowedToAddVuelo: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
       return {
@@ -190,7 +195,21 @@ export default {
         .then(response => {
           this.vuelos = response.data;
           this.vuelosOriginal = this.vuelos;});
-    },filtro(vuelo){
+      if(this.$parent.$parent.usuario){
+        this.$axios
+        .get("https://localhost:57935/api/reserva/usuario/" + this.$parent.$parent.usuario.Id)
+        .then(response => {
+          this.allowedToAddVuelo = true;
+          if(response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;}).length > 0){
+            this.reservaActiva = response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;})[0];
+            if(this.reservaActiva.vuelo != null){
+              this.allowedToAddVuelo = false;
+            }
+          }
+        });    
+      }
+    },
+    filtro(vuelo){
 
       return vuelo.origen.ciudad == this.origen && vuelo.destino.ciudad == this.destino && vuelo.fechaIda.toString() >= this.fechaDesde.toString() 
       && vuelo.fechaVuelta.toString() <=this.fechaHasta.toString() && vuelo.conEscala == this.escala;
@@ -236,15 +255,43 @@ export default {
         if (x < y) {return -1;}
         if (x > y) {return 1;}
         return 0;
-    }
-
-
-   
+    },
+    agregarVueloAReserva(vuelo){
+      if(this.reservaActiva == null){
+        this.$axios
+          .post('https://localhost:57935/api/reserva', {
+            nroReserva: "1",
+            usuario: this.$parent.$parent.usuario.Id,
+            destino: this.$parent.destino,
+            alojamiento: null,
+            actividad: null,
+            vuelo: vuelo.id,
+            esUnPaquete: false,
+            paquete: null,
+            importe: vuelo.precio,
+            reservaFinalizada: false
+          });
+      }
+      else{
+        this.$axios
+          .put('https://localhost:57935/api/reserva/' + this.reservaActiva.id, {
+            id: this.reservaActiva.id,
+            nroReserva: this.reservaActiva.nroReserva,
+            usuario: this.reservaActiva.usuario.id,
+            destino: this.reservaActiva.destino.id,
+            alojamiento: this.reservaActiva.alojamiento,
+            actividad: this.reservaActiva.actividad,
+            vuelo: vuelo.id,
+            esUnPaquete: this.reservaActiva.esUnPaquete,
+            paquete: this.reservaActiva.paquete,
+            importe: this.reservaActiva.importe + vuelo.precio,
+            reservaFinalizada: this.reservaActiva.reservaFinalizada
+          });
+      }
+    }  
   },
  async mounted() {
    await this.init();
-   
-   
   }
 };
 </script>

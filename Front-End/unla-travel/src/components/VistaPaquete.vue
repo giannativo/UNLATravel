@@ -79,8 +79,20 @@
         <div class="col-3">
         
        <b-dropdown id="dropdown-3" text="Cantidad de personas" class="m-md-2" variant="outline-success">
-    <b-dropdown-item @click="ordenarPorCantidad('mayor')" >Mayor cantidad primero</b-dropdown-item>
-    <b-dropdown-item @click="ordenarPorCantidad('menor')" >Menor cantidad primero</b-dropdown-item>    
+         <b-dropdown-form>
+     <b-form-group label="Cantidad de personas:">
+      <b-form-checkbox
+        v-for="option in options"
+        v-model="selected"
+        :key="option.value"
+        :value="option.value"
+        name="flavour-3a"
+        @input="filtroPorCantidadDePersonas"
+      >
+        {{ option.text }}
+      </b-form-checkbox>
+    </b-form-group> 
+    </b-dropdown-form>   
   </b-dropdown>       
       
      </div>
@@ -132,16 +144,45 @@ export default {
       default: false
     }
   },
+    data() {
+      return {
+        selected: [], // Must be an array reference!
+        options: [
+          { text: '10', value: '10' },
+          { text: '9', value: '9' },
+           { text: '8', value: '8' },
+           { text: '7', value: '7' },
+           { text: '6', value: '6' },
+            { text: '5', value: '5' },
+             { text: '4', value: '4' },
+              { text: '3', value: '3' },
+               { text: '2', value: '2' },
+                { text: '1', value: '1' },
+        ]
+      }
+    },
   methods:{
      filtro(paquete){
 
-      return paquete.fechaIda.toString() >= this.fechaDesde.toString() 
-      && paquete.fechaVuelta.toString() <=this.fechaHasta.toString() && paquete.alojamiento.nombreAlojamiento == this.alojamiento && this.tipoPaquete == paquete.tipoPaquete;
+      return (paquete.fechaIda.toString() >= this.fechaDesde || this.fechaHasta == "")
+      && (paquete.fechaVuelta.toString() <=this.fechaHasta || this.fechaHasta == "") &&  (paquete.alojamiento.nombreAlojamiento == this.alojamiento || this.alojamiento == null) && (this.tipoPaquete == null || this.tipoPaquete == paquete.tipoPaquete);
+
+    },
+    filtroPorCantidadDePersonas(){
+      
+      this.paquetes = this.paquetesOriginal;
+      this.paquetes = this.paquetes.filter(paq=>{
+        if(this.selected.find(select=>(select == paq.cantidadPersonas)) != undefined)
+            return true;
+        else
+            return false;
+      })
+
 
     },
     submit(){
      this.paquetes=this.paquetesOriginal;
-     console.log(this.fechaDesde,this.fechaHasta,this.alojamiento);
+     console.log(this.fechaDesde,this.fechaHasta,this.alojamiento,this.tipoPaquete);
      this.paquetes = this.paquetes.filter(this.filtro);
  
     },

@@ -17,7 +17,7 @@
        </div>
        <div class="col">
 
-       <input class="form-check-input" type="radio" v-model="ida" :value="true" name="inlineRadioOptions" id="inlineRadio2" >
+       <input class="form-check-input" type="radio" v-model="idaVuelta" :value="false" name="inlineRadioOptions" id="inlineRadio2" >
        <label class="form-check-label" for="inlineRadio2"  style="color:white;">Ida</label>
        
        </div>
@@ -104,8 +104,20 @@
      <div class="col-2">
         
        <b-dropdown id="dropdown-1" text="Valoracion" class="m-md-2" variant="outline-success">
-    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
-    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
+    <b-dropdown-form>
+       <b-form-group label="Estrellas:">
+      <b-form-checkbox
+        v-for="option in options"
+        v-model="selected"
+        :key="option.value"
+        :value="option.value"
+        name="flavour-3a"
+        @input="filtrar"
+      >
+        {{ option.text }}
+      </b-form-checkbox>
+    </b-form-group>
+    </b-dropdown-form>        
   </b-dropdown>       
       
      </div>
@@ -114,8 +126,20 @@
   <div class="col-2">
         
        <b-dropdown id="dropdown-2" text="Clase" class="m-md-2" variant="outline-success">
-    <b-dropdown-item @click="ordenarPorClase('mayor')" >Ascendente</b-dropdown-item>
-    <b-dropdown-item @click="ordenarPorClase('menor')" >Descentente</b-dropdown-item>    
+    <b-dropdown-form>
+       <b-form-group label="Selecciona las clases:">
+      <b-form-checkbox
+        v-for="clase in clases"
+        v-model="clasesSeleccionadas"
+        :key="clase.value"
+        :value="clase.value"
+        name="clases"
+        @input="filtrar"
+      >
+        {{ clase.text }}
+      </b-form-checkbox>
+    </b-form-group>
+    </b-dropdown-form>      
   </b-dropdown>       
       
      </div>
@@ -174,16 +198,18 @@ export default {
   data() {
       return {
         selected: [], // Must be an array reference!
-        valores: [
-          { text: '1', value: '1' },
-          { text: '2', value: '2' },
-          { text: '3', value: '3'},
+        options: [
+          { text: '5', value: '5' },
           { text: '4', value: '4' },
-          { text: '5', value: '5' }
+          { text: '3', value: '3'},
+          { text: '2', value: '2' },
+          { text: '1', value: '1' }
         ],
+        clasesSeleccionadas:[],
         clases:[
           { text: 'Economica', value: 'Económica' },
-          { text: 'Primera clase', value: 'Primera clase' }
+          { text: 'Primera clase', value: 'Primera clase' },
+          {text:  'Ejecutivo', value:'Ejecutivo'}
 
         ]
       }
@@ -215,17 +241,48 @@ export default {
         });    
       }
     },
+    
     filtro(vuelo){
 
-      return vuelo.origen.ciudad == this.origen && vuelo.destino.ciudad == this.destino && vuelo.fechaIda.toString() >= this.fechaDesde.toString() 
-      && vuelo.fechaVuelta.toString() <=this.fechaHasta.toString() && vuelo.conEscala == this.escala;
+      return (vuelo.origen.ciudad == this.origen || this.origen == null) && (vuelo.destino.ciudad == this.destino || this.destino == null) && (vuelo.fechaIda.toString() >= this.fechaDesde || this.fechaDesde == "") 
+      && (vuelo.fechaVuelta.toString() <=this.fechaHasta || this.fechaHasta =="") &&  ((this.idaVuelta && vuelo.fechaVuelta != null || this.idaVuelta== null ) || (!this.idaVuelta && vuelo.fechaVuelta== null) || this.idaVuelta== null ) && (vuelo.conEscala == this.escala || this.escala == null);
 
     },
     submit(){
-     console.log(this.escala);
+   
      this.vuelos=this.vuelosOriginal;
      this.vuelos = this.vuelos.filter(this.filtro);
  
+    },
+    filtrar(){
+      this.vuelos = this.vuelosOriginal;
+       if(this.selected.length >0)
+            this.filtrarPorValoracion(); 
+       if(this.clasesSeleccionadas.length >0)
+            this.filtrarClase();
+      
+
+    },
+    filtrarPorValoracion(){
+      
+      this.vuelos = this.vuelos.filter(vuelo=>{
+        if(this.selected.find(select =>( select == vuelo.valoracionAereolinea)) != undefined )
+          return true;
+        else
+          false;
+        
+      })
+    
+    },
+    filtrarClase(){
+       this.vuelos = this.vuelos.filter(vuelo=>{
+        if(this.clasesSeleccionadas.find(select =>( select == vuelo.clase)) != undefined )
+          return true;
+        else
+          false;
+        
+      })
+
     },
   
     

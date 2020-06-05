@@ -65,8 +65,20 @@
       <div class="col-3">
         
      <b-dropdown id="dropdown-4" text="Cantidad estrellas" class="m-md-2" variant="outline-success">
-        <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
-        <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
+    <b-dropdown-form> 
+       <b-form-group label="Estrellas:">
+      <b-form-checkbox
+        v-for="option in options"
+        v-model="selected"
+        :key="option.value"
+        :value="option.value"
+        name="flavour-3a"
+        @input="filtrarPorValoracion"
+      >
+        {{ option.text }}
+      </b-form-checkbox>
+    </b-form-group>
+    </b-dropdown-form>      
       </b-dropdown>       
       
      </div>
@@ -101,6 +113,18 @@
 <script>
 export default {
   name: "VistaAlojamiento",
+   data() {
+      return {
+        selected: [], // Must be an array reference!
+        options: [
+          { text: '5', value: '5' },
+          { text: '4', value: '4' },
+          { text: '3', value: '3' },
+          { text: '2', value: '2' },
+          {text :'1', value:'1'}
+        ]
+      }
+    },
   props: {
     alojamientos: null,
     fechaDesde: null,
@@ -145,9 +169,21 @@ export default {
       }
     }, filtro(alojamiento){
 
-      return  alojamiento.tipoServicio == this.servicio && alojamiento.tipoRegimen.descripcion ==this.regimen &&
-       alojamiento.tipoHabitacion == this.habitacion && alojamiento.tipoAlojamiento.descripcion == this.tipoAlojamiento;
+      return  (alojamiento.tipoServicio == this.servicio || this.servicio == null) && (alojamiento.tipoRegimen.descripcion ==this.regimen || this.regimen == null) &&
+       (alojamiento.tipoHabitacion == this.habitacion || this.habitacion == null)  && (alojamiento.tipoAlojamiento.descripcion == this.tipoAlojamiento || this.tipoAlojamiento == null );
 
+    },
+    filtrarPorValoracion(){
+  
+      this.alojamientos = this.alojamientosOriginal;
+      this.alojamientos = this.alojamientos.filter(aloj=>{
+        if(this.selected.find(select =>( select == aloj.cantidadEstrellas)) != undefined )
+          return true;
+        else
+          false;
+        
+      })
+    
     },
     submit(){
      this.alojamientos=this.alojamientosOriginal;

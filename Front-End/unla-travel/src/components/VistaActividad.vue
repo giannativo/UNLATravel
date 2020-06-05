@@ -39,7 +39,7 @@
               ></datetime>
       </div>
       <div class="col">
-          <b-form-input list="act" v-model="nombreActividad" placeholder="Actividad" ></b-form-input>
+          <b-form-input list="act" v-model="nombreActividad" placeholder="Lugar" ></b-form-input>
 
           <datalist id="act" >
           <select v-model="destino"   class="form-control">
@@ -64,8 +64,20 @@
      <div class="col-2">
         
        <b-dropdown id="dropdown-1" text="Valoracion" class="m-md-2" variant="outline-success">
-    <b-dropdown-item @click="ordenarPorValoracion('mayor')" >Mayor valoracion primero</b-dropdown-item>
-    <b-dropdown-item @click="ordenarPorValoracion('menor')" >Menor valoracion primero</b-dropdown-item>    
+    <b-dropdown-form>
+       <b-form-group label="Estrellas:">
+      <b-form-checkbox
+        v-for="option in options"
+        v-model="selected"
+        :key="option.value"
+        :value="option.value"
+        name="flavour-3a"
+        @input="filtrarPorValoracion"
+      >
+        {{ option.text }}
+      </b-form-checkbox>
+    </b-form-group>
+    </b-dropdown-form>    
   </b-dropdown>       
       
      </div>
@@ -99,6 +111,18 @@
 <script>
 export default {
   name: "VistaActividad",
+  data() {
+      return {
+        selected: [], // Must be an array reference!
+        options: [
+          { text: '5', value: '5 estrellas' },
+          { text: '4', value: '4 estrellas' },
+          { text: '3', value: '3 estrellas' },
+          { text: '2', value: '2 estrellas' },
+          {text :'1', value:'1 estrellas'}
+        ]
+      }
+    },
   props: {
     actividades: null,
     fechaDesde: null,
@@ -114,14 +138,26 @@ export default {
   methods:{
     filtro(actividad){
 
-      return actividad.fechaDesde.toString() >= this.fechaDesde.toString() 
-      && actividad.fechaHasta.toString() <=this.fechaHasta.toString() && actividad.nombreActividad == this.nombreActividad;
+      return (actividad.fechaDesde.toString() >= this.fechaDesde || this.fechaDesde == "")
+      && (actividad.fechaHasta.toString() <=this.fechaHasta || this.fechaHasta =="") && (actividad.nombreActividad == this.nombreActividad || this.nombreActividad==null);
 
     },
     submit(){
      this.actividades=this.actividadesOriginal;
      this.actividades = this.actividades.filter(this.filtro);
  
+    },
+    filtrarPorValoracion(){
+  
+      this.actividades = this.actividadesOriginal;
+      this.actividades = this.actividades.filter(act=>{
+        if(this.selected.find(select =>( select == act.valoracion)) != undefined ){
+          return true;
+        }else{
+          false;
+        }
+      })
+    
     },
      ordenarPorValoracion(orden){
        

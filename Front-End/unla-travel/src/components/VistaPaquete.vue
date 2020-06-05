@@ -107,11 +107,8 @@
           <h6>Cantidad Habitaciones: {{paquete.habitaciones}}</h6>
           <h6 v-if="paquete.accesoDiscapacitados">Acceso a discapacitados</h6>
           <h6>${{paquete.precio}}</h6>
-          
-           
-          <b-button href="#" variant="primary">Reservar</b-button>
+          <b-button v-if="allowedToAddPaquete" @click="agregarPaqueteAReserva(paquete)" variant="primary">Agregar a Reserva</b-button>             
         </b-card>
-       
       </div>
     </div>
   </div>
@@ -122,13 +119,18 @@ export default {
   name: "VistaPaquete",
   props: {
     paquetes: null,
-    paquetesOriginal:null,
-    origen:null,
-    destino:null,
-    fechaDesde:null,
-    fechaHasta:null,
-    alojamiento:null,
-    tipoPaquete:null
+    paquetesOriginal: null,
+    origen: null,
+    destino: null,
+    fechaDesde: null,
+    fechaHasta: null,
+    alojamiento: null,
+    tipoPaquete: null,
+    reservaActiva: null,
+    allowedToAddPaquete: {
+      type: Boolean,
+      default: false
+    }
   },
   methods:{
      filtro(paquete){
@@ -154,7 +156,40 @@ export default {
 
 
       }
-    }
+    },
+    agregarPaqueteAReserva(paquete){
+      if(this.reservaActiva == null){
+        this.$axios
+          .post('https://localhost:57935/api/reserva', {
+            nroReserva: "1",
+            usuario: this.$parent.$parent.usuario.Id,
+            destino: this.$parent.destino,
+            alojamiento: null,
+            actividad: null,
+            vuelo: null,
+            esUnPaquete: true,
+            paquete: paquete.id,
+            importe: paquete.precio,
+            reservaFinalizada: false
+          });
+      }
+      else{
+        this.$axios
+          .put('https://localhost:57935/api/reserva/' + this.reservaActiva.id, {
+            id: this.reservaActiva.id,
+            nroReserva: this.reservaActiva.nroReserva,
+            usuario: this.reservaActiva.usuario.id,
+            destino: this.reservaActiva.destino.id,
+            alojamiento: this.reservaActiva.alojamiento,
+            actividad: this.reservaActiva.actividad,
+            vuelo: this.reservaActiva.vuelo,
+            esUnPaquete: true,
+            paquete: paquete.id,
+            importe: paquete.precio,
+            reservaFinalizada: this.reservaActiva.reservaFinalizada
+          });
+      }
+    } 
   },
   mounted() {
     this.$axios
@@ -164,6 +199,20 @@ export default {
       .then(response => {
         this.paquetes = response.data;
         this.paquetesOriginal = this.paquetes;});
+    if(this.$parent.$parent.usuario){
+        this.$axios
+        .get("https://localhost:57935/api/reserva/usuario/" + this.$parent.$parent.usuario.Id)
+        .then(response => {
+          this.allowedToAddPaquete = true;
+          if(response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;}).length > 0){
+            this.reservaActiva = response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;})[0];
+            if(this.reservaActiva.actividad != null || this.reservaActiva.vuelo != null 
+            || this.reservaActiva.alojamiento != null || this.reservaActiva.paquete != null){
+              this.allowedToAddPaquete = false;
+            }
+          }
+        });    
+      }
   }
 };
 </script>

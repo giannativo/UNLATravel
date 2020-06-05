@@ -91,7 +91,7 @@
     <h6>Regimen: {{alojamiento.tipoRegimen.descripcion}}</h6>
     <h6 v-if="alojamiento.accesoDiscapacitados">Acceso a Discapacitados</h6>
     <h5>${{alojamiento.precio}}</h5>
-    <b-button href="#" variant="primary">Agregar a Reserva</b-button>
+    <b-button v-if="allowedToAddAlojamiento" @click="agregarAlojamientoAReserva(alojamiento)" variant="primary">Agregar a Reserva</b-button>  
   </b-card>
 </div>
     </div>
@@ -103,14 +103,19 @@ export default {
   name: "VistaAlojamiento",
   props: {
     alojamientos: null,
-    fechaDesde:null,
-    fechaHasta:null,
-    alojamientosOriginal:null,
-    nombreAlojamiento:null,
-    habitacion:null,
-    regimen:null,
-    servicio:null,
-    tipoAlojamiento:null
+    fechaDesde: null,
+    fechaHasta: null,
+    alojamientosOriginal: null,
+    nombreAlojamiento: null,
+    habitacion: null,
+    regimen: null,
+    servicio: null,
+    tipoAlojamiento: null,
+    reservaActiva: null,
+    allowedToAddAlojamiento: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     init() {
@@ -119,6 +124,25 @@ export default {
         .then(response => {
           this.alojamientos = response.data;
           this.alojamientosOriginal=this.alojamientos;});
+      if(this.$parent.$parent.usuario){
+        this.$axios
+        .get("https://localhost:57935/api/reserva/usuario/" + this.$parent.$parent.usuario.Id)
+        .then(response => {
+          this.allowedToAddAlojamiento = true;
+          if(response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;}).length > 0){
+            this.reservaActiva = response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;})[0];
+            if(this.reservaActiva.vuelo != null){
+              this.reservaActiva.vuelo = this.reservaActiva.vuelo.id;
+            }
+            if(this.reservaActiva.actividad != null){
+              this.reservaActiva.actividad = this.reservaActiva.actividad.id;
+            }
+            if(this.reservaActiva.alojamiento != null || this.reservaActiva.esUnPaquete){
+              this.allowedToAddAlojamiento = false;
+            }
+          }
+        });    
+      }
     }, filtro(alojamiento){
 
       return  alojamiento.tipoServicio == this.servicio && alojamiento.tipoRegimen.descripcion ==this.regimen &&
@@ -131,7 +155,7 @@ export default {
      this.alojamientos = this.alojamientos.filter(this.filtro);
  
     },
-      ordenarPorValoracion(orden){
+    ordenarPorValoracion(orden){
       switch(orden){
         case 'mayor':
           this.alojamientos.sort(function(a, b){return b.cantidadEstrellas - a.cantidadEstrellas});
@@ -142,7 +166,40 @@ export default {
 
 
       }
-    }
+    },
+    agregarAlojamientoAReserva(alojamiento){
+      if(this.reservaActiva == null){
+        this.$axios
+          .post('https://localhost:57935/api/reserva', {
+            nroReserva: "1",
+            usuario: this.$parent.$parent.usuario.Id,
+            destino: this.$parent.destino,
+            alojamiento: alojamiento.id,
+            actividad: null,
+            vuelo: null,
+            esUnPaquete: false,
+            paquete: null,
+            importe: alojamiento.precio,
+            reservaFinalizada: false
+          });
+      }
+      else{
+        this.$axios
+          .put('https://localhost:57935/api/reserva/' + this.reservaActiva.id, {
+            id: this.reservaActiva.id,
+            nroReserva: this.reservaActiva.nroReserva,
+            usuario: this.reservaActiva.usuario.id,
+            destino: this.reservaActiva.destino.id,
+            alojamiento: alojamiento.id,
+            actividad: this.reservaActiva.actividad,
+            vuelo: this.reservaActiva.vuelo,
+            esUnPaquete: this.reservaActiva.esUnPaquete,
+            paquete: this.reservaActiva.paquete,
+            importe: this.reservaActiva.importe + alojamiento.precio,
+            reservaFinalizada: this.reservaActiva.reservaFinalizada
+          });
+      }
+    }  
   },
   mounted() {
     this.init();

@@ -202,7 +202,13 @@ export default {
           this.allowedToAddVuelo = true;
           if(response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;}).length > 0){
             this.reservaActiva = response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;})[0];
-            if(this.reservaActiva.vuelo != null){
+            if(this.reservaActiva.alojamiento != null){
+              this.reservaActiva.alojamiento = this.reservaActiva.alojamiento.id;
+            }
+            if(this.reservaActiva.actividad != null){
+              this.reservaActiva.actividad = this.reservaActiva.actividad.id;
+            }
+            if(this.reservaActiva.vuelo != null || this.reservaActiva.esUnPaquete){
               this.allowedToAddVuelo = false;
             }
           }

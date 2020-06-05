@@ -14,18 +14,21 @@
       >
         <h6>Numero Reserva: {{reserva.nroReserva}}</h6>
         <h6>Destino: {{reserva.destino.pais}}, {{reserva.destino.region}}, {{reserva.destino.ciudad}}</h6>
-        <h6 v-if="reserva.esUnPaquete">NroVuelo:{{reserva.paquete.vuelo.id}}</h6>
-        <h6 v-else>NroVuelo:{{reserva.vuelo.id}}</h6>
-        <h6
-          v-if="reserva.esUnPaquete== true"
-        >Alojamiento: {{reserva.paquete.alojamiento.nombreAlojamiento}}</h6>
+        <div v-if="reserva.esUnPaquete">
+        <h6>NroVuelo:{{reserva.paquete.vuelo.id}}</h6>
+        <h6>Alojamiento: {{reserva.paquete.alojamiento.nombreAlojamiento}}</h6>
+        <h6>Actividad: {{reserva.paquete.actividad.nombreActividad}}</h6>
         
-        <h6
-          v-if="reserva.esUnPaquete== true"
-        >Actividad: {{reserva.paquete.actividad.nombreActividad}}</h6>
-        <h6 v-else>Actividad: {{reserva.actividad.nombreActividad}}</h6>
-        <h5>${{reserva.importe}}</h5>
-        <b-button @click="cargaReserva(reserva)" href="#" variant="primary">Ver Reserva</b-button>
+        
+        </div>
+        <div v-else>
+        <h6 v-if="reserva.vuelo!=null">NroVuelo:{{reserva.vuelo.id}}</h6>
+        <h6 v-if="reserva.alojamiento!=null">Alojamiento: {{reserva.alojamiento.nombreAlojamiento}}</h6>
+        <h6 v-if="reserva.actividad!=null">Actividad: {{reserva.actividad.nombreActividad}}</h6>
+
+          </div>
+          <h5>${{reserva.importe}}</h5>
+          <b-button @click="cargaReserva(reserva)" href="#" variant="primary">Ver Reserva</b-button>
       </b-card>
      </div>
       <h4>Finalizadas</h4>
@@ -38,20 +41,23 @@
         tag="flight"
         class="mb-2 flight"
       >
-        <h6>Numero Reserva: {{reserva.nroReserva}}</h6>
+       <h6>Numero Reserva: {{reserva.nroReserva}}</h6>
         <h6>Destino: {{reserva.destino.pais}}, {{reserva.destino.region}}, {{reserva.destino.ciudad}}</h6>
-        <h6 v-if="reserva.esUnPaquete">NroVuelo:{{reserva.paquete.vuelo.id}}</h6>
-        <h6 v-else>NroVuelo:{{reserva.vuelo.id}}</h6>
-        <h6
-          v-if="reserva.esUnPaquete== true"
-        >Alojamiento: {{reserva.paquete.alojamiento.nombreAlojamiento}}</h6>
-        <h6>Paquete:</h6>
-        <h6
-          v-if="reserva.esUnPaquete== true"
-        >Actividad: {{reserva.paquete.actividad.nombreActividad}}</h6>
-        <h6 v-else>Actividad: {{reserva.actividad.nombreActividad}}</h6>
-        <h5>${{reserva.importe}}</h5>
-        <b-button @click="cargaReserva(reserva)" href="#" variant="primary">Ver Reserva</b-button>
+        <div v-if="reserva.esUnPaquete">
+        <h6>NroVuelo:{{reserva.paquete.vuelo.id}}</h6>
+        <h6>Alojamiento: {{reserva.paquete.alojamiento.nombreAlojamiento}}</h6>
+        <h6>Actividad: {{reserva.paquete.actividad.nombreActividad}}</h6>
+        
+        
+        </div>
+        <div v-else>
+        <h6 v-if="reserva.vuelo!=null">NroVuelo:{{reserva.vuelo.id}}</h6>
+        <h6 v-if="reserva.alojamiento!=null">Alojamiento: {{reserva.alojamiento.nombreAlojamiento}}</h6>
+        <h6 v-if="reserva.actividad!=null">Actividad: {{reserva.actividad.nombreActividad}}</h6>
+
+          </div>
+          <h5>${{reserva.importe}}</h5>
+          <b-button @click="cargaReserva(reserva)" href="#" variant="primary">Ver Reserva</b-button>
       </b-card>
       </div>
       <br />

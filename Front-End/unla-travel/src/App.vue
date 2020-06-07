@@ -174,6 +174,7 @@ export default {
       else{
         this.userLogged = false;
         this.showTravels = false;
+        this.showReservation = false;
         this.cargaHome();
       }
     },

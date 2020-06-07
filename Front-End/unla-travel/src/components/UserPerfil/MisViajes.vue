@@ -356,17 +356,14 @@
             type="button"
             class="btn btn-lg btn-block btn-primary"
           >Volver</button>
-        </div>
-      </div>
-      <div v-if="reservaSeleccionada.reservaFinalizada==false" class="row">
-        <div class="options text-center">
-          <button
+          <button v-if="reservaSeleccionada.reservaFinalizada==false"
             @click="confirmarReserva"
             type="button"
             class="btn btn-lg btn-block btn-primary"
           >Confirmar Reserva</button>
         </div>
       </div>
+      
     </div>
     <div v-if="showEditarPasajero">
       <div class="text-center">
@@ -419,11 +416,7 @@
                   <p v-if="telefonoAlert" class="color-red">{{telefonoMessage}}</p>
 
                   <br />
-                  <button
-                    @click="modificarPasajero(pasajeroToEdit)"
-                    type="button"
-                    class="btn btn-lg btn-block btn-primary options"
-                  >Guardar Cambios</button>
+                  
                 </div>
               </div>
             </form>
@@ -433,10 +426,15 @@
         <div class="row">
           <div class="options text-center">
             <button
+                    @click="modificarPasajero(pasajeroToEdit)"
+                    type="button"
+                    class="btn btn-lg btn-block btn-primary options"
+                  >Guardar Cambios</button>
+            <button
               @click="listaReservas"
               type="button"
               class="btn btn-lg btn-block btn-primary options text-center"
-            >Volver Al Menú</button>
+            >Volver</button>
           </div>
         </div>
         <br />

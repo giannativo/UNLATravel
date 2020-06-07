@@ -14,7 +14,10 @@
             <a class="nav-link" @click="cargaRegistro" v-if="!userLogged" href="#"><i class="fas fa-envelope"></i> Registrarse</a>
           </li>
           <li class="nav-item" v-if="showTravels">
-            <a class="nav-link" @click="cargaMiperfil" href="#"><i class="fas fa-umbrella-beach"></i> Mi Perfil</a>
+            <a class="nav-link" @click="cargaMiperfil" href="#"><i class="fas fa-user-alt"></i> Mi Perfil</a>
+          </li>
+          <li class="nav-item" v-if="showReservation">
+            <a class="nav-link" @click="cargaReserva" href="#"><i class="fas fa-umbrella-beach"></i> Ver Reserva</a>
           </li>
           <li class="nav-item" v-if="userLogged">
             <a class="nav-link" @click="logout" href="#"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
@@ -30,6 +33,7 @@
     <Registro v-if="showRegistro"/>
     <Home v-if="showHome"/>
     <MiPerfil v-if="showPerfil"/>
+    <VistaReserva v-if="showReserva"/>
   </div>
 </template>
 
@@ -39,6 +43,7 @@ import Registro from "./components/Registro.vue";
 import Login from "./components/Login.vue";
 import Home from "./components/Home.vue";
 import MiPerfil from "./components/UserPerfil/MiPerfil.vue";
+import VistaReserva from "./components/VistaReserva.vue";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 export default {
@@ -48,9 +53,10 @@ export default {
     Registro,
     Login,
     Home,
-    MiPerfil
+    MiPerfil,
+    VistaReserva
   },
-  props:{
+  props: {
     showHome: {
         type: Boolean,
         default: true
@@ -72,6 +78,7 @@ export default {
         default: false
     },
     usuario: null,
+    reserva: null,
     userLogged: {
         type: Boolean,
         default: false
@@ -84,6 +91,14 @@ export default {
       type: Boolean,
       default: false
     },
+    showReservation: {
+      type: Boolean,
+      default: false
+    },
+    showReserva: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     cargaLogin: function () {
@@ -91,36 +106,48 @@ export default {
       this.showMenuAdmin = false,
       this.showRegistro = false,
       this.showHome = false,
-      this.showPerfil = false
+      this.showPerfil = false,
+      this.showReserva = false
     },
     cargaRegistro: function(){
       this.showRegistro = true,
       this.showMenuAdmin = false,
       this.showLogin = false,
       this.showHome = false,
-      this.showPerfil = false
+      this.showPerfil = false,
+      this.showReserva = false
     },
     cargaHome() {
       this.showLogin = false,
       this.showRegistro = false,
       this.showMenuAdmin = false,
       this.showHome = true,
-      this.showPerfil = false
+      this.showPerfil = false,
+      this.showReserva = false
     },
     cargaAdmin() {
       this.showLogin = false,
       this.showRegistro = false,
       this.showMenuAdmin = true,
       this.showHome = false,
-      this.showPerfil = false
+      this.showPerfil = false,
+      this.showReserva = false
     },
     cargaMiperfil(){
       this.showLogin = false,
       this.showRegistro = false,
       this.showMenuAdmin = false,
       this.showHome = false,
-      this.showPerfil = true
-
+      this.showPerfil = true,
+      this.showReserva = false
+    },
+    cargaReserva(){
+      this.showLogin = false,
+      this.showRegistro = false,
+      this.showMenuAdmin = false,
+      this.showHome = false,
+      this.showPerfil = false,
+      this.showReserva = true      
     },
     init() {
       var token = localStorage.getItem('token');
@@ -134,6 +161,14 @@ export default {
         else{
           this.cargaHome();
           this.showTravels = true;
+          this.$axios
+          .get("https://localhost:57935/api/reserva/usuario/" + this.usuario.Id)
+          .then(response => {
+            if(response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;}).length > 0){
+              this.reserva = response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;})[0];
+              this.showReservation = true;
+            }
+          });   
         }
       }
       else{

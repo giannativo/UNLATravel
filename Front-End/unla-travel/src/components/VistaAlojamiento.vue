@@ -155,6 +155,8 @@ export default {
           this.allowedToAddAlojamiento = true;
           if(response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;}).length > 0){
             this.reservaActiva = response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;})[0];
+            this.$parent.$parent.showReservation = true;
+            this.$parent.$parent.reserva = this.reservaActiva;
             if(this.reservaActiva.vuelo != null){
               this.reservaActiva.vuelo = this.reservaActiva.vuelo.id;
             }

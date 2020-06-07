@@ -84,7 +84,6 @@ export default {
       }
     },
     search(){
-      
       this.activeSearch = true;
       this.showVuelos = true;
     },

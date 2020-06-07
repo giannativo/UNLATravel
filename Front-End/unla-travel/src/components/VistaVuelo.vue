@@ -228,6 +228,8 @@ export default {
           this.allowedToAddVuelo = true;
           if(response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;}).length > 0){
             this.reservaActiva = response.data.filter(function(reserva) {return reserva.reservaFinalizada == false;})[0];
+            this.$parent.$parent.showReservation = true;
+            this.$parent.$parent.reserva = this.reservaActiva;
             if(this.reservaActiva.alojamiento != null){
               this.reservaActiva.alojamiento = this.reservaActiva.alojamiento.id;
             }

@@ -184,7 +184,8 @@
 
                 <label for="firstName">Cantidad de Personas</label>
                 <input
-                  type="text"
+                  type="number"
+                  min="1"
                   v-model="cantidadPersonas"
                   class="form-control"
                   id="firstName"
@@ -200,7 +201,8 @@
 
                 <label for="firstName">Habitaciones</label>
                 <input
-                  type="text"
+                  type="number"
+                  min="1"
                   v-model="habitaciones"
                   class="form-control"
                   id="firstName"

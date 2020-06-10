@@ -7,7 +7,7 @@
           <div class="row options">
             <div>
               <label for="dni">DNI</label>
-              <input type="text" class="form-control" id="dni" v-model="dni" required />
+              <input type="number" min="1" class="form-control" id="dni" v-model="dni" required />
               <p v-if="dniAlert" class="color-red">{{dniMessage}}</p>
 
               <label for="nombre">Nombre</label>

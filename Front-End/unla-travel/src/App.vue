@@ -8,6 +8,9 @@
             <a class="nav-link" v-if="userLogged" href="#"><i class="fas fa-user-alt"></i> {{usuario.Nombre}} {{usuario.Apellido}}</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" @click="cargaHome" href="#"><i class="fas fa-globe-americas"></i> Destinos</a>
+          </li>          
+          <li class="nav-item">
             <a class="nav-link" @click="cargaLogin" v-if="!userLogged" href="#"><i class="fas fa-user-friends"></i> Iniciar Sesión</a>
           </li>
           <li class="nav-item">
@@ -31,7 +34,7 @@
     <MenuAdmin v-if="showMenuAdmin"/>
     <Login v-if="showLogin"/>
     <Registro v-if="showRegistro"/>
-    <Home v-if="showHome"/>
+    <Home v-if="showHome" ref="home"/>
     <MiPerfil v-if="showPerfil"/>
     <VistaReserva v-if="showReserva"/>
   </div>
@@ -123,7 +126,8 @@ export default {
       this.showMenuAdmin = false,
       this.showHome = true,
       this.showPerfil = false,
-      this.showReserva = false
+      this.showReserva = false,
+      this.$refs.home.init()
     },
     cargaAdmin() {
       this.showLogin = false,

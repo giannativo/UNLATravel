@@ -16,7 +16,7 @@
     </b-col>
   </b-row>
 </b-container>
-        <div class="my-3 p-3 rounded container" v-if="!activeSearch">   
+      <div class="my-3 p-3 rounded container" v-if="!activeSearch">   
         <div class="form-group">       
           <label for="exampleFormControlSelect1">Seleccione un Destino</label>
           <select v-model="destino" class="form-control" id="exampleFormControlSelect1">
@@ -73,6 +73,7 @@ export default {
   },
   methods: {
     init() {
+      this.cargaDestinos();
       if (!this.destinoSeleccionado) {
         this.$axios
           .get("https://localhost:57935/api/destino")
@@ -110,6 +111,13 @@ export default {
       this.showAlojamientos = false;
       this.showPaquetes = false;
       this.showActividades = true;
+    },
+    cargaDestinos(){
+      this.showVuelos = false;
+      this.showAlojamientos = false;
+      this.showPaquetes = false;
+      this.showActividades = false;
+      this.activeSearch = false;
     }
   },
   mounted() {

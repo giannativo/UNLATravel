@@ -60,6 +60,14 @@ namespace UnlaTravel.Controllers
             {
                 var pasajeroDeReserva = pasajeros.Where(x => x.Reserva == reserva.Id);
                 reserva.Pasajeros.AddRange(pasajeroDeReserva);
+                if (reserva.EsUnPaquete)
+                {
+                    reserva.Importe = reserva.Paquete.Precio;
+                }
+                else
+                {
+                    reserva.Importe = (reserva.Alojamiento != null ? (reserva.Alojamiento.Precio * Convert.ToDecimal(Math.Round((reserva.FechaSalida - reserva.FechaEntrada).TotalDays))) : 0) + (reserva.Vuelo != null ? (reserva.Vuelo.Precio * reserva.Pasajeros.Count()) : 0) + (reserva.Actividad != null ? (reserva.Actividad.Precio * reserva.Pasajeros.Count()) : 0);
+                }
             }
 
             return response;
@@ -97,6 +105,15 @@ namespace UnlaTravel.Controllers
             var pasajeros = _pasajeroController.Get().ToList();
             var pasajeroDeReserva = pasajeros.Where(x => x.Reserva == response.Id);
             response.Pasajeros.AddRange(pasajeroDeReserva);
+
+            if (response.EsUnPaquete)
+            {
+                response.Importe = response.Paquete.Precio;
+            }
+            else
+            {
+                response.Importe = (response.Alojamiento != null ? (response.Alojamiento.Precio * Convert.ToDecimal(Math.Round((response.FechaSalida - response.FechaEntrada).TotalDays))) : 0) + (response.Vuelo != null ? (response.Vuelo.Precio * response.Pasajeros.Count()) : 0) + (response.Actividad != null ? (response.Actividad.Precio * response.Pasajeros.Count()) : 0);
+            }
 
             return response;
         }

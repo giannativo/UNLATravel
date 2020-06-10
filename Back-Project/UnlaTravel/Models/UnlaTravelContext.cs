@@ -258,6 +258,14 @@ namespace UnlaTravel.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.FechaEntrada)
+                 .HasColumnName("fechaEntrada")
+                 .HasColumnType("datetime");
+
+                entity.Property(e => e.FechaSalida)
+                 .HasColumnName("fechaSalida")
+                 .HasColumnType("datetime");
+
                 entity.Property(e => e.Paquete).HasColumnName("paquete");
 
                 entity.Property(e => e.Usuario).HasColumnName("usuario");

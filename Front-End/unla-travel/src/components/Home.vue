@@ -1,6 +1,7 @@
 <template>
  <div>
    <b-container class="bv-example-row" v-if="activeSearch">
+    <h4 class="destination">{{this.current_destino}}</h4>
   <b-row>
     <b-col>
       <button @click="cargaVuelos" class="btn btn-primary"><i class="fas fa-plane"></i> Vuelos</button>
@@ -87,6 +88,7 @@ export default {
     search(){
       this.activeSearch = true;
       this.showVuelos = true;
+      this.current_destino = this.destinos[this.destino-1].ciudad +", " + this.destinos[this.destino-1].region + ", " + this.destinos[this.destino-1].pais
     },
     cargaVuelos(){
       this.showVuelos = true;
@@ -162,5 +164,9 @@ export default {
     color: #fff;
     background-color: darkred;
     border-color: black;
+}
+.destination {
+  color: black;
+  margin: auto;
 }
 </style>

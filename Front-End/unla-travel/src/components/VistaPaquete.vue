@@ -98,8 +98,11 @@
      </div>
    </div>
    </div>
-    <div  class="my-3 p-3 rounded container">
-      <div >
+    <div v-show="paqueteAgregado" class="alert alert-success" role="alert">
+      Paquete agregado!
+    </div>
+    <div class="my-3 p-3 rounded container">
+      <div>
         <b-card v-for="paquete in paquetes" :key="paquete.id"
           title=""
          
@@ -140,6 +143,10 @@ export default {
     tipoPaquete: null,
     reservaActiva: null,
     allowedToAddPaquete: {
+      type: Boolean,
+      default: false
+    },
+    paqueteAgregado: {
       type: Boolean,
       default: false
     }
@@ -212,6 +219,12 @@ export default {
             paquete: paquete.id,
             importe: paquete.precio,
             reservaFinalizada: false
+          }).then((response) => {
+            if (response.status==200){
+              this.allowedToAddPaquete = false;
+              this.paqueteAgregado = true;
+              setTimeout(() => this.paqueteAgregado = false, 2000)
+            }
           });
       }
       else{
@@ -228,6 +241,12 @@ export default {
             paquete: paquete.id,
             importe: paquete.precio,
             reservaFinalizada: this.reservaActiva.reservaFinalizada
+          }).then((response) => {
+            if (response.status==200){
+              this.allowedToAddPaquete = false;
+              this.paqueteAgregado = true;
+              setTimeout(() => this.paqueteAgregado = false, 2000)
+            }
           });
       }
     } 

@@ -83,6 +83,9 @@
      </div>
    </div>
     </div>
+    <div v-show="actividadAgregada" class="alert alert-success" role="alert">
+      Actividad agregada!
+    </div>
     <div class="my-3 p-3 rounded container">
       <div> 
         <b-card v-for="actividad in actividades" :key="actividad.id"
@@ -131,6 +134,10 @@ export default {
     nombreActividad: null,
     reservaActiva: null,
     allowedToAddActividad: {
+      type: Boolean,
+      default: false
+    },
+    actividadAgregada: {
       type: Boolean,
       default: false
     }
@@ -192,6 +199,12 @@ export default {
             paquete: null,
             importe: actividad.precio,
             reservaFinalizada: false
+          }).then((response) => {
+            if (response.status==200){
+              this.allowedToAddActividad = false;
+              this.actividadAgregada = true;
+              setTimeout(() => this.actividadAgregada = false, 2000)
+            }
           });
       }
       else{
@@ -208,6 +221,12 @@ export default {
             paquete: this.reservaActiva.paquete,
             importe: this.reservaActiva.importe + actividad.precio,
             reservaFinalizada: this.reservaActiva.reservaFinalizada
+          }).then((response) => {
+            if (response.status==200){
+              this.allowedToAddActividad = false;
+              this.actividadAgregada = true;
+              setTimeout(() => this.actividadAgregada = false, 2000)
+            }
           });
       }
     } 

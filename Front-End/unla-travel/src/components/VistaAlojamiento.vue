@@ -85,6 +85,9 @@
    
    </div>
    </div>
+    <div v-show="alojamientoAgregado" class="alert alert-success" role="alert">
+      Alojamiento agregado!
+    </div>
     <div class="my-3 p-3 rounded container">   
     <div>
   <b-card v-for="alojamiento in alojamientos" :key="alojamiento.id"
@@ -137,6 +140,10 @@ export default {
     tipoAlojamiento: null,
     reservaActiva: null,
     allowedToAddAlojamiento: {
+      type: Boolean,
+      default: false
+    },
+    alojamientoAgregado: {
       type: Boolean,
       default: false
     }
@@ -219,6 +226,12 @@ export default {
             paquete: null,
             importe: alojamiento.precio,
             reservaFinalizada: false
+          }).then((response) => {
+            if (response.status==200){
+              this.allowedToAddAlojamiento = false;
+              this.alojamientoAgregado = true;
+              setTimeout(() => this.alojamientoAgregado = false, 2000)
+            }
           });
       }
       else{
@@ -235,6 +248,12 @@ export default {
             paquete: this.reservaActiva.paquete,
             importe: this.reservaActiva.importe + alojamiento.precio,
             reservaFinalizada: this.reservaActiva.reservaFinalizada
+          }).then((response) => {
+            if (response.status==200){
+              this.allowedToAddAlojamiento = false;
+              this.alojamientoAgregado = true;
+              setTimeout(() => this.alojamientoAgregado = false, 2000)
+            }
           });
       }
     }  

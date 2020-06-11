@@ -149,7 +149,9 @@
      </div>
   
    </div>
-
+    <div v-show="vueloAgregado" class="alert alert-success" role="alert">
+      Vuelo agregado!
+    </div>
     <div class="my-3 p-3 rounded container">   
     <div>
   <b-card v-for="vuelo in vuelos" :key="vuelo.id"
@@ -191,6 +193,10 @@ export default {
     vuelosOriginal: null,
     reservaActiva: null,
     allowedToAddVuelo: {
+      type: Boolean,
+      default: false
+    },
+    vueloAgregado: {
       type: Boolean,
       default: false
     }
@@ -335,6 +341,12 @@ export default {
             paquete: null,
             importe: vuelo.precio,
             reservaFinalizada: false
+          }).then((response) => {
+            if (response.status==200){
+              this.allowedToAddVuelo = false;
+              this.vueloAgregado = true;
+              setTimeout(() => this.vueloAgregado = false, 2000)
+            }
           });
       }
       else{
@@ -351,6 +363,12 @@ export default {
             paquete: this.reservaActiva.paquete,
             importe: this.reservaActiva.importe + vuelo.precio,
             reservaFinalizada: this.reservaActiva.reservaFinalizada
+          }).then((response) => {
+            if (response.status==200){
+              this.allowedToAddVuelo = false;
+              this.vueloAgregado = true;
+              setTimeout(() => this.vueloAgregado = false, 2000)
+            }
           });
       }
     }  

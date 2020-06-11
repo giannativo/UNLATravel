@@ -230,7 +230,8 @@ export default {
             if (response.status==200){
               this.allowedToAddAlojamiento = false;
               this.alojamientoAgregado = true;
-              setTimeout(() => this.alojamientoAgregado = false, 2000)
+              setTimeout(() => this.alojamientoAgregado = false, 2000);
+              this.$parent.$parent.showReservation = true;
             }
           });
       }

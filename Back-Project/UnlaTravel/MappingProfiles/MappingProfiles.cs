@@ -140,7 +140,7 @@ namespace UnlaTravel.MappingProfiles
             .ForMember(dest => dest.CantidadPersonas, opts => opts.MapFrom(src => src.CantidadPersonas))
             .ForMember(dest => dest.Habitaciones, opts => opts.MapFrom(src => src.Habitaciones))
             .ForMember(dest => dest.AccesoDiscapacitados, opts => opts.MapFrom(src => src.AccesoDiscapacitados))
-            .ForMember(dest => dest.Precio, opts => opts.MapFrom(src => src.VueloNavigation.Precio + src.ActividadNavigation.Precio + src.AlojamientoNavigation.Precio))
+            .ForMember(dest => dest.Precio, opts => opts.MapFrom(src => (src.AlojamientoNavigation.Precio * Convert.ToDecimal(Math.Round((src.FechaVuelta - src.FechaIda).TotalDays)) * src.Habitaciones) + (src.VueloNavigation.Precio * src.CantidadPersonas) + (src.ActividadNavigation.Precio * src.CantidadPersonas)))
 
             .ForPath(dest => dest.Destino, opts => opts.MapFrom(src => new DestinoResponse
             {
@@ -233,12 +233,12 @@ namespace UnlaTravel.MappingProfiles
             #region Map Reserva
             CreateMap<Reserva, ReservaResponse>()
             .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Id))
-            .ForMember(dest => dest.Importe, opts => opts.MapFrom(src => src.EsUnPaquete ? (src.PaqueteNavigation.VueloNavigation.Precio + src.PaqueteNavigation.ActividadNavigation.Precio + src.PaqueteNavigation.AlojamientoNavigation.Precio) 
-            : (( src.VueloNavigation != null ? src.VueloNavigation.Precio : 0 ) + (src.ActividadNavigation != null ? src.ActividadNavigation.Precio : 0) + (src.AlojamientoNavigation != null ? src.AlojamientoNavigation.Precio : 0))))
-            
+            .ForMember(dest => dest.Importe, opts => opts.MapFrom(src => 0))
             .ForMember(dest => dest.NroReserva, opts => opts.MapFrom(src => src.NroReserva))
             .ForMember(dest => dest.EsUnPaquete, opts => opts.MapFrom(src => src.EsUnPaquete))
             .ForMember(dest => dest.ReservaFinalizada, opts => opts.MapFrom(src => src.ReservaFinalizada))
+            .ForMember(dest => dest.FechaEntrada, opts => opts.MapFrom(src => src.FechaEntrada))
+            .ForMember(dest => dest.FechaSalida, opts => opts.MapFrom(src => src.FechaSalida))
 
             .ForPath(dest => dest.Destino, opts => opts.MapFrom(src => new DestinoResponse
             {
@@ -353,7 +353,7 @@ namespace UnlaTravel.MappingProfiles
                 CantidadPersonas = src.PaqueteNavigation.CantidadPersonas,
                 Habitaciones = src.PaqueteNavigation.Habitaciones,
                 AccesoDiscapacitados = src.PaqueteNavigation.AccesoDiscapacitados,
-                Precio = (src.PaqueteNavigation.VueloNavigation.Precio + src.PaqueteNavigation.ActividadNavigation.Precio + src.PaqueteNavigation.AlojamientoNavigation.Precio),
+                Precio = (src.PaqueteNavigation.AlojamientoNavigation.Precio * Convert.ToDecimal(Math.Round((src.PaqueteNavigation.FechaVuelta - src.PaqueteNavigation.FechaIda).TotalDays)) * src.PaqueteNavigation.Habitaciones) + (src.PaqueteNavigation.VueloNavigation.Precio * src.PaqueteNavigation.CantidadPersonas) + (src.PaqueteNavigation.ActividadNavigation.Precio * src.PaqueteNavigation.CantidadPersonas),
 
                 Destino = new DestinoResponse
                 {

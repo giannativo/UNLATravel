@@ -21,6 +21,8 @@ namespace UnlaTravel.Models
         public int? Paquete { get; set; }
         public decimal Importe { get; set; }
         public bool ReservaFinalizada { get; set; }
+        public DateTime FechaEntrada { get; set; }
+        public DateTime FechaSalida { get; set; }
 
         public Actividad ActividadNavigation { get; set; }
         public Alojamiento AlojamientoNavigation { get; set; }

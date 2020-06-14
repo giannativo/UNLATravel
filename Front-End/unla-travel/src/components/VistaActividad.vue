@@ -203,8 +203,7 @@ export default {
             if (response.status==200){
               this.allowedToAddActividad = false;
               this.actividadAgregada = true;
-              setTimeout(() => this.actividadAgregada = false, 2000);
-              this.$parent.$parent.showReservation = true;
+              setTimeout(() => this.actividadAgregada = false, 2000)
             }
           });
       }

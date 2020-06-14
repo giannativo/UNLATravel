@@ -345,8 +345,7 @@ export default {
             if (response.status==200){
               this.allowedToAddVuelo = false;
               this.vueloAgregado = true;
-              setTimeout(() => this.vueloAgregado = false, 2000);
-              this.$parent.$parent.showReservation = true;
+              setTimeout(() => this.vueloAgregado = false, 2000)
             }
           });
       }

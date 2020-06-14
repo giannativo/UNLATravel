@@ -223,8 +223,7 @@ export default {
             if (response.status==200){
               this.allowedToAddPaquete = false;
               this.paqueteAgregado = true;
-              setTimeout(() => this.paqueteAgregado = false, 2000);
-              this.$parent.$parent.showReservation = true;
+              setTimeout(() => this.paqueteAgregado = false, 2000)
             }
           });
       }

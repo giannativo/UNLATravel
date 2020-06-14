@@ -104,8 +104,8 @@
                     <td>{{reservaSeleccionada.vuelo.fechaIda}}</td>
                     <td>{{reservaSeleccionada.vuelo.fechaVuelta}}</td>
                     <td>{{reservaSeleccionada.vuelo.clase}}</td>
-                    <td>{{isTrue(reservaSeleccionada.vuelo.conEscala)}}</td>
-                    <td>{{isTrue(reservaSeleccionada.vuelo.accesoDiscapacitados)}}</td>
+                    <td>{{reservaSeleccionada.vuelo.conEscala}}</td>
+                    <td>{{reservaSeleccionada.vuelo.accesoDiscapacitados}}</td>
                     <td>{{reservaSeleccionada.vuelo.nombreAereolinea}}</td>
                     <td>{{reservaSeleccionada.vuelo.precio}}</td>
                     <td>{{reservaSeleccionada.vuelo.valoracionAereolinea}}</td>
@@ -144,7 +144,7 @@
                     <td>{{reservaSeleccionada.alojamiento.tipoRegimen.descripcion}}</td>
                     <td>{{reservaSeleccionada.alojamiento.tipoServicio}}</td>
                     <td>{{reservaSeleccionada.alojamiento.cantidadEstrellas}}</td>
-                    <td>{{isTrue(reservaSeleccionada.alojamiento.accesoDiscapacitados)}}</td>
+                    <td>{{reservaSeleccionada.alojamiento.accesoDiscapacitados}}</td>
                     <td>{{reservaSeleccionada.alojamiento.precio}}</td>
                   </tr>
                 </tbody>
@@ -180,7 +180,7 @@
                     <td>{{reservaSeleccionada.actividad.fechaDesde}}</td>
                     <td>{{reservaSeleccionada.actividad.fechaHasta}}</td>
                     <td>{{reservaSeleccionada.actividad.franjaHoraria}}</td>
-                    <td>{{isTrue(reservaSeleccionada.actividad.accesoDiscapacitados)}}</td>
+                    <td>{{reservaSeleccionada.actividad.accesoDiscapacitados}}</td>
                     <td>{{reservaSeleccionada.actividad.valoracion}}</td>
                     <td>{{reservaSeleccionada.actividad.precio}}</td>
                   </tr>
@@ -215,8 +215,8 @@
                     <td>{{reservaSeleccionada.paquete.vuelo.fechaIda}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.fechaVuelta}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.clase}}</td>
-                    <td>{{isTrue(reservaSeleccionada.paquete.vuelo.conEscala)}}</td>
-                    <td>{{isTrue(reservaSeleccionada.paquete.vuelo.accesoDiscapacitados)}}</td>
+                    <td>{{reservaSeleccionada.paquete.vuelo.conEscala}}</td>
+                    <td>{{reservaSeleccionada.paquete.vuelo.accesoDiscapacitados}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.nombreAereolinea}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.precio}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.valoracionAereolinea}}</td>
@@ -252,7 +252,7 @@
                     <td>{{reservaSeleccionada.paquete.alojamiento.tipoRegimen.descripcion}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.tipoServicio}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.cantidadEstrellas}}</td>
-                    <td>{{isTrue(reservaSeleccionada.paquete.alojamiento.accesoDiscapacitados)}}</td>
+                    <td>{{reservaSeleccionada.paquete.alojamiento.accesoDiscapacitados}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.precio}}</td>
                   </tr>
                 </tbody>
@@ -285,7 +285,7 @@
                     <td>{{reservaSeleccionada.paquete.actividad.fechaDesde}}</td>
                     <td>{{reservaSeleccionada.paquete.actividad.fechaHasta}}</td>
                     <td>{{reservaSeleccionada.paquete.actividad.franjaHoraria}}</td>
-                    <td>{{isTrue(reservaSeleccionada.paquete.actividad.accesoDiscapacitados)}}</td>
+                    <td>{{reservaSeleccionada.paquete.actividad.accesoDiscapacitados}}</td>
                     <td>{{reservaSeleccionada.paquete.actividad.valoracion}}</td>
                     <td>{{reservaSeleccionada.paquete.actividad.precio}}</td>
                   </tr>
@@ -948,15 +948,6 @@ export default {
         });
       }
       
-    },
-    isTrue(objeto){
-      this.resultado = null;
-      if(objeto){
-              this.resultado = "Si"
-      }else{
-          this.resultado = "No"
-      } 
-      return this.resultado;
     },
     init() {
       this.$axios

@@ -18,5 +18,7 @@ namespace UnlaTravel.Data.Requets
         public decimal Importe { get; set; }
         public bool ReservaFinalizada { get; set; }
         public List<RequestPasajero> Pasajeros { get; set; }  = new List<RequestPasajero>();
+        public DateTime? FechaEntrada { get; set; }
+        public DateTime? FechaSalida { get; set; }
     }
 }

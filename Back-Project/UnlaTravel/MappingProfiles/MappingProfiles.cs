@@ -484,6 +484,8 @@ namespace UnlaTravel.MappingProfiles
             .ForMember(dest => dest.EsUnPaquete, opts => opts.MapFrom(src => src.EsUnPaquete))
             .ForMember(dest => dest.Paquete, opts => opts.MapFrom(src => src.Paquete))
             .ForMember(dest => dest.ReservaFinalizada, opts => opts.MapFrom(src => src.ReservaFinalizada))
+            .ForMember(dest => dest.FechaEntrada, opts => opts.MapFrom(src => src.FechaEntrada))
+            .ForMember(dest => dest.FechaSalida, opts => opts.MapFrom(src => src.FechaSalida))
             .ForMember(dest => dest.Importe, opts => opts.MapFrom(src => 0));
             #endregion
         }

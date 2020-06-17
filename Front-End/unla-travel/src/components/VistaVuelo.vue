@@ -152,6 +152,9 @@
     <div v-show="vueloAgregado" class="alert alert-success" role="alert">
       Vuelo agregado!
     </div>
+    <div v-show="vueloNoAgregado" class="alert alert-danger" role="alert">
+      El vuelo no ha sido agregado, por favor intente nuevamente.
+    </div>
     <div class="my-3 p-3 rounded container">   
     <div>
   <b-card v-for="vuelo in vuelos" :key="vuelo.id"
@@ -199,6 +202,10 @@ export default {
     vueloAgregado: {
       type: Boolean,
       default: false
+    },
+    vueloNoAgregado: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -207,7 +214,7 @@ export default {
         options: [
           { text: '5', value: '5' },
           { text: '4', value: '4' },
-          { text: '3', value: '3'},
+          { text: '3', value: '3' },
           { text: '2', value: '2' },
           { text: '1', value: '1' }
         ],
@@ -340,13 +347,18 @@ export default {
             esUnPaquete: false,
             paquete: null,
             importe: vuelo.precio,
-            reservaFinalizada: false
+            reservaFinalizada: false,
+            fechaEntrada: null,
+            fechaSalida: null
           }).then((response) => {
             if (response.status==200){
               this.allowedToAddVuelo = false;
               this.vueloAgregado = true;
               setTimeout(() => this.vueloAgregado = false, 2000)
             }
+          }).catch(() => {
+              this.vueloNoAgregado = true;
+              setTimeout(() => this.vueloNoAgregado = false, 2000)
           });
       }
       else{
@@ -362,13 +374,18 @@ export default {
             esUnPaquete: this.reservaActiva.esUnPaquete,
             paquete: this.reservaActiva.paquete,
             importe: this.reservaActiva.importe + vuelo.precio,
-            reservaFinalizada: this.reservaActiva.reservaFinalizada
+            reservaFinalizada: this.reservaActiva.reservaFinalizada,
+            fechaEntrada: null,
+            fechaSalida: null
           }).then((response) => {
             if (response.status==200){
               this.allowedToAddVuelo = false;
               this.vueloAgregado = true;
               setTimeout(() => this.vueloAgregado = false, 2000)
             }
+          }).catch(() => {
+              this.vueloNoAgregado = true;
+              setTimeout(() => this.vueloNoAgregado = false, 2000)
           });
       }
     }  
@@ -381,7 +398,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
+.container, .alert {
   max-width: 960px;
 }
 .filtro{
@@ -391,7 +408,7 @@ export default {
 border: 0px solid #000000;
 background: darkred;
 }
-.options {
+.options, .alert {
   margin: auto;
 }
 .border-top {

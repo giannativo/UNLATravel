@@ -88,6 +88,9 @@
     <div v-show="alojamientoAgregado" class="alert alert-success" role="alert">
       Alojamiento agregado!
     </div>
+    <div v-show="alojamientoNoAgregado" class="alert alert-danger" role="alert">
+      El alojamiento no ha sido agregado, por favor intente nuevamente.
+    </div>
     <div class="my-3 p-3 rounded container">   
     <div>
   <b-card v-for="alojamiento in alojamientos" :key="alojamiento.id"
@@ -144,6 +147,10 @@ export default {
       default: false
     },
     alojamientoAgregado: {
+      type: Boolean,
+      default: false
+    },
+    alojamientoNoAgregado: {
       type: Boolean,
       default: false
     }
@@ -225,13 +232,18 @@ export default {
             esUnPaquete: false,
             paquete: null,
             importe: alojamiento.precio,
-            reservaFinalizada: false
+            reservaFinalizada: false,
+            fechaEntrada: null,
+            fechaSalida: null
           }).then((response) => {
             if (response.status==200){
               this.allowedToAddAlojamiento = false;
               this.alojamientoAgregado = true;
               setTimeout(() => this.alojamientoAgregado = false, 2000)
             }
+          }).catch(() => {
+              this.alojamientoNoAgregado = true;
+              setTimeout(() => this.alojamientoNoAgregado = false, 2000)
           });
       }
       else{
@@ -247,13 +259,18 @@ export default {
             esUnPaquete: this.reservaActiva.esUnPaquete,
             paquete: this.reservaActiva.paquete,
             importe: this.reservaActiva.importe + alojamiento.precio,
-            reservaFinalizada: this.reservaActiva.reservaFinalizada
+            reservaFinalizada: this.reservaActiva.reservaFinalizada,
+            fechaEntrada: null,
+            fechaSalida: null
           }).then((response) => {
             if (response.status==200){
               this.allowedToAddAlojamiento = false;
               this.alojamientoAgregado = true;
               setTimeout(() => this.alojamientoAgregado = false, 2000)
             }
+          }).catch(() => {
+              this.alojamientoNoAgregado = true;
+              setTimeout(() => this.alojamientoNoAgregado = false, 2000)
           });
       }
     }  
@@ -266,7 +283,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
+.container, .alert {
   max-width: 960px;
 }
 .filtro{
@@ -276,7 +293,7 @@ export default {
 border: 0px solid #000000;
 background: darkred;
 }
-.options {
+.options, .alert {
   margin: auto;
 }
 .border-top {

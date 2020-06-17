@@ -101,6 +101,9 @@
     <div v-show="paqueteAgregado" class="alert alert-success" role="alert">
       Paquete agregado!
     </div>
+    <div v-show="paqueteNoAgregado" class="alert alert-danger" role="alert">
+      El paquete no ha sido agregado, por favor intente nuevamente.
+    </div>
     <div class="my-3 p-3 rounded container">
       <div>
         <b-card v-for="paquete in paquetes" :key="paquete.id"
@@ -147,6 +150,10 @@ export default {
       default: false
     },
     paqueteAgregado: {
+      type: Boolean,
+      default: false
+    },
+    paqueteNoAgregado: {
       type: Boolean,
       default: false
     }
@@ -218,13 +225,18 @@ export default {
             esUnPaquete: true,
             paquete: paquete.id,
             importe: paquete.precio,
-            reservaFinalizada: false
+            reservaFinalizada: false,
+            fechaEntrada: null,
+            fechaSalida: null
           }).then((response) => {
             if (response.status==200){
               this.allowedToAddPaquete = false;
               this.paqueteAgregado = true;
               setTimeout(() => this.paqueteAgregado = false, 2000)
             }
+          }).catch(() => {
+              this.paqueteNoAgregado = true;
+              setTimeout(() => this.paqueteNoAgregado = false, 2000)
           });
       }
       else{
@@ -240,13 +252,18 @@ export default {
             esUnPaquete: true,
             paquete: paquete.id,
             importe: paquete.precio,
-            reservaFinalizada: this.reservaActiva.reservaFinalizada
+            reservaFinalizada: this.reservaActiva.reservaFinalizada,
+            fechaEntrada: null,
+            fechaSalida: null
           }).then((response) => {
             if (response.status==200){
               this.allowedToAddPaquete = false;
               this.paqueteAgregado = true;
               setTimeout(() => this.paqueteAgregado = false, 2000)
             }
+          }).catch(() => {
+              this.paqueteNoAgregado = true;
+              setTimeout(() => this.paqueteNoAgregado = false, 2000)
           });
       }
     } 
@@ -281,7 +298,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
+.container, .alert {
   max-width: 960px;
 }
 .filtro{
@@ -291,7 +308,7 @@ export default {
 border: 0px solid #000000;
 background: darkred;
 }
-.options {
+.options, .alert {
   margin: auto;
 }
 .border-top {

@@ -79,7 +79,7 @@
                     <td>{{reservaSeleccionada.alojamiento.tipoRegimen.descripcion}}</td>
                     <td>{{reservaSeleccionada.alojamiento.tipoServicio}}</td>
                     <td>{{reservaSeleccionada.alojamiento.cantidadEstrellas}}</td>
-                    <td>{{reservaSeleccionada.alojamiento.accesoDiscapacitados}}</td>
+                    <td>{{isTrue(reservaSeleccionada.alojamiento.accesoDiscapacitados)}}</td>
                     <td>{{reservaSeleccionada.alojamiento.precio}}</td>
                   </tr>
                 </tbody>
@@ -115,7 +115,7 @@
                     <td>{{reservaSeleccionada.actividad.fechaDesde}}</td>
                     <td>{{reservaSeleccionada.actividad.fechaHasta}}</td>
                     <td>{{reservaSeleccionada.actividad.franjaHoraria}}</td>
-                    <td>{{reservaSeleccionada.actividad.accesoDiscapacitados}}</td>
+                    <td>{{isTrue(reservaSeleccionada.actividad.accesoDiscapacitados)}}</td>
                     <td>{{reservaSeleccionada.actividad.valoracion}}</td>
                     <td>{{reservaSeleccionada.actividad.precio}}</td>
                   </tr>
@@ -150,8 +150,8 @@
                     <td>{{reservaSeleccionada.paquete.vuelo.fechaIda}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.fechaVuelta}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.clase}}</td>
-                    <td>{{reservaSeleccionada.paquete.vuelo.conEscala}}</td>
-                    <td>{{reservaSeleccionada.paquete.vuelo.accesoDiscapacitados}}</td>
+                    <td>{{isTrue(reservaSeleccionada.paquete.vuelo.conEscala)}}</td>
+                    <td>{{isTrue(reservaSeleccionada.paquete.vuelo.accesoDiscapacitados)}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.nombreAereolinea}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.precio}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.valoracionAereolinea}}</td>
@@ -187,7 +187,7 @@
                     <td>{{reservaSeleccionada.paquete.alojamiento.tipoRegimen.descripcion}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.tipoServicio}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.cantidadEstrellas}}</td>
-                    <td>{{reservaSeleccionada.paquete.alojamiento.accesoDiscapacitados}}</td>
+                    <td>{{isTrue(reservaSeleccionada.paquete.alojamiento.accesoDiscapacitados)}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.precio}}</td>
                   </tr>
                 </tbody>
@@ -220,7 +220,7 @@
                     <td>{{reservaSeleccionada.paquete.actividad.fechaDesde}}</td>
                     <td>{{reservaSeleccionada.paquete.actividad.fechaHasta}}</td>
                     <td>{{reservaSeleccionada.paquete.actividad.franjaHoraria}}</td>
-                    <td>{{reservaSeleccionada.paquete.actividad.accesoDiscapacitados}}</td>
+                    <td>{{isTrue(reservaSeleccionada.paquete.actividad.accesoDiscapacitados)}}</td>
                     <td>{{reservaSeleccionada.paquete.actividad.valoracion}}</td>
                     <td>{{reservaSeleccionada.paquete.actividad.precio}}</td>
                   </tr>
@@ -469,6 +469,8 @@ export default {
     alojamiento_id: null,
     pasajerosSeleccionados: null,
     pasajeroToEdit: null,
+    fechaEntrada: null,
+    fechaSalida: null,
 
     dni : null,
     nombre : null,
@@ -527,6 +529,8 @@ export default {
               paquete: this.reservaSeleccionada.paquete,
               importe: this.reservaSeleccionada.importe,
               pasajeros: this.reservaSeleccionada.pasajeros,
+              fechaEntrada: this.fechaEntrada,
+              fechaSalida: this.fechaSalida,
               reservaFinalizada: this.reservaSeleccionada.reservaFinalizada
             }
           )
@@ -555,6 +559,8 @@ export default {
             paquete: null,
             importe: this.reservaSeleccionada.importe,
             pasajeros: this.reservaSeleccionada.pasajeros,
+            fechaEntrada: this.fechaEntrada,
+            fechaSalida: this.fechaSalida,
             reservaFinalizada: false
           }
         )
@@ -582,6 +588,8 @@ export default {
             paquete: this.reservaSeleccionada.paquete.id,
             importe: this.reservaSeleccionada.importe,
             pasajeros: this.reservaSeleccionada.pasajeros,
+            fechaEntrada: this.fechaEntrada,
+            fechaSalida: this.fechaSalida,
             reservaFinalizada: true
           }
         )
@@ -592,32 +600,7 @@ export default {
           alert("El Alojamiento no fue eliminado");
         });
       }
-      if (confirm("Desea eliminar esta actividad?"))
-        this.$axios
-          .put(
-            "https://localhost:57935/api/reserva/" +
-              this.reservaSeleccionada.id,
-            {
-              id: this.reservaSeleccionada.id,
-              nroReserva: this.reservaSeleccionada.nroReserva,
-              usuario: this.reservaSeleccionada.usuario.id,
-              destino: this.reservaSeleccionada.destino.id,
-              alojamiento: this.alojamiento_id,
-              actividad: null,
-              vuelo: this.vuelo_id,
-              esUnPaquete: this.reservaSeleccionada.esUnPaquete,
-              paquete: this.reservaSeleccionada.paquete,
-              importe: this.reservaSeleccionada.importe,
-              pasajeros: this.reservaSeleccionada.pasajeros,
-              reservaFinalizada: false
-            }
-          )
-          .then(() => {
-            this.actualizar();
-          })
-          .catch(() => {
-            alert("La Actividad no fue eliminado");
-          });
+      
     },
     eliminarAlojamiento() {
        if (confirm("Deses eliminar alojamiento?"))
@@ -637,6 +620,8 @@ export default {
             paquete: null,
             importe: this.reservaSeleccionada.importe,
             pasajeros: this.reservaSeleccionada.pasajeros,
+            fechaEntrada: this.reservaSeleccionada.fechaEntrada,
+            fechaSalida: this.reservaSeleccionada.fechaSalida,
             reservaFinalizada: false
           }
         )
@@ -864,8 +849,19 @@ export default {
       }
       
     },
+    isTrue(bool){
+      this.resultado = false;
+      if(bool){
+          this.resultado = "Si";
+      }else{
+         this.resultado = "No";
+      }
+      return this.resultado;
+    },
     init() {
       this.reservaSeleccionada = this.$parent.reserva;
+      this.fechaEntrada = this.reservaSeleccionada.fechaEntrada;
+      this.fechaSalida = this.reservaSeleccionada.fechaSalida;
       if (this.reservaSeleccionada.vuelo != null) {
         this.vuelo_id = this.reservaSeleccionada.vuelo.id;
       } else {

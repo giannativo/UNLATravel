@@ -29,7 +29,7 @@
           <b-button @click="cargaReserva(reserva)" href="#" variant="primary">Ver Reserva</b-button>
         </b-card>
       </div>
-      <h4 v-if="reservasFinalizadas[0]!=null" >Finalizadas</h4>
+      <h4 v-if="reservasFinalizadas[0]!=null">Finalizadas</h4>
       <div class="d-flex justify-content-center">
         <b-card
           v-for="reserva in reservasFinalizadas"
@@ -79,7 +79,7 @@
           <div v-if="reservaSeleccionada.vuelo!=null">
             <div class="d-flex align-items-start flex-column my-3 p-3 bg-white rounded box-shadow">
               <h2>Vuelo</h2>
-              <button @click="eliminarVuelo()" class="btn">
+              <button v-if="reservaSeleccionada.reservaFinalizada==false" @click="eliminarVuelo()" class="btn">
                 <i class="fa fa-trash"></i>
               </button>
               <table class="table">
@@ -118,7 +118,7 @@
           <div v-if="reservaSeleccionada.alojamiento != null">
             <div class="d-flex align-items-start flex-column my-3 p-3 bg-white rounded box-shadow">
               <h2>Alojamiento</h2>
-              <button @click="eliminarAlojamiento()" class="btn">
+              <button v-if="reservaSeleccionada.reservaFinalizada==false" @click="eliminarAlojamiento()" class="btn">
                 <i class="fa fa-trash"></i>
               </button>
               <table class="table">
@@ -132,6 +132,8 @@
                     <th>Tipo Servicio</th>
                     <th>Estrellas</th>
                     <th>Acceso a Discapacitados</th>
+                    <th>Fecha Entrada</th>
+                    <th>Fecha Salida</th>
                     <th>Precio</th>
                   </tr>
                 </thead>
@@ -146,6 +148,34 @@
                     <td>{{reservaSeleccionada.alojamiento.cantidadEstrellas}}</td>
                     <td>{{reservaSeleccionada.alojamiento.accesoDiscapacitados}}</td>
                     <td>{{reservaSeleccionada.alojamiento.precio}}</td>
+                    <td>
+                      <datetime
+                        input-class="form-control"
+                        format="yyyy/MM/dd T"
+                        value-zone="UTC-3"
+                        :min-datetime="currentDate"
+                        zone="UTC-3"
+                        type="datetime"
+                        id="fecha-desde"
+                        placeholder="aaaa/mm/dd HH:MM"
+                        v-model="fechaEntrada"
+                        required
+                      ></datetime>
+                    </td>
+                    <td>
+                      <datetime
+                        input-class="form-control"
+                        format="yyyy/MM/dd T"
+                        value-zone="UTC-3"
+                        :min-datetime="fechaDesde"
+                        zone="UTC-3"
+                        type="datetime"
+                        id="fecha-hasta"
+                        placeholder="aaaa/mm/dd HH:MM"
+                        v-model="fechaSalida"
+                        required
+                      ></datetime>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -155,7 +185,7 @@
           <div v-if="reservaSeleccionada.actividad!=null">
             <div class="d-flex align-items-start flex-column my-3 p-3 bg-white rounded box-shadow">
               <h2>Actividad</h2>
-              <button @click="eliminarActividad()" class="btn">
+              <button v-if="reservaSeleccionada.reservaFinalizada==false" @click="eliminarActividad()" class="btn">
                 <i class="fa fa-trash"></i>
               </button>
               <table class="table">
@@ -180,7 +210,7 @@
                     <td>{{reservaSeleccionada.actividad.fechaDesde}}</td>
                     <td>{{reservaSeleccionada.actividad.fechaHasta}}</td>
                     <td>{{reservaSeleccionada.actividad.franjaHoraria}}</td>
-                    <td>{{reservaSeleccionada.actividad.accesoDiscapacitados}}</td>
+                    <td>{{isTrue(reservaSeleccionada.actividad.accesoDiscapacitados)}}</td>
                     <td>{{reservaSeleccionada.actividad.valoracion}}</td>
                     <td>{{reservaSeleccionada.actividad.precio}}</td>
                   </tr>
@@ -215,8 +245,8 @@
                     <td>{{reservaSeleccionada.paquete.vuelo.fechaIda}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.fechaVuelta}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.clase}}</td>
-                    <td>{{reservaSeleccionada.paquete.vuelo.conEscala}}</td>
-                    <td>{{reservaSeleccionada.paquete.vuelo.accesoDiscapacitados}}</td>
+                    <td>{{isTrue(reservaSeleccionada.paquete.vuelo.conEscala)}}</td>
+                    <td>{{isTrue(reservaSeleccionada.paquete.vuelo.accesoDiscapacitados)}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.nombreAereolinea}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.precio}}</td>
                     <td>{{reservaSeleccionada.paquete.vuelo.valoracionAereolinea}}</td>
@@ -241,6 +271,8 @@
                     <th>Estrellas</th>
                     <th>Acceso a Discapacitados</th>
                     <th>Precio</th>
+                    <th>Fecha Entrada</th>
+                    <th>Fecha Salida</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -252,8 +284,36 @@
                     <td>{{reservaSeleccionada.paquete.alojamiento.tipoRegimen.descripcion}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.tipoServicio}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.cantidadEstrellas}}</td>
-                    <td>{{reservaSeleccionada.paquete.alojamiento.accesoDiscapacitados}}</td>
+                    <td>{{isTrue(reservaSeleccionada.paquete.alojamiento.accesoDiscapacitados)}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.precio}}</td>
+                    <td>
+                      <datetime
+                        input-class="form-control"
+                        format="yyyy/MM/dd T"
+                        value-zone="UTC-3"
+                        :min-datetime="currentDate"
+                        zone="UTC-3"
+                        type="datetime"
+                        id="fecha-desde"
+                        placeholder="aaaa/mm/dd HH:MM"
+                        v-model="fechaEntrada"
+                        required
+                      ></datetime>
+                    </td>
+                    <td>
+                      <datetime
+                        input-class="form-control"
+                        format="yyyy/MM/dd T"
+                        value-zone="UTC-3"
+                        :min-datetime="fechaDesde"
+                        zone="UTC-3"
+                        type="datetime"
+                        id="fecha-hasta"
+                        placeholder="aaaa/mm/dd HH:MM"
+                        v-model="fechaSalida"
+                        required
+                      ></datetime>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -285,7 +345,7 @@
                     <td>{{reservaSeleccionada.paquete.actividad.fechaDesde}}</td>
                     <td>{{reservaSeleccionada.paquete.actividad.fechaHasta}}</td>
                     <td>{{reservaSeleccionada.paquete.actividad.franjaHoraria}}</td>
-                    <td>{{reservaSeleccionada.paquete.actividad.accesoDiscapacitados}}</td>
+                    <td>{{isTrue(reservaSeleccionada.paquete.actividad.accesoDiscapacitados)}}</td>
                     <td>{{reservaSeleccionada.paquete.actividad.valoracion}}</td>
                     <td>{{reservaSeleccionada.paquete.actividad.precio}}</td>
                   </tr>
@@ -297,9 +357,13 @@
 
         <div class="d-flex align-items-start flex-column my-3 p-3 bg-white rounded box-shadow">
           <h2>Pasajeros</h2>
-          <button v-if="reservaSeleccionada.reservaFinalizada==false" @click="vistaAgregarPasajero()" class="btn">
-                    <i class="fa fa-plus-circle"></i>
-                  </button>
+          <button
+            v-if="reservaSeleccionada.reservaFinalizada==false"
+            @click="vistaAgregarPasajero()"
+            class="btn"
+          >
+            <i class="fa fa-plus-circle"></i>
+          </button>
 
           <table class="table">
             <thead>
@@ -334,13 +398,21 @@
                 <td>{{pasajero.telefono}}</td>
                 <td>{{pasajero.domicilio}}</td>
                 <td>
-                  <button v-if="reservaSeleccionada.reservaFinalizada==false" @click="vistaModificarPasajero(pasajero)" class="btn">
+                  <button
+                    v-if="reservaSeleccionada.reservaFinalizada==false"
+                    @click="vistaModificarPasajero(pasajero)"
+                    class="btn"
+                  >
                     <i class="fas fa-edit"></i>
                   </button>
                 </td>
 
                 <td>
-                  <button v-if="reservaSeleccionada.reservaFinalizada==false" @click="eliminarPasajero(pasajero)" class="btn">
+                  <button
+                    v-if="reservaSeleccionada.reservaFinalizada==false"
+                    @click="eliminarPasajero(pasajero)"
+                    class="btn"
+                  >
                     <i class="fa fa-trash"></i>
                   </button>
                 </td>
@@ -356,19 +428,20 @@
             type="button"
             class="btn btn-lg btn-block btn-primary"
           >Volver</button>
-          <button v-if="reservaSeleccionada.reservaFinalizada==false"
+          <button
+            v-if="reservaSeleccionada.reservaFinalizada==false"
             @click="confirmarReserva"
             type="button"
             class="btn btn-lg btn-block btn-primary"
           >Confirmar Reserva</button>
-          <button v-if="reservaSeleccionada.reservaFinalizada==false"
+          <button
+            v-if="reservaSeleccionada.reservaFinalizada==false"
             @click="eliminarReserva"
             type="button"
             class="btn btn-lg btn-block btn-primary"
           >Eliminar Reserva</button>
         </div>
       </div>
-      
     </div>
     <div v-if="showEditarPasajero">
       <div class="text-center">
@@ -379,15 +452,33 @@
               <div class="row options">
                 <div>
                   <label for="dni">DNI</label>
-                  <input type="text" class="form-control" id="dni" v-model="pasajeroToEdit.dni" required />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="dni"
+                    v-model="pasajeroToEdit.dni"
+                    required
+                  />
                   <p v-if="dniAlert" class="color-red">{{dniMessage}}</p>
 
                   <label for="nombre">Nombre</label>
-                  <input type="text" class="form-control" id="nombre" v-model="pasajeroToEdit.nombre" required />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="nombre"
+                    v-model="pasajeroToEdit.nombre"
+                    required
+                  />
                   <p v-if="nombreAlert" class="color-red">{{nombreMessage}}</p>
 
                   <label for="apellido">Apellido</label>
-                  <input type="text" class="form-control" id="apellido" v-model="pasajeroToEdit.apellido" required />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="apellido"
+                    v-model="pasajeroToEdit.apellido"
+                    required
+                  />
                   <p v-if="apellidoAlert" class="color-red">{{apellidoMessage}}</p>
 
                   <label for="nacionalidad">Nacionalidad</label>
@@ -411,17 +502,26 @@
                   <p v-if="domicilioAlert" class="color-red">{{domicilioMessage}}</p>
 
                   <label for="mail">Mail</label>
-                  <input type="text" class="form-control" id="mail" v-model="pasajeroToEdit.mail" required />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="mail"
+                    v-model="pasajeroToEdit.mail"
+                    required
+                  />
                   <p v-if="mailAlert" class="color-red">{{mailMessage}}</p>
 
-                  
-
                   <label for="telefono">Telefono</label>
-                  <input type="text" class="form-control" id="telefono" v-model="pasajeroToEdit.telefono" required />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="telefono"
+                    v-model="pasajeroToEdit.telefono"
+                    required
+                  />
                   <p v-if="telefonoAlert" class="color-red">{{telefonoMessage}}</p>
 
                   <br />
-                  
                 </div>
               </div>
             </form>
@@ -431,10 +531,10 @@
         <div class="row">
           <div class="options text-center">
             <button
-                    @click="modificarPasajero(pasajeroToEdit)"
-                    type="button"
-                    class="btn btn-lg btn-block btn-primary options"
-                  >Guardar Cambios</button>
+              @click="modificarPasajero(pasajeroToEdit)"
+              type="button"
+              class="btn btn-lg btn-block btn-primary options"
+            >Guardar Cambios</button>
             <button
               @click="listaReservas"
               type="button"
@@ -489,8 +589,6 @@
                   <input type="text" class="form-control" id="mail" v-model="mail" required />
                   <p v-if="mailAlert" class="color-red">{{mailMessage}}</p>
 
-                  
-
                   <label for="telefono">Telefono</label>
                   <input type="text" class="form-control" id="telefono" v-model="telefono" required />
                   <p v-if="telefonoAlert" class="color-red">{{telefonoMessage}}</p>
@@ -536,14 +634,15 @@ export default {
     pasajerosSeleccionados: null,
     pasajeroToEdit: null,
 
-    dni : null,
-    nombre : null,
-    apellido : null,
-    mail : null,
-    nacionalidad : null,
-    telefono : null,
-    domicilio : null,
-    
+    dni: null,
+    nombre: null,
+    apellido: null,
+    mail: null,
+    nacionalidad: null,
+    telefono: null,
+    domicilio: null,
+    fechaEntrada: null,
+    fechaSalida: null,
 
     showList: {
       type: Boolean,
@@ -559,7 +658,7 @@ export default {
       type: Boolean,
       default: false
     },
-    
+
     showAgregarPasajero: {
       type: Boolean,
       default: false
@@ -573,6 +672,8 @@ export default {
       this.showList = false;
       this.showDetalle = true;
       this.reservaSeleccionada = reserva;
+      this.fechaEntrada = this.reservaSeleccionada.fechaEntrada;
+      this.fechaSalida = this.reservaSeleccionada.fechaSalida;
       this.pasajerosSeleccionados = reserva.pasajeros;
       if (this.reservaSeleccionada.vuelo != null) {
         this.vuelo_id = this.reservaSeleccionada.vuelo.id;
@@ -617,6 +718,8 @@ export default {
               paquete: this.reservaSeleccionada.paquete,
               importe: this.reservaSeleccionada.importe,
               pasajeros: this.reservaSeleccionada.pasajeros,
+              fechaEntrada: this.fechaEntrada,
+              fechaSalida: this.fechaSalida,
               reservaFinalizada: this.reservaSeleccionada.reservaFinalizada
             }
           )
@@ -629,59 +732,61 @@ export default {
     },
     eliminarActividad() {
       if (confirm("Deses eliminar actividad?"))
-      if(this.reservaSeleccionada.paquete==null){
-        this.$axios
-        .put(
-          "https://localhost:57935/api/reserva/" + this.reservaSeleccionada.id,
-          {
-            id: this.reservaSeleccionada.id,
-            nroReserva: this.reservaSeleccionada.nroReserva,
-            usuario: this.reservaSeleccionada.usuario.id,
-            destino: this.reservaSeleccionada.destino.id,
-            alojamiento: this.alojamiento_id,
-            actividad: null,
-            vuelo: this.vuelo_id,
-            esUnPaquete: this.reservaSeleccionada.esUnPaquete,
-            paquete: null,
-            importe: this.reservaSeleccionada.importe,
-            pasajeros: this.reservaSeleccionada.pasajeros,
-            reservaFinalizada: false
-          }
-        )
-        .then(() => {
-          this.actualizar();
-        })
-        .catch(() => {
-          alert("El Alojamiento no fue eliminado");
-        });
-
-      }else{
-        
-        this.$axios
-        .put(
-          "https://localhost:57935/api/reserva/" + this.reservaSeleccionada.id,
-          {
-            id: this.reservaSeleccionada.id,
-            nroReserva: this.reservaSeleccionada.nroReserva,
-            usuario: this.reservaSeleccionada.usuario.id,
-            destino: this.reservaSeleccionada.destino.id,
-            alojamiento: null,
-            actividad: null,
-            vuelo: null,
-            esUnPaquete: this.reservaSeleccionada.esUnPaquete,
-            paquete: this.reservaSeleccionada.paquete.id,
-            importe: this.reservaSeleccionada.importe,
-            pasajeros: this.reservaSeleccionada.pasajeros,
-            reservaFinalizada: true
-          }
-        )
-        .then(() => {
-          this.actualizar();
-        })
-        .catch(() => {
-          alert("El Alojamiento no fue eliminado");
-        });
-      }
+        if (this.reservaSeleccionada.paquete == null) {
+          this.$axios
+            .put(
+              "https://localhost:57935/api/reserva/" +
+                this.reservaSeleccionada.id,
+              {
+                id: this.reservaSeleccionada.id,
+                nroReserva: this.reservaSeleccionada.nroReserva,
+                usuario: this.reservaSeleccionada.usuario.id,
+                destino: this.reservaSeleccionada.destino.id,
+                alojamiento: this.alojamiento_id,
+                actividad: null,
+                vuelo: this.vuelo_id,
+                esUnPaquete: this.reservaSeleccionada.esUnPaquete,
+                paquete: null,
+                importe: this.reservaSeleccionada.importe,
+                pasajeros: this.reservaSeleccionada.pasajeros,
+                fechaEntrada: this.fechaEntrada,
+                fechaSalida: this.fechaSalida,
+                reservaFinalizada: false
+              }
+            )
+            .then(() => {
+              this.actualizar();
+            })
+            .catch(() => {
+              alert("El Alojamiento no fue eliminado");
+            });
+        } else {
+          this.$axios
+            .put(
+              "https://localhost:57935/api/reserva/" +
+                this.reservaSeleccionada.id,
+              {
+                id: this.reservaSeleccionada.id,
+                nroReserva: this.reservaSeleccionada.nroReserva,
+                usuario: this.reservaSeleccionada.usuario.id,
+                destino: this.reservaSeleccionada.destino.id,
+                alojamiento: null,
+                actividad: null,
+                vuelo: null,
+                esUnPaquete: this.reservaSeleccionada.esUnPaquete,
+                paquete: this.reservaSeleccionada.paquete.id,
+                importe: this.reservaSeleccionada.importe,
+                pasajeros: this.reservaSeleccionada.pasajeros,
+                reservaFinalizada: true
+              }
+            )
+            .then(() => {
+              this.actualizar();
+            })
+            .catch(() => {
+              alert("El Alojamiento no fue eliminado");
+            });
+        }
       if (confirm("Desea eliminar esta actividad?"))
         this.$axios
           .put(
@@ -710,61 +815,62 @@ export default {
           });
     },
     eliminarAlojamiento() {
-       if (confirm("Deses eliminar alojamiento?"))
-      if(this.reservaSeleccionada.paquete==null){
-        this.$axios
-        .put(
-          "https://localhost:57935/api/reserva/" + this.reservaSeleccionada.id,
-          {
-            id: this.reservaSeleccionada.id,
-            nroReserva: this.reservaSeleccionada.nroReserva,
-            usuario: this.reservaSeleccionada.usuario.id,
-            destino: this.reservaSeleccionada.destino.id,
-            alojamiento: null,
-            actividad: this.actividad_id,
-            vuelo: this.vuelo_id,
-            esUnPaquete: this.reservaSeleccionada.esUnPaquete,
-            paquete: null,
-            importe: this.reservaSeleccionada.importe,
-            pasajeros: this.reservaSeleccionada.pasajeros,
-            reservaFinalizada: false
-          }
-        )
-        .then(() => {
-          this.actualizar();
-        })
-        .catch(() => {
-          alert("El Alojamiento no fue eliminado");
-        });
-
-      }else{
-        
-        this.$axios
-        .put(
-          "https://localhost:57935/api/reserva/" + this.reservaSeleccionada.id,
-          {
-            id: this.reservaSeleccionada.id,
-            nroReserva: this.reservaSeleccionada.nroReserva,
-            usuario: this.reservaSeleccionada.usuario.id,
-            destino: this.reservaSeleccionada.destino.id,
-            alojamiento: null,
-            actividad: null,
-            vuelo: null,
-            esUnPaquete: this.reservaSeleccionada.esUnPaquete,
-            paquete: this.reservaSeleccionada.paquete.id,
-            importe: this.reservaSeleccionada.importe,
-            pasajeros: this.reservaSeleccionada.pasajeros,
-            reservaFinalizada: true
-          }
-        )
-        .then(() => {
-          this.actualizar();
-        })
-        .catch(() => {
-          alert("El Alojamiento no fue eliminado");
-        });
-      }
-     
+      if (confirm("Deses eliminar alojamiento?"))
+        if (this.reservaSeleccionada.paquete == null) {
+          this.$axios
+            .put(
+              "https://localhost:57935/api/reserva/" +
+                this.reservaSeleccionada.id,
+              {
+                id: this.reservaSeleccionada.id,
+                nroReserva: this.reservaSeleccionada.nroReserva,
+                usuario: this.reservaSeleccionada.usuario.id,
+                destino: this.reservaSeleccionada.destino.id,
+                alojamiento: null,
+                actividad: this.actividad_id,
+                vuelo: this.vuelo_id,
+                esUnPaquete: this.reservaSeleccionada.esUnPaquete,
+                paquete: null,
+                importe: this.reservaSeleccionada.importe,
+                pasajeros: this.reservaSeleccionada.pasajeros,
+                fechaEntrada: this.reservaSeleccionada.fechaEntrada,
+                fechaSalida: this.reservaSeleccionada.fechaEntrada,
+                reservaFinalizada: false
+              }
+            )
+            .then(() => {
+              this.actualizar();
+            })
+            .catch(() => {
+              alert("El Alojamiento no fue eliminado");
+            });
+        } else {
+          this.$axios
+            .put(
+              "https://localhost:57935/api/reserva/" +
+                this.reservaSeleccionada.id,
+              {
+                id: this.reservaSeleccionada.id,
+                nroReserva: this.reservaSeleccionada.nroReserva,
+                usuario: this.reservaSeleccionada.usuario.id,
+                destino: this.reservaSeleccionada.destino.id,
+                alojamiento: null,
+                actividad: null,
+                vuelo: null,
+                esUnPaquete: this.reservaSeleccionada.esUnPaquete,
+                paquete: this.reservaSeleccionada.paquete.id,
+                importe: this.reservaSeleccionada.importe,
+                pasajeros: this.reservaSeleccionada.pasajeros,
+                reservaFinalizada: true
+              }
+            )
+            .then(() => {
+              this.actualizar();
+            })
+            .catch(() => {
+              alert("El Alojamiento no fue eliminado");
+            });
+        }
     },
     eliminarPasajero(pasajero) {
       if (confirm("Desea eliminar esta pasajero?"))
@@ -784,21 +890,19 @@ export default {
       this.showDetalle = false;
       this.showEditarPasajero = true;
     },
-     vistaAgregarPasajero() {
-      
+    vistaAgregarPasajero() {
       this.showList = false;
       this.showDetalle = false;
       this.showAgregarPasajero = true;
     },
 
-    agregarPasajero(){
+    agregarPasajero() {
       if (confirm("Desea Guardar Cambios?"))
         this.$axios
           .post(
-            "https://localhost:57935/api/pasajero" ,
-              
+            "https://localhost:57935/api/pasajero",
+
             {
-              
               nombre: this.nombre,
               apellido: this.apellido,
               dni: this.dni,
@@ -806,29 +910,24 @@ export default {
               mail: this.mail,
               nacionalidad: this.nacionalidad,
               reserva: this.reservaSeleccionada.id,
-              telefono: this.telefono,
-              
+              telefono: this.telefono
             }
           )
           .then(() => {
             this.actualizar();
-            this.showDetalle=true;
-            this.showAgregarPasajero=false;
+            this.showDetalle = true;
+            this.showAgregarPasajero = false;
           })
           .catch(() => {
             alert("El Pasajero no fue Agregado");
           });
-
     },
 
-    
-    modificarPasajero(){
-
+    modificarPasajero() {
       if (confirm("Desea Guardar Cambios?"))
         this.$axios
           .put(
-            "https://localhost:57935/api/pasajero/" +
-              this.pasajeroToEdit.id,
+            "https://localhost:57935/api/pasajero/" + this.pasajeroToEdit.id,
             {
               id: this.pasajeroToEdit.id,
               nombre: this.pasajeroToEdit.nombre,
@@ -838,19 +937,17 @@ export default {
               mail: this.pasajeroToEdit.mail,
               nacionalidad: this.pasajeroToEdit.nacionalidad,
               reserva: this.pasajeroToEdit.reserva,
-              telefono: this.pasajeroToEdit.telefono,
-              
+              telefono: this.pasajeroToEdit.telefono
             }
           )
           .then(() => {
             this.actualizar();
-            this.showDetalle=true;
-            this.showEditarPasajero=false;
+            this.showDetalle = true;
+            this.showEditarPasajero = false;
           })
           .catch(() => {
             alert("El Pasajero no fue modificado");
           });
-
     },
     actualizar() {
       this.$axios
@@ -879,75 +976,93 @@ export default {
           this.pasajerosSeleccionados = this.reservaSeleccionada.pasajeros;
         });
     },
-    eliminarReserva(){
-       if (confirm("Desea eliminar reserva"))
-       this.$axios.delete('https://localhost:57935/api/reserva/'+this.reservaSeleccionada.id)
-      .then(() => {
-        this.showDetalle = false;
-          this.showList = true;
-          this.init();
-      }).catch(() => {alert("La Reserva no fue eliminada");});
+    eliminarReserva() {
+      if (confirm("Desea eliminar reserva"))
+        this.$axios
+          .delete(
+            "https://localhost:57935/api/reserva/" + this.reservaSeleccionada.id
+          )
+          .then(() => {
+            this.showDetalle = false;
+            this.showList = true;
+            this.init();
+          })
+          .catch(() => {
+            alert("La Reserva no fue eliminada");
+          });
     },
     confirmarReserva() {
       if (confirm("Desea confirmar reserva?"))
-      if(this.reservaSeleccionada.paquete==null){
-        this.$axios
-        .put(
-          "https://localhost:57935/api/reserva/" + this.reservaSeleccionada.id,
-          {
-            id: this.reservaSeleccionada.id,
-            nroReserva: this.reservaSeleccionada.nroReserva,
-            usuario: this.reservaSeleccionada.usuario.id,
-            destino: this.reservaSeleccionada.destino.id,
-            alojamiento: this.reservaSeleccionada.alojamiento.id,
-            actividad: this.reservaSeleccionada.actividad.id,
-            vuelo: this.reservaSeleccionada.vuelo.id,
-            esUnPaquete: this.reservaSeleccionada.esUnPaquete,
-            paquete: null,
-            importe: this.reservaSeleccionada.importe,
-            pasajeros: this.reservaSeleccionada.pasajeros,
-            reservaFinalizada: true
-          }
-        )
-        .then(() => {
-          this.showDetalle = false;
-          this.showList = true;
-          this.init();
-        })
-        .catch(() => {
-          alert("La Reserva no fue confirmada");
-        });
-
+        if (this.reservaSeleccionada.paquete == null) {
+          this.$axios
+            .put(
+              "https://localhost:57935/api/reserva/" +
+                this.reservaSeleccionada.id,
+              {
+                id: this.reservaSeleccionada.id,
+                nroReserva: this.reservaSeleccionada.nroReserva,
+                usuario: this.reservaSeleccionada.usuario.id,
+                destino: this.reservaSeleccionada.destino.id,
+                alojamiento: this.reservaSeleccionada.alojamiento.id,
+                actividad: this.reservaSeleccionada.actividad.id,
+                vuelo: this.reservaSeleccionada.vuelo.id,
+                esUnPaquete: this.reservaSeleccionada.esUnPaquete,
+                paquete: null,
+                importe: this.reservaSeleccionada.importe,
+                pasajeros: this.reservaSeleccionada.pasajeros,
+                fechaEntrada: this.fechaEntrada,
+                fechaSalida: this.fechaSalida,
+                reservaFinalizada: true
+              }
+            )
+            .then(() => {
+              this.showDetalle = false;
+              this.showList = true;
+              this.init();
+            })
+            .catch(() => {
+              alert("La Reserva no fue confirmada");
+            });
+        } else {
+          this.$axios
+            .put(
+              "https://localhost:57935/api/reserva/" +
+                this.reservaSeleccionada.id,
+              {
+                id: this.reservaSeleccionada.id,
+                nroReserva: this.reservaSeleccionada.nroReserva,
+                usuario: this.reservaSeleccionada.usuario.id,
+                destino: this.reservaSeleccionada.destino.id,
+                alojamiento: null,
+                actividad: null,
+                vuelo: null,
+                esUnPaquete: this.reservaSeleccionada.esUnPaquete,
+                paquete: this.reservaSeleccionada.paquete.id,
+                importe: this.reservaSeleccionada.importe,
+                pasajeros: this.reservaSeleccionada.pasajeros,
+                fechaEntrada: this.fechaEntrada,
+                fechaSalida: this.fechaSalida,
+                reservaFinalizada: true
+              }
+            )
+            .then(() => {
+              this.showDetalle = false;
+              this.showList = true;
+              this.init();
+            })
+            .catch(() => {
+              alert("La Reserva no fue confirmada");
+            });
+        }
+    },
+    isTrue(bool){
+      this.resultado = false;
+      if(bool){
+          this.resultado = "Si";
       }else{
-        
-        this.$axios
-        .put(
-          "https://localhost:57935/api/reserva/" + this.reservaSeleccionada.id,
-          {
-            id: this.reservaSeleccionada.id,
-            nroReserva: this.reservaSeleccionada.nroReserva,
-            usuario: this.reservaSeleccionada.usuario.id,
-            destino: this.reservaSeleccionada.destino.id,
-            alojamiento: null,
-            actividad: null,
-            vuelo: null,
-            esUnPaquete: this.reservaSeleccionada.esUnPaquete,
-            paquete: this.reservaSeleccionada.paquete.id,
-            importe: this.reservaSeleccionada.importe,
-            pasajeros: this.reservaSeleccionada.pasajeros,
-            reservaFinalizada: true
-          }
-        )
-        .then(() => {
-          this.showDetalle = false;
-          this.showList = true;
-          this.init();
-        })
-        .catch(() => {
-          alert("La Reserva no fue confirmada");
-        });
+         this.resultado = "No";
       }
-      
+      return this.resultado;
     },
     init() {
       this.$axios

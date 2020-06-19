@@ -154,6 +154,14 @@ namespace UnlaTravel.Controllers
             {
                 var pasajeroDeReserva = pasajeros.Where(x => x.Reserva == reserva.Id);
                 reserva.Pasajeros.AddRange(pasajeroDeReserva);
+                if (reserva.EsUnPaquete)
+                {
+                    reserva.Importe = reserva.Paquete.Precio;
+                }
+                else
+                {
+                    reserva.Importe = (reserva.Alojamiento != null ? (reserva.Alojamiento.Precio * Convert.ToDecimal(Math.Round((reserva.FechaSalida - reserva.FechaEntrada).TotalDays))) : 0) + (reserva.Vuelo != null ? (reserva.Vuelo.Precio * reserva.Pasajeros.Count()) : 0) + (reserva.Actividad != null ? (reserva.Actividad.Precio * reserva.Pasajeros.Count()) : 0);
+                }
             }
 
             return response;

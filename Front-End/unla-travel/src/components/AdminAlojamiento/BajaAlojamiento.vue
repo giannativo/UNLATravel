@@ -2,6 +2,9 @@
   <div>
     <div v-if="showList">  
     <h4 class="mb-3">Lista de Alojamientos</h4>
+    <div v-show="!alojamientoEliminado" class="alert alert-danger" role="alert">
+         El alojamiento no se ah eliminado. Intente de nuevo.
+          </div>
         <div class="row options">
           <div>
             <label for="id-vuelo">Ingrese ID Alojamiento</label>
@@ -74,6 +77,10 @@ export default {
         type: Boolean,
         default: false
     },
+    alojamientoEliminado:{
+      type:Boolean,
+      default:true
+    },
     places: null,
     alojamiento_search_id: null,
     alojamiento_to_delete_id: Number
@@ -89,7 +96,11 @@ export default {
     },
     deleteAlojamiento() {
       this.$axios.delete('https://localhost:57935/api/alojamiento/'+this.alojamiento_to_delete_id)
-      .then(() => {this.cargaLista();}).catch(() => {alert("El alojamiento tiene dependencias. Elimine las dependencias para continuar");});
+      .then(() => {this.cargaLista();}).catch(() => {        
+                this.alojamientoEliminado = false;
+               setTimeout(() => this.alojamientoEliminado = true, 2000) 
+       // alert("El alojamiento tiene dependencias. Elimine las dependencias para continuar");
+       });
     },
     cargaLista() {
         this.$axios

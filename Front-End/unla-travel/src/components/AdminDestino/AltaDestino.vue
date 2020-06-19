@@ -2,6 +2,9 @@
 <div class="text-center">
     <h4 class="mb-3">Ingrese datos de Destino</h4>              
     <div class="row">
+       <div v-show="!destinoCreado" class="alert alert-danger" role="alert">
+         El Destino no fue creado
+          </div>
         <div class="options text-center">
          <form @submit.prevent="submit()" class="needs-validation" novalidate>
           
@@ -60,7 +63,11 @@ export default {
     ciudadAlert: {
       type: Boolean,
       default: false
-    },ciudadMessage: null
+    },ciudadMessage: null,
+    destinoCreado:{
+      type:Boolean,
+      default:true
+    }
 
 
   },
@@ -101,7 +108,11 @@ export default {
           region:this.region,
           ciudad:this.ciudad
          
-        }).then(() => {this.volver();}).catch(() => {alert("El Destino no fue creado");});
+        }).then(() => {this.volver();}).catch(() => {
+              this.destinoCreado = false;
+               setTimeout(() => this.destinoCreado = true, 2000)
+              //alert("El Destino no fue creado");
+          });
       }
     }
   }

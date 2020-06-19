@@ -2,6 +2,9 @@
   <div>
     <div v-if="showList">  
     <h4 class="mb-3">Lista de Destinos</h4>
+    <div v-show="!errorDependencia" class="alert alert-danger" role="alert">
+         El destino tiene dependencias. Elimine las dependencias para continuar
+          </div>
     <form class="needs-validation" novalidate>
         <div class="row options">
           <div>
@@ -68,6 +71,10 @@ export default {
         type: Boolean,
         default: false
     },
+    errorDependencia:{
+      type:Boolean,
+      default:true
+    },
     destinos:null,
     destinoSeleccionado: null,
     destino_to_delete_id: Number
@@ -88,7 +95,11 @@ export default {
     },    
     deleteDestino() {
       this.$axios.delete('https://localhost:57935/api/destino/'+this.destino_to_delete_id)
-      .then(() => {this.cargaLista();}).catch(() => {alert("El destino tiene dependencias. Elimine las dependencias para continuar");});
+      .then(() => {this.cargaLista();}).catch(() => {
+              this.errorDependencia = false;
+               setTimeout(() => this.errorDependencia = true, 2000)
+        //alert("El destino tiene dependencias. Elimine las dependencias para continuar");
+        });
     },
     init() {
       if (!this.destinoSeleccionado) {

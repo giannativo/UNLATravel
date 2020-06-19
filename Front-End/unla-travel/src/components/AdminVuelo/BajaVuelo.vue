@@ -2,6 +2,9 @@
   <div>
     <div class="text-center" v-if="showList">
       <h4 class="mb-3">Lista de Vuelos</h4>
+      <div v-show="!vueloEliminado" class="alert alert-danger" role="alert">
+         El vuelo tiene dependencias. Elimine las dependencias para continuar
+          </div>
       <form class="needs-validation" novalidate>
         <div class="row options">
           <div>
@@ -89,6 +92,10 @@ export default {
       type: Boolean,
       default: false
     },
+    vueloEliminado:{
+      type:Boolean,
+      default:true
+    },
     vuelos: [],
     vuelo: null,
     vuelo_to_delete_id: Number
@@ -115,9 +122,9 @@ export default {
           this.cargaLista();
         })
         .catch(() => {
-          alert(
-            "El vuelo tiene dependencias. Elimine las dependencias para continuar"
-          );
+          this.vueloEliminado = false;
+               setTimeout(() => this.vueloEliminado = true, 2000)
+          
         });
     },
     init() {

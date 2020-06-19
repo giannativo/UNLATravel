@@ -2,6 +2,9 @@
   <div class="text-center">
     <h4 class="mb-3">Alta Vuelo</h4>
     <div class="row">
+      <div v-show="!vueloCreado" class="alert alert-danger" role="alert">
+         El vuelo no fue creado
+          </div>
       <div class="options text-center">
         <form class="needs-validation">
           <div class="row options">
@@ -247,6 +250,10 @@ export default {
     type: Boolean,
     default: false
   },
+  vueloCreado:{
+    type:Boolean,
+    default:true
+  },
   precioMessage: null,
   isValid: null,
   methods: {
@@ -354,7 +361,9 @@ export default {
             this.volver();
           })
           .catch(() => {
-            alert("El vuelo no fue creado");
+        //    alert("El vuelo no fue creado");
+            this.vueloCreado = false;
+               setTimeout(() => this.vueloCreado = true, 2000)
           });
       }
     }

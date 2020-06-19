@@ -2,6 +2,9 @@
   <div class="text-center">
     <div v-if="showList">
       <h4 class="mb-3">Lista de Paquetes</h4>
+        <div v-show="!paqueteModificado" class="alert alert-danger" role="alert">
+         El Paquete no fue Modificado
+          </div>
       <form class="needs-validation" novalidate>
         <div class="row options">
           <div>
@@ -339,6 +342,10 @@ export default {
       type: Boolean,
       default: false
     },
+    paqueteModificado:{
+      type:Boolean,
+      default:true
+    },
     habitacionesMessage: null
   },
   methods: {
@@ -465,7 +472,8 @@ export default {
             this.volver();
           })
           .catch(() => {
-            alert("El Paquete no fue Modificado");
+               this.paqueteModificado = false;
+               setTimeout(() => this.paqueteModificado = true, 2000)
           });
       }
     },

@@ -2,6 +2,9 @@
   <div>
     <div class="text-center" v-if="showList">
       <h4 class="mb-3">Lista de Actividades</h4>
+       <div v-show="!usuarioEliminado" class="alert alert-danger" role="alert">
+        La actividad tiene dependencias. Elimine las dependencias para continuar
+          </div>
       <form class="needs-validation" novalidate>
         <div class="row options">
           <div>
@@ -82,6 +85,10 @@ export default {
       type: Boolean,
       default: false
     },
+    usuarioEliminado:{
+      type:Boolean,
+      default:true
+    },
     actividades: null,
     actividad: null,
     actividad_to_delete_id: Number
@@ -102,7 +109,11 @@ export default {
     },
     deleteUsuario() {
       this.$axios.delete('https://localhost:57935/api/actividad/'+this.actividad_to_delete_id)
-      .then(() => {this.cargaLista();}).catch(() => {alert("La actividad tiene dependencias. Elimine las dependencias para continuar");});
+      .then(() => {this.cargaLista();}).catch(() => {
+              this.reservaEliminada = false;
+               setTimeout(() => this.reservaEliminada = true, 2000)
+       // alert("La actividad tiene dependencias. Elimine las dependencias para continuar");
+        });
     },
     init() {
       if (!this.actividad) {

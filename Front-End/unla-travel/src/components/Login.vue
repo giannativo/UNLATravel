@@ -1,6 +1,9 @@
 <template>
 <div class="container">
    <div class="text-center">
+      <div v-show="!loginExitoso" class="alert alert-danger" role="alert">
+         Mail o contraseña incorrecta.
+          </div>
    <form class="form-signin">
       <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
       <label for="mail">Mail</label>
@@ -34,7 +37,12 @@ export default {
       type: Boolean,
       default: false
     },
-    contraseñaMessage: null
+    contraseñaMessage: null,
+
+    loginExitoso:{
+      type:Boolean,
+      default:true
+    },
   },
   methods: {
     volver() {
@@ -69,7 +77,9 @@ export default {
             this.$parent.init();
           }
           if (response.data.cod==401){
-            alert("Mail o contraseña incorrecta.");
+                this.loginExitoso = false;
+               setTimeout(() => this.loginExitoso = true, 2000)
+            
           }
         });
       }

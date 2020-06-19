@@ -1,7 +1,10 @@
 <template>
   <div>
     <div v-if="showList">
+    
+         
       <h4 v-if="reservasActivas[0]!=null" class>Activas</h4>
+
       <div class="d-flex justify-content-center">
         <b-card
           v-for="reserva in reservasActivas"
@@ -66,6 +69,15 @@
     </div>
 
     <div v-if="showDetalle">
+      <div v-show="!vueloEliminado" class="alert alert-danger" role="alert">
+         El vuelo no fue creado
+          </div>
+          <div v-show="!alojamientoEliminado" class="alert alert-danger" role="alert">
+         El alojamiento no fue eliminado
+          </div>
+          <div v-show="!actividadEliminada" class="alert alert-danger" role="alert">
+         La actividad no fue eliminada
+          </div>
       <main role="main" class="container">
         <div class="d-flex align-items-start flex-column p-3 my-3 bg-purple rounded box-shadow">
           <h1>Número Reserva: {{reservaSeleccionada.nroReserva}}</h1>
@@ -441,9 +453,26 @@
             class="btn btn-lg btn-block btn-primary"
           >Eliminar Reserva</button>
         </div>
+        <div v-show="!reservaEliminada" class="alert alert-danger" role="alert">
+         La Reserva  no ha sido eliminada
+          </div>
+          <div v-show="!reservaConfirmada" class="alert alert-danger" role="alert">
+         La Reserva  no ha sido confirmada
+          </div>
+        
       </div>
     </div>
     <div v-if="showEditarPasajero">
+       
+       <div v-show="!pasajeroEliminado" class="alert alert-danger" role="alert">
+         El pasajero no fue eliminado
+          </div>
+          <div v-show="!pasajeroAgregado" class="alert alert-danger" role="alert">
+         El pasajero no fue agregado
+          </div>
+          <div v-show="!pasajeroModificado" class="alert alert-danger" role="alert">
+         El pasajero no fue modificado
+          </div>
       <div class="text-center">
         <h4 class="mb-3">Ingrese sus datos personales</h4>
         <div class="row options">
@@ -662,6 +691,40 @@ export default {
     showAgregarPasajero: {
       type: Boolean,
       default: false
+    },
+    vueloEliminado:{
+      type:Boolean,
+      default:true
+
+    },
+    reservaConfirmada:{
+      type:Boolean,
+      default:true
+    },
+    actividadEliminada:{
+      type:Boolean,
+      default:true
+    },
+    alojamientoEliminado:{
+      type:Boolean,
+      default:true
+
+    },
+    pasajeroEliminado:{
+      type:Boolean,
+      default:true
+    },
+    pasajeroAgregado:{
+      type:Boolean,
+      default:true
+    },
+    pasajeroModificado:{
+      type:Boolean,
+      default:true
+    },
+    reservaEliminada:{
+      type:Boolean,
+      default:true
     }
   },
   methods: {
@@ -727,7 +790,9 @@ export default {
             this.actualizar();
           })
           .catch(() => {
-            alert("El Vuelo no fue eliminado");
+            
+            this.vueloEliminado= false;
+               setTimeout(() => this.vueloEliminado = true, 2000)
           });
     },
     eliminarActividad() {
@@ -758,7 +823,9 @@ export default {
               this.actualizar();
             })
             .catch(() => {
-              alert("El Alojamiento no fue eliminado");
+              
+                 this.actividadEliminada = false;
+               setTimeout(() => this.actividadEliminada = true, 2000)
             });
         } else {
           this.$axios
@@ -784,7 +851,8 @@ export default {
               this.actualizar();
             })
             .catch(() => {
-              alert("El Alojamiento no fue eliminado");
+                this.actividadEliminada = false;
+               setTimeout(() => this.actividadEliminada = true, 2000)
             });
         }
       if (confirm("Desea eliminar esta actividad?"))
@@ -811,7 +879,8 @@ export default {
             this.actualizar();
           })
           .catch(() => {
-            alert("La Actividad no fue eliminado");
+                this.actividadEliminada = false;
+               setTimeout(() => this.actividadEliminada = true, 2000)
           });
     },
     eliminarAlojamiento() {
@@ -842,7 +911,8 @@ export default {
               this.actualizar();
             })
             .catch(() => {
-              alert("El Alojamiento no fue eliminado");
+              this.alojamientoEliminado= false;
+               setTimeout(() => this.alojamientoEliminado = true, 2000)
             });
         } else {
           this.$axios
@@ -868,7 +938,8 @@ export default {
               this.actualizar();
             })
             .catch(() => {
-              alert("El Alojamiento no fue eliminado");
+              this.alojamientoEliminado= false;
+               setTimeout(() => this.alojamientoEliminado = true, 2000)
             });
         }
     },
@@ -880,7 +951,8 @@ export default {
             this.actualizar();
           })
           .catch(() => {
-            alert("El Usuario no fue eliminado");
+            this.pasajeroEliminado= false;
+               setTimeout(() => this.pasajeroEliminado = true, 2000)
           });
     },
 
@@ -919,7 +991,8 @@ export default {
             this.showAgregarPasajero = false;
           })
           .catch(() => {
-            alert("El Pasajero no fue Agregado");
+            this.pasajeroAgregado= false;
+               setTimeout(() => this.pasajeroAgregado = true, 2000)
           });
     },
 
@@ -946,7 +1019,8 @@ export default {
             this.showEditarPasajero = false;
           })
           .catch(() => {
-            alert("El Pasajero no fue modificado");
+            this.pasajeroModificado= false;
+               setTimeout(() => this.pasajeroModificado = true, 2000)
           });
     },
     actualizar() {
@@ -988,7 +1062,8 @@ export default {
             this.init();
           })
           .catch(() => {
-            alert("La Reserva no fue eliminada");
+            this.reservaEliminada= false;
+               setTimeout(() => this.reservaEliminada = true, 2000)
           });
     },
     confirmarReserva() {
@@ -1021,7 +1096,8 @@ export default {
               this.init();
             })
             .catch(() => {
-              alert("La Reserva no fue confirmada");
+             this.reservaConfirmada= false;
+               setTimeout(() => this.reservaConfirmada = true, 2000)
             });
         } else {
           this.$axios
@@ -1051,7 +1127,8 @@ export default {
               this.init();
             })
             .catch(() => {
-              alert("La Reserva no fue confirmada");
+              this.reservaConfirmada= false;
+               setTimeout(() => this.reservaConfirmada = true, 2000)
             });
         }
     },

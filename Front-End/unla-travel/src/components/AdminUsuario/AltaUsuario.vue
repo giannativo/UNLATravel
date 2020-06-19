@@ -2,6 +2,9 @@
   <div class="text-center">
     <h4 class="mb-3">Ingrese Datos de Usuario</h4>
     <div class="row">
+      <div v-show="!usuarioCreado" class="alert alert-danger" role="alert">
+         El usuario no fue creado
+          </div>
       <div class="options text-center">
         <form class="needs-validation" novalidate>
           <div class="row options">
@@ -153,7 +156,12 @@ export default {
     mail: null,
     password: null,
     telefono: null,
-    isValid: null
+    isValid: null,
+    usuarioCreado:{
+      type:Boolean,
+      default:true
+
+    },
   },
   methods: {
     volver() {
@@ -226,7 +234,9 @@ export default {
           contraseña: this.password,
           telefono: this.telefono,
           isAdmin: true
-        }).then(() => {this.volver();}).catch(() => {alert("El Usuario no fue creado");});
+        }).then(() => {this.volver();}).catch(() => {
+              this.usuarioCreado = false;
+               setTimeout(() => this.usuarioCreado = true, 2000)});
       }
     }
   }

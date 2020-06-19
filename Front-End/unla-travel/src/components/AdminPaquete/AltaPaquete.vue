@@ -2,6 +2,9 @@
   <div class="text-center">
     <h4 class="mb-3">Ingrese datos de Paquete</h4>
     <div class="row">
+       <div v-show="!paqueteCreado" class="alert alert-danger" role="alert">
+         El Paquete no fue creado
+          </div>
       <div class="options text-center">
         <form class="needs-validation" novalidate>
           <div class="row options">
@@ -249,6 +252,10 @@ export default {
       type: Boolean,
       default: false
     },
+    paqueteCreado:{
+      type:Boolean,
+      default: true
+    },
     habitacionesMessage: null
   },
   methods: {
@@ -350,7 +357,9 @@ export default {
             this.volver();
           })
           .catch(() => {
-            alert("El Paquete no fue creado");
+          
+            this.paqueteCreado = false;
+               setTimeout(() => this.paqueteCreado = true, 2000)
           });
       }
     }

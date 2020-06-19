@@ -3,7 +3,7 @@
       <div v-if="showDetalle">
       <main role="main" class="container">
         <div class="d-flex align-items-start flex-column p-3 my-3 bg-purple rounded box-shadow">
-          <h1>Número Reserva: {{reservaSeleccionada.nroReserva}}</h1>
+          <h1>Número Reserva: {{reservaSeleccionada.id}}</h1>
           <h3>Destino: {{reservaSeleccionada.destino.pais}}, {{reservaSeleccionada.destino.region}}, {{reservaSeleccionada.destino.ciudad}}</h3>
           <h3
             v-if="reservaSeleccionada.paquete!=null"

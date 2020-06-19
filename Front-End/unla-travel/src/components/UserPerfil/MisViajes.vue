@@ -11,7 +11,7 @@
           tag="flight"
           class="mb-2 flight"
         >
-          <h6>Numero Reserva: {{reserva.nroReserva}}</h6>
+          <h6>Numero Reserva: {{reserva.id}}</h6>
           <h6>Destino: {{reserva.destino.pais}}, {{reserva.destino.region}}, {{reserva.destino.ciudad}}</h6>
           <div v-if="reserva.esUnPaquete">
             <h6>NroVuelo:{{reserva.paquete.vuelo.id}}</h6>
@@ -39,7 +39,7 @@
           tag="flight"
           class="mb-2 flight"
         >
-          <h6>Numero Reserva: {{reserva.nroReserva}}</h6>
+          <h6>Numero Reserva: {{reserva.id}}</h6>
           <h6>Destino: {{reserva.destino.pais}}, {{reserva.destino.region}}, {{reserva.destino.ciudad}}</h6>
           <div v-if="reserva.esUnPaquete">
             <h6>NroVuelo:{{reserva.paquete.vuelo.id}}</h6>
@@ -68,7 +68,7 @@
     <div v-if="showDetalle">
       <main role="main" class="container">
         <div class="d-flex align-items-start flex-column p-3 my-3 bg-purple rounded box-shadow">
-          <h1>Número Reserva: {{reservaSeleccionada.nroReserva}}</h1>
+          <h1>Número Reserva: {{reservaSeleccionada.id}}</h1>
           <h3>Destino: {{reservaSeleccionada.destino.pais}}, {{reservaSeleccionada.destino.region}}, {{reservaSeleccionada.destino.ciudad}}</h3>
           <h3
             v-if="reservaSeleccionada.paquete!=null"
@@ -163,6 +163,7 @@
                         required
                       ></datetime>
                     </td>
+                    <td v-else>{{reservaSeleccionada.fechaEntrada | moment("DD/MM/YYYY LT")}} </td>
                     <td v-if="reservaSeleccionada.reservaFinalizada==false">
                       <datetime
                         input-class="form-control"
@@ -177,6 +178,7 @@
                         required
                       ></datetime>
                     </td>
+                    <td v-else>{{reservaSeleccionada.fechaSalida | moment("DD/MM/YYYY LT")}}
                     <td>{{reservaSeleccionada.alojamiento.precio}}</td>
                   </tr>
                 </tbody>
@@ -271,8 +273,7 @@
                     <th>Tipo Régimen</th>
                     <th>Tipo Servicio</th>
                     <th>Estrellas</th>
-                    <th>Acceso a Discapacitados</th>
-                    
+                    <th>Acceso a Discapacitados</th>                    
                     <th>Fecha Entrada</th>
                     <th>Fecha Salida</th>
                     <th>Precio</th>
@@ -288,9 +289,9 @@
                     <td>{{reservaSeleccionada.paquete.alojamiento.tipoServicio}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.cantidadEstrellas}}</td>
                     <td>{{isTrue(reservaSeleccionada.paquete.alojamiento.accesoDiscapacitados)}}</td>
-                    <td> {{reservaSeleccionada.fechaEntrada}}</td>
+                    <td> {{reservaSeleccionada.fechaEntrada | moment("DD/MM/YYYY LT")}}</td>
                     
-                    <td> {{reservaSeleccionada.fechaSalida}}</td>
+                    <td> {{reservaSeleccionada.fechaSalida | moment("DD/MM/YYYY LT")}}</td>
                     
                     <td>{{reservaSeleccionada.paquete.alojamiento.precio}}</td>
 

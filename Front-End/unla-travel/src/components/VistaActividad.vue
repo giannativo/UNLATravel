@@ -86,6 +86,9 @@
     <div v-show="actividadAgregada" class="alert alert-success" role="alert">
       Actividad agregada!
     </div>
+    <div v-show="actividadNoAgregada" class="alert alert-danger" role="alert">
+      La actividad no ha sido agregada, por favor intente nuevamente.
+    </div>
     <div class="my-3 p-3 rounded container">
       <div> 
         <b-card v-for="actividad in actividades" :key="actividad.id"
@@ -138,6 +141,10 @@ export default {
       default: false
     },
     actividadAgregada: {
+      type: Boolean,
+      default: false
+    },
+    actividadNoAgregada: {
       type: Boolean,
       default: false
     }
@@ -198,14 +205,18 @@ export default {
             esUnPaquete: false,
             paquete: null,
             importe: actividad.precio,
-            reservaFinalizada: false
+            reservaFinalizada: false,
+            fechaEntrada: null,
+            fechaSalida: null
           }).then((response) => {
             if (response.status==200){
               this.allowedToAddActividad = false;
               this.actividadAgregada = true;
-              setTimeout(() => this.actividadAgregada = false, 2000);
-              this.$parent.$parent.showReservation = true;
+              setTimeout(() => this.actividadAgregada = false, 2000)
             }
+          }).catch(() => {
+              this.actividadNoAgregada = true;
+              setTimeout(() => this.actividadNoAgregada = false, 2000)
           });
       }
       else{
@@ -221,13 +232,18 @@ export default {
             esUnPaquete: this.reservaActiva.esUnPaquete,
             paquete: this.reservaActiva.paquete,
             importe: this.reservaActiva.importe + actividad.precio,
-            reservaFinalizada: this.reservaActiva.reservaFinalizada
+            reservaFinalizada: this.reservaActiva.reservaFinalizada,
+            fechaEntrada: null,
+            fechaSalida: null
           }).then((response) => {
             if (response.status==200){
               this.allowedToAddActividad = false;
               this.actividadAgregada = true;
               setTimeout(() => this.actividadAgregada = false, 2000)
             }
+          }).catch(() => {
+              this.actividadNoAgregada = true;
+              setTimeout(() => this.actividadNoAgregada = false, 2000)
           });
       }
     } 
@@ -268,7 +284,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
+.container, .alert {
   max-width: 960px;
 }
 .filtro{
@@ -278,7 +294,7 @@ export default {
 border: 0px solid #000000;
 background: darkred;
 }
-.options {
+.options, .alert {
   margin: auto;
 }
 .border-top {

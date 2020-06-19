@@ -67,6 +67,8 @@
                     <th>Tipo Servicio</th>
                     <th>Estrellas</th>
                     <th>Acceso a Discapacitados</th>
+                    <th>Fecha Entrada</th>
+                    <th>Fecha Salida</th>
                     <th>Precio</th>
                   </tr>
                 </thead>
@@ -80,6 +82,34 @@
                     <td>{{reservaSeleccionada.alojamiento.tipoServicio}}</td>
                     <td>{{reservaSeleccionada.alojamiento.cantidadEstrellas}}</td>
                     <td>{{isTrue(reservaSeleccionada.alojamiento.accesoDiscapacitados)}}</td>
+                    <td>
+                      <datetime
+                        input-class="form-control"
+                        format="yyyy/MM/dd T"
+                        value-zone="UTC-3"
+                        :min-datetime="currentDate"
+                        zone="UTC-3"
+                        type="datetime"
+                        id="fecha-desde"
+                        placeholder="aaaa/mm/dd HH:MM"
+                        v-model="fechaEntrada"
+                        required
+                      ></datetime>
+                    </td>
+                    <td>
+                      <datetime
+                        input-class="form-control"
+                        format="yyyy/MM/dd T"
+                        value-zone="UTC-3"
+                        :min-datetime="fechaDesde"
+                        zone="UTC-3"
+                        type="datetime"
+                        id="fecha-hasta"
+                        placeholder="aaaa/mm/dd HH:MM"
+                        v-model="fechaSalida"
+                        required
+                      ></datetime>
+                    </td>
                     <td>{{reservaSeleccionada.alojamiento.precio}}</td>
                   </tr>
                 </tbody>
@@ -175,6 +205,8 @@
                     <th>Tipo Servicio</th>
                     <th>Estrellas</th>
                     <th>Acceso a Discapacitados</th>
+                    <th>Fecha Entrada</th>
+                    <th>Fecha Salida</th>
                     <th>Precio</th>
                   </tr>
                 </thead>
@@ -188,6 +220,34 @@
                     <td>{{reservaSeleccionada.paquete.alojamiento.tipoServicio}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.cantidadEstrellas}}</td>
                     <td>{{isTrue(reservaSeleccionada.paquete.alojamiento.accesoDiscapacitados)}}</td>
+                   <td>
+                      <datetime
+                        input-class="form-control"
+                        format="yyyy/MM/dd T"
+                        value-zone="UTC-3"
+                        :min-datetime="currentDate"
+                        zone="UTC-3"
+                        type="datetime"
+                        id="fecha-desde"
+                        placeholder="aaaa/mm/dd HH:MM"
+                        v-model="fechaEntrada"
+                        required
+                      ></datetime>
+                    </td>
+                    <td>
+                      <datetime
+                        input-class="form-control"
+                        format="yyyy/MM/dd T"
+                        value-zone="UTC-3"
+                        :min-datetime="fechaDesde"
+                        zone="UTC-3"
+                        type="datetime"
+                        id="fecha-hasta"
+                        placeholder="aaaa/mm/dd HH:MM"
+                        v-model="fechaSalida"
+                        required
+                      ></datetime>
+                    </td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.precio}}</td>
                   </tr>
                 </tbody>
@@ -251,15 +311,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>{{reservaSeleccionada.usuario.nombre}}</td>
-                <td>{{reservaSeleccionada.usuario.apellido}}</td>
-                <td>{{reservaSeleccionada.usuario.dni}}</td>
-                <td>{{reservaSeleccionada.usuario.nacionalidad}}</td>
-                <td>{{reservaSeleccionada.usuario.mail}}</td>
-                <td>{{reservaSeleccionada.usuario.telefono}}</td>
-                <td>{{reservaSeleccionada.usuario.domicilio}}</td>
-              </tr>
+              
               <tr v-for="pasajero in pasajerosSeleccionados" :key="pasajero.id">
                 <td>{{pasajero.nombre}}</td>
                 <td>{{pasajero.apellido}}</td>
@@ -529,8 +581,7 @@ export default {
               paquete: this.reservaSeleccionada.paquete,
               importe: this.reservaSeleccionada.importe,
               pasajeros: this.reservaSeleccionada.pasajeros,
-              fechaEntrada: this.fechaEntrada,
-              fechaSalida: this.fechaSalida,
+              
               reservaFinalizada: this.reservaSeleccionada.reservaFinalizada
             }
           )
@@ -559,8 +610,7 @@ export default {
             paquete: null,
             importe: this.reservaSeleccionada.importe,
             pasajeros: this.reservaSeleccionada.pasajeros,
-            fechaEntrada: this.fechaEntrada,
-            fechaSalida: this.fechaSalida,
+            
             reservaFinalizada: false
           }
         )
@@ -620,8 +670,7 @@ export default {
             paquete: null,
             importe: this.reservaSeleccionada.importe,
             pasajeros: this.reservaSeleccionada.pasajeros,
-            fechaEntrada: this.reservaSeleccionada.fechaEntrada,
-            fechaSalida: this.reservaSeleccionada.fechaSalida,
+            
             reservaFinalizada: false
           }
         )
@@ -803,6 +852,8 @@ export default {
             paquete: null,
             importe: this.reservaSeleccionada.importe,
             pasajeros: this.reservaSeleccionada.pasajeros,
+            fechaEntrada: this.fechaEntrada,
+            fechaSalida: this.fechaSalida,
             reservaFinalizada: true
           }
         )
@@ -834,6 +885,8 @@ export default {
             paquete: this.reservaSeleccionada.paquete.id,
             importe: this.reservaSeleccionada.importe,
             pasajeros: this.reservaSeleccionada.pasajeros,
+            fechaEntrada: this.fechaEntrada,
+            fechaSalida: this.fechaSalida,
             reservaFinalizada: true
           }
         )
@@ -860,8 +913,10 @@ export default {
     },
     init() {
       this.reservaSeleccionada = this.$parent.reserva;
-      this.fechaEntrada = this.reservaSeleccionada.fechaEntrada;
-      this.fechaSalida = this.reservaSeleccionada.fechaSalida;
+      //this.fechaEntrada = this.reservaSeleccionada.fechaEntrada;
+      //this.fechaSalida = this.reservaSeleccionada.fechaSalida;
+      this.fechaEntrada = new Date();
+      this.fechaSalida = new Date();
       if (this.reservaSeleccionada.vuelo != null) {
         this.vuelo_id = this.reservaSeleccionada.vuelo.id;
       } else {
@@ -881,6 +936,31 @@ export default {
       }
       
       this.pasajerosSeleccionados = this.reservaSeleccionada.pasajeros;
+      
+      if(this.pasajerosSeleccionados[0] == null){
+        this.$axios
+          .post(
+            "https://localhost:57935/api/pasajero" ,
+              
+            {
+              
+              nombre: this.reservaSeleccionada.usuario.nombre,
+              apellido: this.reservaSeleccionada.usuario.apellido,
+              dni: this.reservaSeleccionada.usuario.dni,
+              domicilio: this.reservaSeleccionada.usuario.domicilio,
+              mail: this.reservaSeleccionada.usuario.mail,
+              nacionalidad: this.reservaSeleccionada.usuario.nacionalidad,
+              reserva: this.reservaSeleccionada.id,
+              telefono: this.reservaSeleccionada.usuario.telefono,
+              
+            }
+          )
+          .then(() => {
+            this.actualizar();
+            
+          })
+      }
+      this.actualizar();
     }
   },
 

@@ -14,7 +14,7 @@
           tag="flight"
           class="mb-2 flight"
         >
-          <h6>Numero Reserva: {{reserva.nroReserva}}</h6>
+          <h6>Numero Reserva: {{reserva.id}}</h6>
           <h6>Destino: {{reserva.destino.pais}}, {{reserva.destino.region}}, {{reserva.destino.ciudad}}</h6>
           <div v-if="reserva.esUnPaquete">
             <h6>NroVuelo:{{reserva.paquete.vuelo.id}}</h6>
@@ -42,7 +42,7 @@
           tag="flight"
           class="mb-2 flight"
         >
-          <h6>Numero Reserva: {{reserva.nroReserva}}</h6>
+          <h6>Numero Reserva: {{reserva.id}}</h6>
           <h6>Destino: {{reserva.destino.pais}}, {{reserva.destino.region}}, {{reserva.destino.ciudad}}</h6>
           <div v-if="reserva.esUnPaquete">
             <h6>NroVuelo:{{reserva.paquete.vuelo.id}}</h6>
@@ -80,7 +80,7 @@
           </div>
       <main role="main" class="container">
         <div class="d-flex align-items-start flex-column p-3 my-3 bg-purple rounded box-shadow">
-          <h1>Número Reserva: {{reservaSeleccionada.nroReserva}}</h1>
+          <h1>Número Reserva: {{reservaSeleccionada.id}}</h1>
           <h3>Destino: {{reservaSeleccionada.destino.pais}}, {{reservaSeleccionada.destino.region}}, {{reservaSeleccionada.destino.ciudad}}</h3>
           <h3
             v-if="reservaSeleccionada.paquete!=null"
@@ -159,8 +159,9 @@
                     <td>{{reservaSeleccionada.alojamiento.tipoServicio}}</td>
                     <td>{{reservaSeleccionada.alojamiento.cantidadEstrellas}}</td>
                     <td>{{reservaSeleccionada.alojamiento.accesoDiscapacitados}}</td>
-                    <td>{{reservaSeleccionada.alojamiento.precio}}</td>
-                    <td>
+                    
+                    
+                    <td v-if="reservaSeleccionada.reservaFinalizada==false">
                       <datetime
                         input-class="form-control"
                         format="yyyy/MM/dd T"
@@ -174,7 +175,8 @@
                         required
                       ></datetime>
                     </td>
-                    <td>
+                    <td v-else>{{reservaSeleccionada.fechaEntrada | moment("DD/MM/YYYY LT")}} </td>
+                    <td v-if="reservaSeleccionada.reservaFinalizada==false">
                       <datetime
                         input-class="form-control"
                         format="yyyy/MM/dd T"
@@ -188,6 +190,8 @@
                         required
                       ></datetime>
                     </td>
+                    <td v-else>{{reservaSeleccionada.fechaSalida | moment("DD/MM/YYYY LT")}}
+                    <td>{{reservaSeleccionada.alojamiento.precio}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -281,10 +285,10 @@
                     <th>Tipo Régimen</th>
                     <th>Tipo Servicio</th>
                     <th>Estrellas</th>
-                    <th>Acceso a Discapacitados</th>
-                    <th>Precio</th>
+                    <th>Acceso a Discapacitados</th>                    
                     <th>Fecha Entrada</th>
                     <th>Fecha Salida</th>
+                    <th>Precio</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -297,35 +301,12 @@
                     <td>{{reservaSeleccionada.paquete.alojamiento.tipoServicio}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.cantidadEstrellas}}</td>
                     <td>{{isTrue(reservaSeleccionada.paquete.alojamiento.accesoDiscapacitados)}}</td>
+                    <td> {{reservaSeleccionada.fechaEntrada | moment("DD/MM/YYYY LT")}}</td>
+                    
+                    <td> {{reservaSeleccionada.fechaSalida | moment("DD/MM/YYYY LT")}}</td>
+                    
                     <td>{{reservaSeleccionada.paquete.alojamiento.precio}}</td>
-                    <td>
-                      <datetime
-                        input-class="form-control"
-                        format="yyyy/MM/dd T"
-                        value-zone="UTC-3"
-                        :min-datetime="currentDate"
-                        zone="UTC-3"
-                        type="datetime"
-                        id="fecha-desde"
-                        placeholder="aaaa/mm/dd HH:MM"
-                        v-model="fechaEntrada"
-                        required
-                      ></datetime>
-                    </td>
-                    <td>
-                      <datetime
-                        input-class="form-control"
-                        format="yyyy/MM/dd T"
-                        value-zone="UTC-3"
-                        :min-datetime="fechaDesde"
-                        zone="UTC-3"
-                        type="datetime"
-                        id="fecha-hasta"
-                        placeholder="aaaa/mm/dd HH:MM"
-                        v-model="fechaSalida"
-                        required
-                      ></datetime>
-                    </td>
+
                   </tr>
                 </tbody>
               </table>
@@ -392,15 +373,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>{{reservaSeleccionada.usuario.nombre}}</td>
-                <td>{{reservaSeleccionada.usuario.apellido}}</td>
-                <td>{{reservaSeleccionada.usuario.dni}}</td>
-                <td>{{reservaSeleccionada.usuario.nacionalidad}}</td>
-                <td>{{reservaSeleccionada.usuario.mail}}</td>
-                <td>{{reservaSeleccionada.usuario.telefono}}</td>
-                <td>{{reservaSeleccionada.usuario.domicilio}}</td>
-              </tr>
+              
               <tr v-for="pasajero in pasajerosSeleccionados" :key="pasajero.id">
                 <td>{{pasajero.nombre}}</td>
                 <td>{{pasajero.apellido}}</td>
@@ -735,8 +708,10 @@ export default {
       this.showList = false;
       this.showDetalle = true;
       this.reservaSeleccionada = reserva;
-      this.fechaEntrada = this.reservaSeleccionada.fechaEntrada;
-      this.fechaSalida = this.reservaSeleccionada.fechaSalida;
+      //this.fechaEntrada = this.reservaSeleccionada.fechaEntrada;
+      //this.fechaSalida = this.reservaSeleccionada.fechaSalida;
+      this.fechaEntrada = new Date();
+      this.fechaSalida = new Date();
       this.pasajerosSeleccionados = reserva.pasajeros;
       if (this.reservaSeleccionada.vuelo != null) {
         this.vuelo_id = this.reservaSeleccionada.vuelo.id;
@@ -754,6 +729,29 @@ export default {
         this.alojamiento_id = this.reservaSeleccionada.alojamiento.id;
       } else {
         this.alojamiento_id = null;
+      }
+      if(this.pasajerosSeleccionados[0] == null){
+        this.$axios
+          .post(
+            "https://localhost:57935/api/pasajero" ,
+              
+            {
+              
+              nombre: this.reservaSeleccionada.usuario.nombre,
+              apellido: this.reservaSeleccionada.usuario.apellido,
+              dni: this.reservaSeleccionada.usuario.dni,
+              domicilio: this.reservaSeleccionada.usuario.domicilio,
+              mail: this.reservaSeleccionada.usuario.mail,
+              nacionalidad: this.reservaSeleccionada.usuario.nacionalidad,
+              reserva: this.reservaSeleccionada.id,
+              telefono: this.reservaSeleccionada.usuario.telefono,
+              
+            }
+          )
+          .then(() => {
+            this.actualizar();
+            
+          })
       }
     },
     listaReservas() {
@@ -781,8 +779,7 @@ export default {
               paquete: this.reservaSeleccionada.paquete,
               importe: this.reservaSeleccionada.importe,
               pasajeros: this.reservaSeleccionada.pasajeros,
-              fechaEntrada: this.fechaEntrada,
-              fechaSalida: this.fechaSalida,
+              
               reservaFinalizada: this.reservaSeleccionada.reservaFinalizada
             }
           )
@@ -814,8 +811,6 @@ export default {
                 paquete: null,
                 importe: this.reservaSeleccionada.importe,
                 pasajeros: this.reservaSeleccionada.pasajeros,
-                fechaEntrada: this.fechaEntrada,
-                fechaSalida: this.fechaSalida,
                 reservaFinalizada: false
               }
             )
@@ -855,33 +850,7 @@ export default {
                setTimeout(() => this.actividadEliminada = true, 2000)
             });
         }
-      if (confirm("Desea eliminar esta actividad?"))
-        this.$axios
-          .put(
-            "https://localhost:57935/api/reserva/" +
-              this.reservaSeleccionada.id,
-            {
-              id: this.reservaSeleccionada.id,
-              nroReserva: this.reservaSeleccionada.nroReserva,
-              usuario: this.reservaSeleccionada.usuario.id,
-              destino: this.reservaSeleccionada.destino.id,
-              alojamiento: this.alojamiento_id,
-              actividad: null,
-              vuelo: this.vuelo_id,
-              esUnPaquete: this.reservaSeleccionada.esUnPaquete,
-              paquete: this.reservaSeleccionada.paquete,
-              importe: this.reservaSeleccionada.importe,
-              pasajeros: this.reservaSeleccionada.pasajeros,
-              reservaFinalizada: false
-            }
-          )
-          .then(() => {
-            this.actualizar();
-          })
-          .catch(() => {
-                this.actividadEliminada = false;
-               setTimeout(() => this.actividadEliminada = true, 2000)
-          });
+      
     },
     eliminarAlojamiento() {
       if (confirm("Deses eliminar alojamiento?"))
@@ -902,8 +871,7 @@ export default {
                 paquete: null,
                 importe: this.reservaSeleccionada.importe,
                 pasajeros: this.reservaSeleccionada.pasajeros,
-                fechaEntrada: this.reservaSeleccionada.fechaEntrada,
-                fechaSalida: this.reservaSeleccionada.fechaEntrada,
+                
                 reservaFinalizada: false
               }
             )
@@ -1078,9 +1046,9 @@ export default {
                 nroReserva: this.reservaSeleccionada.nroReserva,
                 usuario: this.reservaSeleccionada.usuario.id,
                 destino: this.reservaSeleccionada.destino.id,
-                alojamiento: this.reservaSeleccionada.alojamiento.id,
-                actividad: this.reservaSeleccionada.actividad.id,
-                vuelo: this.reservaSeleccionada.vuelo.id,
+                alojamiento: this.alojamiento_id,
+                actividad: this.actividad_id,
+                vuelo: this.vuelo_id,
                 esUnPaquete: this.reservaSeleccionada.esUnPaquete,
                 paquete: null,
                 importe: this.reservaSeleccionada.importe,
@@ -1156,6 +1124,7 @@ export default {
             return reserva.reservaFinalizada == true;
           });
         });
+        
     }
   },
 

@@ -158,7 +158,7 @@
     <div class="my-3 p-3 rounded container">   
     <div>
   <b-card v-for="vuelo in vuelos" :key="vuelo.id"
-    img-src="https://www.aerolineas.com.ar/images/flota/boeing.jpg"
+    :img-src="vuelo.link"
     img-alt="Image"
     img-top
     tag="flight"

@@ -93,7 +93,7 @@
       <div> 
         <b-card v-for="actividad in actividades" :key="actividad.id"
           title = " "
-          img-src="https://picsum.photos/600/300/?image=25"
+          :img-src="actividad.link"
           img-alt="Image"
           img-top
           tag="article"

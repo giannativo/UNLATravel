@@ -2,6 +2,10 @@
   <div class="text-center">
     <h4 class="mb-3">Ingrese sus datos personales</h4>
     <div class="row options">
+      
+      <div v-show="!mailValido" class="alert alert-danger" role="alert">
+         Mail o contraseña incorrecta.
+          </div>
       <div class="options text-center">
         <form class="needs-validation" novalidate>
           <div class="row options">
@@ -112,6 +116,10 @@ export default {
       type: Boolean,
       default: false
     },
+    mailValido:{
+      type:Boolean,
+      default:true
+    },
     telefonoMessage: null,
 
     dni: null,
@@ -215,7 +223,9 @@ export default {
             this.volver();
           })
           .catch(() => {
-            alert("El email ingresado ya existe");
+                this.mailValido = false;
+               setTimeout(() => this.mailValido = true, 2000)
+            
           });
       }
     }

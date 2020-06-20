@@ -42,7 +42,7 @@
 
   <datalist id="origen" > 
     <select v-model="origen"  class="form-control"> 
-    <option v-for="vuelo in vuelos" :key="vuelo.id" :value="vuelo.origen.ciudad">{{vuelo.origen.region}} </option>
+    <option v-for="vuelo in vuelosOriginal" :key="vuelo.id" :value="vuelo.origen.ciudad">{{vuelo.origen.region}} </option>
     </select>
   </datalist>
 
@@ -53,7 +53,7 @@
 
         <datalist id="destino">
             <select v-model="destino"  class="form-control">
-                <option v-for="vueloDestino in vuelos" :key="vueloDestino.id" :value="vueloDestino.destino.ciudad">{{ vueloDestino.destino.region }} </option>
+                <option v-for="vueloDestino in vuelosOriginal" :key="vueloDestino.id" :value="vueloDestino.destino.ciudad">{{ vueloDestino.destino.region }} </option>
              </select>
          </datalist>
       </div>

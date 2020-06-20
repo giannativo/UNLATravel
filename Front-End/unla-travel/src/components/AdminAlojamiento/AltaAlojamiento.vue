@@ -2,6 +2,9 @@
   <div class="text-center">
     <h4 class="mb-3">Alta Alojamiento</h4>
     <div class="row">
+      <div v-show="!alojamientoCreado" class="alert alert-danger" role="alert">
+         El alojamiento no se ha creado. Intente nuevamente
+          </div>
       <div class="options text-center">
         <form class="needs-validation" novalidate>
           <div class="row options">
@@ -232,6 +235,10 @@ export default {
     default: false
   },
   alojamientoMessage: null,
+  alojamientoCreado:{
+    type:Boolean,
+    default:true
+  },
 
   regimenAlert: {
     type: Boolean,
@@ -338,7 +345,9 @@ export default {
             this.volver();
           })
           .catch(() => {
-            alert("El Alojamiento no fue creado");
+              this.alojamientoCreado = false;
+               setTimeout(() => this.alojamientoCreado = true, 2000)
+            //alert("El Alojamiento no fue creado");
           });
       }
     }

@@ -2,6 +2,10 @@
   <div class="text-center">
     <h4 class="mb-3">ABM Actividades</h4>
     <div class="row">
+      
+      <div v-show="!actividadCreada" class="alert alert-danger" role="alert">
+         La Reserva no fue creada, por favor intente nuevamente.
+          </div>
       <div class="options text-center">
         <form class="needs-validation" novalidate>
           <div class="row options">
@@ -226,6 +230,10 @@ export default {
       default: false
     },
     franjaMessage: null,
+    actividadCreada:{
+      type:Boolean,
+      default:true
+    },
 
     valoracionAlert: {
       type: Boolean,
@@ -325,7 +333,10 @@ export default {
             this.volver();
           })
           .catch(() => {
-            alert("La actividad no fue creado");
+            
+               this.actividadCreada = false;
+               setTimeout(() => this.actividadCreada = true, 2000)
+           // alert("La actividad no fue creado");
           });
       }
     }

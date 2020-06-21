@@ -301,9 +301,9 @@
                     <td>{{reservaSeleccionada.paquete.alojamiento.tipoServicio}}</td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.cantidadEstrellas}}</td>
                     <td>{{isTrue(reservaSeleccionada.paquete.alojamiento.accesoDiscapacitados)}}</td>
-                    <td> {{reservaSeleccionada.fechaEntrada | moment("DD/MM/YYYY LT")}}</td>
+                    <td> {{reservaSeleccionada.paquete.fechaIda | moment("DD/MM/YYYY LT")}}</td>
                     
-                    <td> {{reservaSeleccionada.fechaSalida | moment("DD/MM/YYYY LT")}}</td>
+                    <td> {{reservaSeleccionada.paquete.fechaVuelta | moment("DD/MM/YYYY LT")}}</td>
                     
                     <td>{{reservaSeleccionada.paquete.alojamiento.precio}}</td>
 

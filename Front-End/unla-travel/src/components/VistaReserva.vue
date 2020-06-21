@@ -108,7 +108,7 @@
                     <td>{{reservaSeleccionada.alojamiento.cantidadEstrellas}}</td>
                     <td>{{isTrue(reservaSeleccionada.alojamiento.accesoDiscapacitados)}}</td>
                     <td>
-                      <datetime
+                      <datetime 
                         input-class="form-control"
                         format="yyyy/MM/dd T"
                         value-zone="UTC-3"
@@ -122,7 +122,7 @@
                       ></datetime>
                     </td>
                     <td>
-                      <datetime
+                      <datetime  @input="modificarReserva()"
                         input-class="form-control"
                         format="yyyy/MM/dd T"
                         value-zone="UTC-3"
@@ -246,32 +246,10 @@
                     <td>{{reservaSeleccionada.paquete.alojamiento.cantidadEstrellas}}</td>
                     <td>{{isTrue(reservaSeleccionada.paquete.alojamiento.accesoDiscapacitados)}}</td>
                    <td>
-                      <datetime
-                        input-class="form-control"
-                        format="yyyy/MM/dd T"
-                        value-zone="UTC-3"
-                        :min-datetime="currentDate"
-                        zone="UTC-3"
-                        type="datetime"
-                        id="fecha-desde"
-                        placeholder="aaaa/mm/dd HH:MM"
-                        v-model="fechaEntrada"
-                        required
-                      ></datetime>
+                     {{reservaSeleccionada.paquete.fechaIda  | moment("DD/MM/YYYY LT")}}
                     </td>
                     <td>
-                      <datetime
-                        input-class="form-control"
-                        format="yyyy/MM/dd T"
-                        value-zone="UTC-3"
-                        :min-datetime="fechaDesde"
-                        zone="UTC-3"
-                        type="datetime"
-                        id="fecha-hasta"
-                        placeholder="aaaa/mm/dd HH:MM"
-                        v-model="fechaSalida"
-                        required
-                      ></datetime>
+                     {{reservaSeleccionada.paquete.fechaVuelta  | moment("DD/MM/YYYY LT")}}
                     </td>
                     <td>{{reservaSeleccionada.paquete.alojamiento.precio}}</td>
                   </tr>
@@ -871,6 +849,70 @@ export default {
           });
 
     },
+    modificarReserva(){
+      
+       
+      if(this.reservaSeleccionada.paquete==null){
+        this.$axios
+        .put(
+          "https://localhost:57935/api/reserva/" + this.reservaSeleccionada.id,
+          {
+            id: this.reservaSeleccionada.id,
+            nroReserva: this.reservaSeleccionada.nroReserva,
+            usuario: this.reservaSeleccionada.usuario.id,
+            destino: this.reservaSeleccionada.destino.id,
+            alojamiento: this.alojamiento_id,
+            actividad: this.actividad_id,
+            vuelo: this.vuelo_id,
+            esUnPaquete: this.reservaSeleccionada.esUnPaquete,
+            paquete: null,
+            importe: this.reservaSeleccionada.importe,
+            pasajeros: this.reservaSeleccionada.pasajeros,
+             fechaEntrada: this.fechaEntrada,
+            fechaSalida: this.fechaSalida,
+            
+            reservaFinalizada: false
+          }
+        )
+        .then(() => {
+          this.actualizar();
+        })
+        .catch(() => {
+          
+        });
+
+      }else{
+        
+        this.$axios
+        .put(
+          "https://localhost:57935/api/reserva/" + this.reservaSeleccionada.id,
+          {
+            id: this.reservaSeleccionada.id,
+            nroReserva: this.reservaSeleccionada.nroReserva,
+            usuario: this.reservaSeleccionada.usuario.id,
+            destino: this.reservaSeleccionada.destino.id,
+            alojamiento: null,
+            actividad: null,
+            vuelo: null,
+            esUnPaquete: this.reservaSeleccionada.esUnPaquete,
+            paquete: this.reservaSeleccionada.paquete.id,
+            importe: this.reservaSeleccionada.importe,
+            pasajeros: this.reservaSeleccionada.pasajeros,
+            fechaEntrada: this.fechaEntrada,
+            fechaSalida: this.fechaSalida,
+            reservaFinalizada: false
+          }
+        )
+        .then(() => {
+          this.actualizar();
+        })
+        .catch(() => {
+          
+          
+        });
+      }
+
+    },
     actualizar() {
       this.$axios
         .get(
@@ -998,8 +1040,8 @@ export default {
       this.reservaSeleccionada = this.$parent.reserva;
       //this.fechaEntrada = this.reservaSeleccionada.fechaEntrada;
       //this.fechaSalida = this.reservaSeleccionada.fechaSalida;
-      this.fechaEntrada = new Date();
-      this.fechaSalida = new Date();
+      this.fechaEntrada = null;
+      this.fechaSalida = null;
       if (this.reservaSeleccionada.vuelo != null) {
         this.vuelo_id = this.reservaSeleccionada.vuelo.id;
       } else {

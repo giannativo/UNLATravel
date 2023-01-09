@@ -13,7 +13,7 @@
     "bootstrap-autocomplete": "^2.3.5",
     "bootstrap-vue": "^2.13.0",
     "core-js": "^3.6.4",
-    "luxon": "^1.24.1",
+    "luxon": "^1.28.1",
     "vue": "^2.6.11",
     "vue-datetime": "^1.0.0-beta.13",
     "vue-moment": "^4.1.0",
